@@ -1,6 +1,15 @@
 
+import mysql.connector as mysql
+
+"""
+The Class ..
+"""
+
 
 class Sales:
+    """
+    This Class ...
+    """
 
     def __init__(self):
         self.all_sales = []

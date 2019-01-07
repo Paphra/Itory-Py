@@ -14,7 +14,7 @@ class Table:
     table
     """
 
-    def __init__(self, master):
+    def __init__(self, master: any):
         """
         Initializes the Table creation
         :param master: the container to hold the table structure
@@ -26,7 +26,7 @@ class Table:
 
         self.list_canvas = tk.Canvas(self.host)
 
-    def create(self, titles_list, dimensions):
+    def create(self, titles_list: list, dimensions: dict):
         """
         This function creates the actual table structure
         :param titles_list: The titles of the table to put on the top of the
@@ -68,7 +68,7 @@ class Table:
         self.v_scr['command'] = self.list_canvas.yview
         self.h_scr['command'] = self.list_canvas.xview
 
-    def _titles_works(self, titles_list):
+    def _titles_works(self, titles_list: list):
         """
         This method works on the titles
         :param titles_list:
@@ -87,7 +87,7 @@ class Table:
         self._sep_work(cont=self.title_pane, lb_list=lb_list)
         return True
 
-    def add_rows(self, rows_list=None, _keys_=None):
+    def add_rows(self, rows_list: list = None, _keys_: list = None):
         if rows_list is not None and _keys_ is not None:
             self.rows_list = rows_list
             self._keys_ = _keys_
@@ -129,7 +129,7 @@ class Table:
             for ww in llb.winfo_children():
                 ww.bind('<ButtonRelease-1>', self._click)
 
-    def add_row(self, row_data):
+    def add_row(self, row_data: dict):
         self.rows_list.append(row_data)
         self.add_rows()
 
@@ -149,7 +149,7 @@ class Table:
             else:
                 win_.configure(relief='', borderwidth=0)
 
-    def _sep_work(self, cont, lb_list):
+    def _sep_work(self, cont: any, lb_list: list):
         s_ = 0
         for s in range(len(lb_list) + 1):
             if s > 0:

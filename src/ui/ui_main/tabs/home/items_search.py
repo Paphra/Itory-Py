@@ -42,7 +42,4 @@ class ItemSearch:
                 item = it['name']
                 if stxt.lower() in item.lower():
                     its.append(it)
-            if len(its) > 0:
-                self.item_list_inst.set_items(its)
-            else:
-                self.item_list_inst.set_items(['No Items Found!'])
+            self.item_list_inst.set_items(its)

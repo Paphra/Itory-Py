@@ -27,15 +27,6 @@ class ItemsSearch:
                         or txt.lower() in item['type'].lower():
                     items_list.append(item)
 
-            if len(items_list) == 0:
-                item_ = {
-                    'name': 'No Items Found!',
-                    'type': '',
-                    'sell_unit': '',
-                    'qty': '',
-                }
-                items_list.append(item_)
-
             self.fill_list(items_list)
 
         else:

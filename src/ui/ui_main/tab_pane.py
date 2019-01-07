@@ -7,8 +7,8 @@ from .tabs.purchases.t_purchases import TPurchases
 from .tabs.accounts.t_accounts import TAccounts
 from .tabs.graphs.t_graphs import TGraphs
 from .tabs.management.t_management import TManagement
-from data_models.items import Items
-from data_models.sales import Sales
+from data.items import Items
+from data.sales import Sales
 
 
 class NtBook:

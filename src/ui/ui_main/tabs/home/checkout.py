@@ -2,7 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 from datetime import datetime
-from data_models.sales import Sales
+from data.sales import Sales
 
 
 class Checkout:

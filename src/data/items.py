@@ -1,3 +1,4 @@
+
 from random import randint as rdi
 import mysql.connector as mysql
 

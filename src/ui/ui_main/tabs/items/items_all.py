@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 from ui.structures.table import Table
+from data.check import items_check
 
 
 class ItemsAll:
@@ -25,9 +26,11 @@ class ItemsAll:
         self.table.create(self.titles_list, self.dimensions)
 
     def all_items_works(self):
-        self.table.add_rows(rows_list=self.all_items_list,
+        items = items_check.check_items(self.all_items_list)
+        self.table.add_rows(rows_list=items,
                             _keys_=self.row_keys)
 
-    def fill_list(self, items_list):
-        self.table.add_rows(rows_list=items_list,
+    def fill_list(self, items_list: list):
+        items = items_check.check_items(items_list)
+        self.table.add_rows(rows_list=items,
                             _keys_=self.row_keys)

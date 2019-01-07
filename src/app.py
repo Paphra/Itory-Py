@@ -1,6 +1,6 @@
 
 import tkinter as tk
-from ui.mb.mb_main import MBmain
+from ui.menu_bar.mb_main import MBmain
 from ui.ui_main.ui import UImain
 from ui.ui_main.s_bar import Sbar
 

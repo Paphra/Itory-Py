@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 from .items_search import ItemSearch
+from data.check import items_check
 
 
 class ItemList:
@@ -89,15 +90,17 @@ class ItemList:
             self.update_amount_customer()
 
     def set_items(self, items):
+        _items = items_check.check_items(items)
+
         l_num = self.all_items_listbox.size()
         if l_num > 0:
             self.all_items_listbox.delete(0, (l_num - 1))
             
-        if items[0] == 'No Items Found!':
-            self.all_items_listbox.insert(tk.END, items[0])
+        if _items[0]['name'] == 'No Items Found!':
+            self.all_items_listbox.insert(tk.END, _items[0]['name'])
             return True
 
-        for item in items:
+        for item in _items:
             if item['qty'] > 0:
                 i_nm = item['name'] + '  \t\t  ' + str(item['qty'])
                 self.all_items_listbox.insert(tk.END, i_nm)
