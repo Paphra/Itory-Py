@@ -1,8 +1,8 @@
 
 import tkinter as tk
 from tkinter import ttk
-from .items_search import ItemSearch
-from data.check import items_check
+from data.works import check
+from ui.structures.lists import ScrollListBox
 
 
 class ItemList:
@@ -13,28 +13,14 @@ class ItemList:
         self.wt = 25
         
         self.f_items_list = ttk.Frame(self.mf_all_items_list)
-        self.all_items_listbox = tk.Listbox(self.f_items_list)
-
-        self.item_search = ItemSearch(self, self.mf_all_items_list)
-        self.x = tk.Scrollbar(self.f_items_list, orient='horizontal')
-        self.y = tk.Scrollbar(self.f_items_list, orient='vertical')
+        self.all_items_listbox = self.scroll_list_box.\
+            new(self.f_items_list, width=28, height=26)
 
         self.lbox_w()
 
     def lbox_w(self):
         self.f_items_list.grid(column=0, row=1, sticky='NESW', padx=5, pady=5)
         self.f_items_list.configure(width=230, height=400)
-
-        self.all_items_listbox.grid(column=0, row=0, sticky='NESW', padx=5, pady=5)
-        self.y.grid(column=1, row=0, sticky='NS')
-        self.x.grid(column=0, row=1, sticky='EW')
-
-        self.all_items_listbox.configure(xscrollcommand=self.x.set,
-                                         yscrollcommand=self.y.set,
-                                         width=28, height=26)
-
-        self.x['command'] = self.all_items_listbox.xview
-        self.y['command'] = self.all_items_listbox.yview
     
         self.all_items_listbox.bind("<ButtonRelease-1>", self._list_selection)        
         self.set_items(self.all_items_list)
@@ -48,16 +34,16 @@ class ItemList:
         for ind in cur:
             sl = self.all_items_listbox.get(ind)
             sl_l = sl.split("  \t\t  ")
-            item_name = sl_l[0]
+            item_name = sl_l[0][1:]
 
             num = self.selected_items_listbox.size()
             if num > 0:
-                sil_cos = self.selected_items_listbox.get(0, (num - 1))
-                sil_icos = []
-                for li in sil_cos:
-                    i = li.split("-")
-                    sil_icos.append(i[1])
-                if item_name in sil_icos:
+                list_box_lines = self.selected_items_listbox.get(0, (num - 1))
+                line_names = []
+                for _line in list_box_lines:
+                    split_line = _line.split("-")
+                    line_names.append(split_line[1])
+                if item_name in line_names:
                     break
             n_i = "1-" + item_name
 
@@ -89,20 +75,23 @@ class ItemList:
             self.total_amount = self.c_selected_items.get_total_amount()
             self.update_amount_customer()
 
-    def set_items(self, items):
-        _items = items_check.check_items(items)
+    def set_items(self, items: list):
+        _msg_empty = 'No Items Found!'
+        _return = {'name': _msg_empty, 'type': '',
+                   'qty': 0, 'sell_unit': 0}
+        _items = check.if_empty(items, _return)
 
         l_num = self.all_items_listbox.size()
         if l_num > 0:
             self.all_items_listbox.delete(0, (l_num - 1))
             
-        if _items[0]['name'] == 'No Items Found!':
+        if _items[0]['name'] == _msg_empty:
             self.all_items_listbox.insert(tk.END, _items[0]['name'])
             return True
 
         for item in _items:
             if item['qty'] > 0:
-                i_nm = item['name'] + '  \t\t  ' + str(item['qty'])
+                i_nm = ' ' +  item['name'] + '  \t\t  ' + str(item['qty'])
                 self.all_items_listbox.insert(tk.END, i_nm)
 
         self.total_amount = self.c_selected_items.get_total_amount()

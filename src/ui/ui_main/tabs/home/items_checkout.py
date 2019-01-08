@@ -1,12 +1,13 @@
 
 from tkinter import ttk
-from .lists import ScrollList
+from ui.structures.lists import ScrollListBox
 from .items_list import ItemList
 from .item_details import ItemDetails
+from data.works.search import Search
 from .checkout import Checkout
 
 
-class ItemCheckout(ItemList, ItemDetails, Checkout):
+class ItemCheckout(ItemList, ItemDetails, Checkout, Search):
 
     def __init__(self, container, items_inst, sales_inst, s_bar):
         self.host = container
@@ -17,9 +18,12 @@ class ItemCheckout(ItemList, ItemDetails, Checkout):
 
         self.mf_item_checkout = ttk.LabelFrame(self.host)
         self.mf_all_items_list = ttk.Frame(self.host)
+        self.f_items_search = ttk.LabelFrame(self.mf_all_items_list,
+                                             text='Search')
+
         self.sl_f = ttk.Frame(self.mf_item_checkout)
-        self.sl = ScrollList(self.sl_f)
-        self.selected_items_listbox = self.sl.get_sl()
+        self.scroll_list_box = ScrollListBox(self.sl_f)
+        self.selected_items_listbox = self.scroll_list_box.get()
         
         self.dls_host = ttk.LabelFrame(self.mf_item_checkout)
         self.cus_host = ttk.LabelFrame(self.mf_item_checkout)
@@ -33,9 +37,13 @@ class ItemCheckout(ItemList, ItemDetails, Checkout):
         Checkout.__init__(self)
         ItemDetails.__init__(self)
         ItemList.__init__(self)
+        self._use = ['name', 'type']
+        Search.__init__(self, self.set_items, self.all_items_list,
+                        self._use, self.f_items_search)
 
     def all_items_w(self):
         self.mf_all_items_list.grid(column=0, row=0, sticky='NS')
+        self.f_items_search.grid(column=0, row=0)
         
     def ic_w(self):
         self.mf_item_checkout.grid(column=1, row=0, rowspan=2, sticky='NESW')

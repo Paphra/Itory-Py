@@ -1,13 +1,11 @@
-
-import tkinter as tk
 from tkinter import ttk
 from .items_add import ItemsAdd
 from .items_all import ItemsAll
-from .items_search import ItemsSearch
+from data.works.search import Search
 from .items_options import ItemsOptions
 
 
-class ItemsMain(ItemsAll, ItemsAdd, ItemsSearch, ItemsOptions):
+class ItemsMain(ItemsAll, ItemsAdd, Search, ItemsOptions):
 
     def __init__(self, container, all_items_inst, s_bar):
         self.host = container
@@ -29,7 +27,9 @@ class ItemsMain(ItemsAll, ItemsAdd, ItemsSearch, ItemsOptions):
 
         ItemsAll.__init__(self)
         ItemsAdd.__init__(self)
-        ItemsSearch.__init__(self)
+        self._use = ['name', 'type']
+        Search.__init__(self, self.fill_list, self.all_items_list,
+                        self._use, self.f_items_search)
         ItemsOptions.__init__(self)
 
     def add_w(self):

@@ -1,11 +1,14 @@
-
-import tkinter as tk
-from tkinter import ttk
-from ui.structures.table import Table
-from data.check import items_check
+"""
+Displays all the items in the store
+"""
+from src.ui.structures.table import Table
+from src.data.works import check
 
 
 class ItemsAll:
+    """
+    Class that displays the items in the store
+    """
 
     def __init__(self):
         self._padx = 4
@@ -18,6 +21,10 @@ class ItemsAll:
         self.all_items_works()
 
     def titles_works(self):
+        """
+
+        :return:
+        """
         self.titles_list = [{'text': 'Item Name', 'width': 19},
                             {'text': 'Item Type', 'width': 15},
                             {'text': 'Quantity', 'width': 8},
@@ -26,11 +33,23 @@ class ItemsAll:
         self.table.create(self.titles_list, self.dimensions)
 
     def all_items_works(self):
-        items = items_check.check_items(self.all_items_list)
-        self.table.add_rows(rows_list=items,
+        """
+
+        :return:
+        """
+        _msg_empty = 'No Items Found!'
+        self._return = {'name': _msg_empty, 'type': '',
+                        'qty': 0, 'sell_unit': 0}
+        _items = check.if_empty(self.all_items_list, self._return)
+        self.table.add_rows(rows_list=_items,
                             _keys_=self.row_keys)
 
     def fill_list(self, items_list: list):
-        items = items_check.check_items(items_list)
-        self.table.add_rows(rows_list=items,
+        """
+
+        :param items_list:
+        :return:
+        """
+        _items = check.if_empty(items_list, self._return)
+        self.table.add_rows(rows_list=_items,
                             _keys_=self.row_keys)

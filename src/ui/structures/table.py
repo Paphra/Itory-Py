@@ -29,8 +29,7 @@ class Table:
     def create(self, titles_list: list, dimensions: dict):
         """
         This function creates the actual table structure
-        :param titles_list: The titles of the table to put on the top of the
-        table
+        :param titles_list: The titles of the table to put on the top of the table
         :param dimensions: A dictionary containing the dimensions of the table
         to be created. It contains the width, height, x and y for canvas location
         :return: None
