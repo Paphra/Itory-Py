@@ -28,8 +28,8 @@ class ItemsMain(ItemsAll, ItemsAdd, Search, ItemsOptions):
         ItemsAll.__init__(self)
         ItemsAdd.__init__(self)
         self._use = ['name', 'type']
-        Search.__init__(self, self.fill_list, self.all_items_list,
-                        self._use, self.f_items_search)
+        Search.__init__(self, self.f_items_search, self.fill_list,
+                        self.all_items_list, self._use, sticky='ENS')
         ItemsOptions.__init__(self)
 
     def add_w(self):

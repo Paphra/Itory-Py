@@ -38,8 +38,8 @@ class ItemCheckout(ItemList, ItemDetails, Checkout, Search):
         ItemDetails.__init__(self)
         ItemList.__init__(self)
         self._use = ['name', 'type']
-        Search.__init__(self, self.set_items, self.all_items_list,
-                        self._use, self.f_items_search)
+        Search.__init__(self, self.f_items_search, self.set_items,
+                        self.all_items_list, self._use)
 
     def all_items_w(self):
         self.mf_all_items_list.grid(column=0, row=0, sticky='NS')

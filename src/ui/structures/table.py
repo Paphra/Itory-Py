@@ -1,11 +1,10 @@
-
 """
 This module creates a table form according to the specifications
 from the designing developer
 """
 
-import tkinter as tk      # importing tkinter as tk for easy reference
-from tkinter import ttk   # importing the themed tkinter module
+import tkinter as tk  # importing tkinter as tk for easy reference
+from tkinter import ttk  # importing the themed tkinter module
 
 
 class Table:
@@ -23,30 +22,55 @@ class Table:
         self.title_pane = ttk.Frame(self.host)
         self._padx = 4
         self._pady = 2
+        self.mock_rows = [
+            {
+                'col1': 'value of col 1 row 1', 'col2': 'value of col 2 row 1',
+                'col3': 'value of col 3 row 1', 'col4': 'value of col 4 row 1',
+            },
+            {
+                'col1': 'value of col 1 row 2', 'col2': 'value of col 2 row 2',
+                'col3': 'value of col 3 row 2', 'col4': 'value of col 4 row 2',
+            },
+        ]
 
         self.list_canvas = tk.Canvas(self.host)
 
-    def create(self, titles_list: list, dimensions: dict):
+    def create(self, titles: list = None, dimensions: dict = None):
         """
         This function creates the actual table structure
-        :param titles_list: The titles of the table to put on the top of the table
+        :param titles: The titles of the table to put on the top of the table
         :param dimensions: A dictionary containing the dimensions of the table
         to be created. It contains the width, height, x and y for canvas location
         :return: None
         """
+        self.dims = dimensions
+        if self.dims is None:
+            self.dims = {
+                'x': 285, 'y': 25,
+                'width': 400, 'height': 200
+            }
+
+        self.titles = titles
+        if self.titles is None:
+            self.titles = [
+                {'text': 'Column 1', 'width': 15},
+                {'text': 'Column 2', 'width': 15},
+                {'text': 'Column 3', 'width': 15},
+                {'text': 'Column 4', 'width': 15}
+            ]
+
         self.host.grid(column=0, row=0, sticky='NESW')
-        self.canvas_x = dimensions['x']
-        self.canvas_y = dimensions['y']
+        self.canvas_x = self.dims['x']
+        self.canvas_y = self.dims['y']
 
         self.title_pane.grid(column=0, row=0)
-        self.cols = len(titles_list)
+        self.cols = len(self.titles)
         self.cols_ws = (self.cols * 2) + 2
-        self.titles_list = titles_list
 
         titles_top = ttk.Separator(self.title_pane, orient='horizontal')
         titles_top.grid(column=0, row=0, sticky='WE', columnspan=self.cols_ws)
 
-        self._titles_works(titles_list)
+        self._titles_works(self.titles)
 
         titles_btm = ttk.Separator(self.title_pane, orient='horizontal')
         titles_btm.grid(column=0, row=2, sticky='WE', columnspan=self.cols_ws)
@@ -58,8 +82,8 @@ class Table:
                               columnspan=(self.cols_ws - 1))
         self.list_canvas.configure(xscrollcommand=self.h_scr.set,
                                    yscrollcommand=self.v_scr.set,
-                                   width=dimensions['width'],
-                                   height=dimensions['height'])
+                                   width=self.dims['width'],
+                                   height=self.dims['height'])
 
         self.v_scr.grid(column=(self.cols_ws - 1), row=1, sticky='NS', rowspan=3)
         self.h_scr.grid(column=0, row=4, sticky='WE', columnspan=(self.cols_ws - 1))
@@ -67,16 +91,16 @@ class Table:
         self.v_scr['command'] = self.list_canvas.yview
         self.h_scr['command'] = self.list_canvas.xview
 
-    def _titles_works(self, titles_list: list):
+    def _titles_works(self, titles: list):
         """
         This method works on the titles
-        :param titles_list:
+        :param titles:
         :return:
         """
         lb_sn = ttk.Label(self.title_pane, text='S/N', width=4)
         lb_list = [lb_sn]
 
-        for title in titles_list:
+        for title in self.titles:
             t_text = title['text']
             t_width = title['width']
             lb = t_text
@@ -87,9 +111,11 @@ class Table:
         return True
 
     def add_rows(self, rows_list: list = None, _keys_: list = None):
-        if rows_list is not None and _keys_ is not None:
-            self.rows_list = rows_list
-            self._keys_ = _keys_
+        self.rows_list = rows_list
+        self._keys_ = _keys_
+        if self.rows_list is None:
+            self.rows_list = self.mock_rows
+        if self._keys_ is None: self._keys_ = ['col1', 'col2', 'col3', 'col4']
 
         for w in self.list_canvas.winfo_children():
             w.destroy()
@@ -99,7 +125,7 @@ class Table:
         scr_v = num_rows * 27
         scr_h = 0
 
-        # for title in self.titles_list
+        # for title in self.titles
         #     scr_h = scr_h + title['width']
 
         self.list_canvas['scrollregion'] = (0, 0, scr_h, scr_v)
@@ -114,7 +140,7 @@ class Table:
             lb_list.append(lb_sn)
             for key in self._keys_:
                 lb = ttk.Label(llb, text=self.rows_list[i][key],
-                               width=self.titles_list[self._keys_.index(key)]['width'])
+                               width=self.titles[self._keys_.index(key)]['width'])
                 lb_list.append(lb)
 
             self._sep_work(llb, lb_list)
