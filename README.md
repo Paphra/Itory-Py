@@ -4,7 +4,7 @@
 Businesses that deal in Merchandise resell often face a problem of monitoring
     their day-to-day transactions with pens, papers and lots of books. Itory
     helps the users run their business with full control and monitoring of
-    their daily transactions and operational activaities within the business.
+    their daily transactions and operational activities within the business.
 
 ----------
 
