@@ -1,8 +1,7 @@
 
 import tkinter as tk
-from tkinter import ttk
 from datetime import datetime
-from data.sales import Sales
+from tkinter import ttk
 
 
 class Checkout:
@@ -147,16 +146,20 @@ class Checkout:
         bal = self.v_bl.get()
 
         _dt = datetime.now()
-        dt_str = str(_dt.year) + '-' + str(_dt.month) + '-' \
-            + str(_dt.day) + '|' + str(_dt.hour) + ':'      \
-            + str(_dt.minute) + ':' + str(_dt.second)
+        dt_str = str(_dt.year).zfill(4) + '-' + str(_dt.month).zfill(2) + \
+                 '-' + str(_dt.day).zfill(2) + '|' + str(_dt.hour).zfill(2) + \
+                 ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
+        selected_items = self.selected_items_list[:]
+        names = []
+        for item in selected_items:
+            names.append(item['name'])
 
         sale = {
             'customer_name': cus_name,
             'customer_contact': cus_tel + ',' + cus_email,
             'amount_paid': amo_pd,
             'balance': bal,
-            'items': self.selected_items_list,
+            'items': names,
             'sale_date': dt_str
         }
 
@@ -170,3 +173,9 @@ class Checkout:
         self.set_items(self.all_items_list)
 
         self.clear_all_items()
+        self.clear_cus()
+
+    def clear_cus(self):
+        self.v_nm.set('')
+        self.v_tel.set('')
+        self.v_eml.set('')

@@ -1,8 +1,8 @@
 """
 Displays all the items in the store
 """
-from src.ui.structures.table import Table
 from src.data.works import check
+from src.ui.structures.table import Table
 
 
 class ItemsAll:
@@ -29,8 +29,7 @@ class ItemsAll:
                             {'text': 'Item Type', 'width': 15},
                             {'text': 'Quantity', 'width': 8},
                             {'text': 'Unit Price', 'width': 9}]
-        self.dimensions = {'width': 500, 'height': 360, 'x': 250, 'y': 25}
-        self.table.create(self.titles_list, self.dimensions)
+        self.table.create(self.titles_list, width=500, height=360)
 
     def all_items_works(self):
         """

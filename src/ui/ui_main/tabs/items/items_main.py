@@ -1,15 +1,18 @@
 from tkinter import ttk
+
+from data.works.search import Search
+
 from .items_add import ItemsAdd
 from .items_all import ItemsAll
-from data.works.search import Search
 from .items_options import ItemsOptions
 
 
 class ItemsMain(ItemsAll, ItemsAdd, Search, ItemsOptions):
 
-    def __init__(self, container, all_items_inst, s_bar):
+    def __init__(self, container, all_items_inst, purchases_inst, s_bar):
         self.host = container
         self.sb = s_bar
+        self.purchases_inst = purchases_inst
         self.all_items_inst = all_items_inst
         self.all_items_list = all_items_inst.get_all_items()
 

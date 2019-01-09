@@ -1,14 +1,16 @@
 
 from tkinter import ttk
-from .tabs.home.t_home import THome
-from .tabs.items.t_items import TItems
-from .tabs.sales.t_sales import TSales
-from .tabs.purchases.t_purchases import TPurchases
+
+from src.data.items import Items
+from src.data.purchases import Purchases
+from src.data.sales import Sales
 from .tabs.accounts.t_accounts import TAccounts
 from .tabs.graphs.t_graphs import TGraphs
+from .tabs.home.t_home import THome
+from .tabs.items.t_items import TItems
 from .tabs.management.t_management import TManagement
-from data.items import Items
-from data.sales import Sales
+from .tabs.purchases.t_purchases import TPurchases
+from .tabs.sales.t_sales import TSales
 
 
 class NtBook:
@@ -20,10 +22,11 @@ class NtBook:
         self.ntb = ttk.Notebook(self.rt)
         self.items_inst = Items()
         self.sales_inst = Sales()
+        self.purchases_inst = Purchases()
 
         # tabs
         self.t_home = THome(self.ntb, self.sb, self.items_inst, self.sales_inst)
-        self.t_items = TItems(self.ntb, self.sb, self.items_inst)
+        self.t_items = TItems(self.ntb, self.sb, self.items_inst, self.purchases_inst)
         self.t_sales = TSales(self.ntb, self.sb, self.sales_inst)
         self.t_purchases = TPurchases(self.ntb, self.sb)
         self.t_accounts = TAccounts(self.ntb, self.sb)
@@ -50,3 +53,6 @@ class NtBook:
 
         elif s_tb_name == 'Items':
             self.t_items.i_main.all_items_works()
+
+        elif s_tb_name == 'Sales':
+            self.t_sales.sales_main.all_sales_fill()

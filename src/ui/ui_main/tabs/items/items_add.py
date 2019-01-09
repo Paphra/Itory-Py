@@ -1,5 +1,6 @@
 
 import tkinter as tk
+from datetime import datetime
 from tkinter import ttk
 
 
@@ -104,7 +105,7 @@ class ItemsAdd:
             v_.set(self._prev_val)
 
     def _clear_all(self):
-
+        self.v_serial.set('')
         self.v_name.set('')
         self.v_type.set('')
         self.v_qty.set('0')
@@ -118,14 +119,12 @@ class ItemsAdd:
         name = self.v_name.get()
         _type = self.v_type.get()
         qty = int(self.v_qty.get())
-        buy_amount = int(self.v_sell_unit.get())
+        buy_amount = int(self.v_buy_amount.get())
         sell_unit = int(self.v_sell_unit.get())
 
         if len(name) > 0 and len(_type) > 0 and qty > 0 and \
                 buy_amount > 0 and sell_unit > 0:
-            buy_unit = 0
-            if int('0'+str(buy_amount)) > 0 and int('0'+str(qty)) > 0:
-                buy_unit = buy_amount / qty
+            buy_unit = buy_amount / qty
 
             for item_ in self.all_items_list:
                 o_name = item_['name']
@@ -139,10 +138,22 @@ class ItemsAdd:
                     self._clear_all()
                     return True
 
+            _dt = datetime.now()
+            dt_str = str(_dt.year).zfill(4) + '-' + str(_dt.month).zfill(2) + \
+                     '-' + str(_dt.day).zfill(2) + '|' + str(_dt.hour).zfill(2) + \
+                     ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
+
             item = {'serial': serial,
                     'name': name, 'type': _type,
                     'qty': qty, 'buy_unit': buy_unit,
                     'sell_unit': sell_unit}
+
+            purchase = {'purchase_date': dt_str,
+                        'item': name,
+                        'details': str(qty) + '-' + _type,
+                        'amount': buy_amount}
+
             self.all_items_inst.add_full_item(item)
+            self.purchases_inst.add_pur_given_pur(purchase)
 
             self._clear_all()

@@ -1,6 +1,3 @@
-
-import mysql.connector as mysql
-
 """
 The Class ..
 """
@@ -34,12 +31,12 @@ class Sales:
         self.all_sales.append(sale)
 
     def delete_sale_given_sale(self, sale):
-        self.all_sales.delete(sale)
+        self.all_sales.remove(sale)
 
     def delete_sale_given_date(self, date):
         for sale in self.all_sales:
             if sale['sale_date'] == date:
-                self.all_sales.delete(sale)
+                self.all_sales.remove(sale)
 
     def get_all_sales(self):
         return self.all_sales
