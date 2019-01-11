@@ -1,11 +1,11 @@
 from tkinter import Menu
 
-class Msecurity():
+
+class Msecurity:
 
     def __init__(self, mb):
         self.m_b = mb
         self.m_security = Menu(self.m_b, tearoff=0)
-        
 
         self.m_security_w()
 

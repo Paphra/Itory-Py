@@ -1,7 +1,7 @@
-
 from tkinter import Menu
 
-class Mview():
+
+class Mview:
 
     def __init__(self, mb, uimain, s_bar, root):
         self.m_b = mb
@@ -25,7 +25,7 @@ class Mview():
 
     def _vhome(self, event=None):
         self.sel_tab(0)
-    
+
     def _vitems(self, event=None):
         self.sel_tab(1)
 
@@ -43,6 +43,6 @@ class Mview():
 
     def _vmanagement(self):
         self.sel_tab(6)
-    
+
     def sel_tab(self, index):
         self.uim.ntbk.select_tab(index)

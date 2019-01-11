@@ -1,6 +1,5 @@
 
 from random import randint as rdi
-import mysql.connector as mysql
 
 
 class Items:
@@ -57,6 +56,11 @@ class Items:
     def delete_all_items(self):
         self.all_items[:] = []
 
+    def edit_type_given_name(self, name, new_type):
+        for item in self.all_items:
+            if item['name'] == name:
+                item['type'] = new_type
+
     def edit_qty_given_name(self, name, new_qty):
         for item in self.all_items:
             if item['name'] == name:
@@ -76,6 +80,11 @@ class Items:
         for item in self.all_items:
             if item == item_:
                 item['buy_unit'] = new_buy_unit
+
+    def edit_type_given_item(self, item, new_type):
+        for _item in self.all_items:
+            if item == _item:
+                _item['type'] = new_type
 
     def edit_qty_given_item(self, item, new_qty):
         for _item in self.all_items:

@@ -9,7 +9,7 @@ class ItemDetails:
         self.c_selected_items = SelectedItems()
 
         self.selected_items_list = self.c_selected_items.get_all()
-        self.selected_item_full = None 
+        self.selected_item_full = None
 
         self.v_qty = tk.StringVar()
         self.v_sell_unit = tk.StringVar()
@@ -24,7 +24,7 @@ class ItemDetails:
         self.clr_btn = ttk.Button(self.dls_host, text='Clear All')
 
         self._put()
-        
+
     def _put(self):
 
         self.selected_items_listbox.bind('<ButtonRelease-1>', self._selections)
@@ -60,12 +60,12 @@ class ItemDetails:
         sep1 = ttk.Separator(self.dls_host)
         sep1.grid(column=0, row=2, sticky='WE', pady=5, columnspan=3)
         sep2 = ttk.Separator(self.dls_host)
-        sep2.grid(column=0, row=5, sticky='WE', pady=5, columnspan=3)  
+        sep2.grid(column=0, row=5, sticky='WE', pady=5, columnspan=3)
 
         self.rm_btn['state'] = 'disabled'
         self.e_amt['state'] = 'readonly'
         self.e_qty['state'] = 'disabled'
-        self.e_sell_unit['state'] = 'disabled'     
+        self.e_sell_unit['state'] = 'disabled'
 
         self.lbs_w(lbs_l)
         self.es_w(es_l)
@@ -123,18 +123,18 @@ class ItemDetails:
 
         self.total_amount = self.c_selected_items.get_total_amount()
         self.update_amount_customer()
-    
+
     def _selections(self, event=None):
         self.cur_selection = self.selected_items_listbox.curselection()
         n1 = len(self.cur_selection)
-        if n1 > 0 and n1 == 1:            
+        if n1 > 0 and n1 == 1:
             self.selected_item_raw = self.selected_items_listbox.get(self.cur_selection[0])
             selected_item_split = self.selected_item_raw.split('-')
             self.selected_item_name = selected_item_split[1]
 
             self.get_selected_item_full()
-            
-            selected_item_qty = selected_item_split[0]        
+
+            selected_item_qty = selected_item_split[0]
             selected_item_type = self.selected_item_full['type']
             selected_item_sell_unit = self.selected_item_full['sell_unit']
             for item in self.all_items_list:
@@ -169,7 +169,7 @@ class ItemDetails:
     def _focus_in(self, event):
         w = event.widget
         self._cfv = w.get()
-        
+
     def _focus_out(self, event):
         w = event.widget
         v = w.get()
@@ -194,7 +194,7 @@ class ItemDetails:
         t = self.selected_item_max_qty
         if not self._val(self.v_qty.get()):
             self.v_qty.set(self.qty_)
-        
+
         v = self.v_qty.get()
         if int('0'+v) > t:
             self.v_qty.set(t)
@@ -213,14 +213,14 @@ class ItemDetails:
             self.selected_items_listbox.delete(self.cur_selection[0])
             self.selected_items_listbox.insert(self.cur_selection[0], n_si_nm)
             self.selected_items_listbox.activate(self.cur_selection[0])
-        
+
         self.total_amount = self.c_selected_items.get_total_amount()
         self.update_amount_customer()
 
     def _val_sell_unitr(self, event=None):
         if not self._val(self.v_sell_unit.get()):
             self.v_sell_unit.set(self.sell_unit_)
-        
+
         v = self.v_sell_unit.get()
         if int('0'+v) > 0:
             u = int(self.v_sell_unit.get())
@@ -261,7 +261,7 @@ class ItemDetails:
     def get_selected_item_full(self):
         self.selected_item_full = self.c_selected_items.get_item(self.selected_item_name)
 
-    
+
 class SelectedItems:
 
     def __init__(self):
@@ -342,6 +342,6 @@ class SelectedItems:
             for s_item in self.all_selected_items:
                 total_amount = total_amount + s_item['amount']
         return total_amount
-       
+
     def get_all(self):
         return self.all_selected_items

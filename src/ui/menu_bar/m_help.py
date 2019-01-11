@@ -1,11 +1,12 @@
 from tkinter import Menu
 
-class Mhelp():
+
+class Mhelp:
 
     def __init__(self, mb):
         self.m_b = mb
         self.m_help = Menu(self.m_b, tearoff=0)
-        
+
         self.m_help_w()
 
     def m_help_w(self):

@@ -1,4 +1,3 @@
-
 import tkinter as tk
 from datetime import datetime
 from tkinter import ttk
@@ -43,40 +42,40 @@ class ItemsAdd:
         _padx = 5
         _pady = 10
         lb_serial = ttk.Label(self.mf_items_add, text='Serial Number:')
-        lb_serial.grid(column=0, row=0, sticky='E', padx=_padx, pady=_pady)
-        self.e_serial.grid(column=1, row=0, sticky='W', padx=_padx, pady=_pady)
+        lb_serial.grid(column=0, row=1, sticky='E', padx=_padx, pady=_pady)
+        self.e_serial.grid(column=1, row=1, sticky='W', padx=_padx, pady=_pady)
 
         lb_name = ttk.Label(self.mf_items_add, text='Item Name:')
-        lb_name.grid(column=0, row=1, sticky='E', padx=_padx, pady=_pady)
-        self.e_name.grid(column=1, row=1, sticky='W', padx=_padx, pady=_pady)
+        lb_name.grid(column=0, row=2, sticky='E', padx=_padx, pady=_pady)
+        self.e_name.grid(column=1, row=2, sticky='W', padx=_padx, pady=_pady)
 
         lb_type = ttk.Label(self.mf_items_add, text='Item Type:')
-        lb_type.grid(column=0, row=2, sticky='E', padx=_padx, pady=_pady)
-        self.e_type.grid(column=1, row=2, sticky='W', padx=_padx, pady=_pady)
+        lb_type.grid(column=0, row=3, sticky='E', padx=_padx, pady=_pady)
+        self.e_type.grid(column=1, row=3, sticky='W', padx=_padx, pady=_pady)
 
         lb_qtty = ttk.Label(self.mf_items_add, text='Quantity:')
-        lb_qtty.grid(column=0, row=3, sticky='E', padx=_padx, pady=_pady)
-        self.e_qty.grid(column=1, row=3, sticky='W', padx=_padx, pady=_pady)
+        lb_qtty.grid(column=0, row=4, sticky='E', padx=_padx, pady=_pady)
+        self.e_qty.grid(column=1, row=4, sticky='W', padx=_padx, pady=_pady)
         self.e_qty.bind('<KeyPress>', self._prev)
         self.e_qty.bind('<KeyRelease>', self._qty_ver)
 
         lb_buy_amount = ttk.Label(self.mf_items_add, text='Buying Amount:')
-        lb_buy_amount.grid(column=0, row=4, sticky='E', padx=_padx, pady=_pady)
-        self.e_buy_amount.grid(column=1, row=4, sticky='W', padx=_padx, pady=_pady)
+        lb_buy_amount.grid(column=0, row=5, sticky='E', padx=_padx, pady=_pady)
+        self.e_buy_amount.grid(column=1, row=5, sticky='W', padx=_padx, pady=_pady)
         self.e_buy_amount.bind('<KeyPress>', self._prev)
         self.e_buy_amount.bind('<KeyRelease>', self._b_amo_ver)
 
         lb_sell_unit = ttk.Label(self.mf_items_add, text='Sell Unit Price:')
-        lb_sell_unit.grid(column=0, row=5, sticky='E', padx=_padx, pady=_pady)
-        self.e_sell_unit.grid(column=1, row=5, sticky='W', padx=_padx, pady=_pady)
+        lb_sell_unit.grid(column=0, row=6, sticky='E', padx=_padx, pady=_pady)
+        self.e_sell_unit.grid(column=1, row=6, sticky='W', padx=_padx, pady=_pady)
         self.e_sell_unit.bind('<KeyPress>', self._prev)
         self.e_sell_unit.bind('<KeyRelease>', self._s_unit_ver)
 
         sep000 = ttk.Separator(self.mf_items_add, orient='horizontal')
-        sep000.grid(column=0, row=6, sticky='WE', columnspan=2, pady=10)
-        self.btn_clear_all.grid(column=0, row=7, sticky='E', padx=_padx,
+        sep000.grid(column=0, row=7, sticky='WE', columnspan=2, pady=10)
+        self.btn_clear_all.grid(column=0, row=8, sticky='E', padx=_padx,
                                 pady=_pady)
-        self.btn_save.grid(column=1, row=7, sticky='W', padx=_padx,
+        self.btn_save.grid(column=1, row=8, sticky='W', padx=_padx,
                            pady=_pady)
 
     def _prev(self, event):
@@ -129,18 +128,26 @@ class ItemsAdd:
             for item_ in self.all_items_list:
                 o_name = item_['name']
                 o_serial = item_['serial']
-                if o_name.lower() == name.lower() or o_serial == serial:
+                if o_name.lower() == name.lower() or \
+                        o_serial.lower() == serial.lower():
                     n_qty = item_['qty'] + qty
-                    self.all_items_inst.edit_qty_given_name(o_name, new_qty=n_qty)
-                    self.all_items_inst.edit_unit_given_name(o_name, new_sell_unit=sell_unit)
-                    self.all_items_inst.edit_buy_unit_given_name(o_name, new_buy_unit=buy_unit)
+                    self.all_items_inst.edit_type_given_name(o_name,
+                                                             new_type=_type)
+                    self.all_items_inst.edit_qty_given_name(o_name,
+                                                            new_qty=n_qty)
+                    self.all_items_inst.edit_unit_given_name(
+                            o_name,
+                            new_sell_unit=sell_unit)
+                    self.all_items_inst.edit_buy_unit_given_name(
+                            o_name,
+                            new_buy_unit=buy_unit)
 
                     self._clear_all()
                     return True
 
             _dt = datetime.now()
-            dt_str = str(_dt.year).zfill(4) + '-' + str(_dt.month).zfill(2) + \
-                     '-' + str(_dt.day).zfill(2) + '|' + str(_dt.hour).zfill(2) + \
+            dt_str = self.vd_year.get() + '-' + self.vd_month.get() + \
+                     '-' + self.vd_day.get() + '|' + str(_dt.hour).zfill(2) + \
                      ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
 
             item = {'serial': serial,
@@ -150,7 +157,9 @@ class ItemsAdd:
 
             purchase = {'purchase_date': dt_str,
                         'item': name,
+                        'serial': serial,
                         'details': str(qty) + '-' + _type,
+                        'buy_unit': buy_unit,
                         'amount': buy_amount}
 
             self.all_items_inst.add_full_item(item)

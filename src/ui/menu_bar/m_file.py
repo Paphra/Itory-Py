@@ -1,6 +1,7 @@
 from tkinter import Menu
 
-class Mfile():
+
+class Mfile:
 
     def __init__(self, root, mb):
         self.root = root

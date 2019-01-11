@@ -1,6 +1,7 @@
 from tkinter import Menu
 
-class Mtools():
+
+class Mtools:
 
     def __init__(self, mb):
         self.m_b = mb

@@ -18,7 +18,7 @@ class NtBook:
     def __init__(self, s_bar, root):
         self.rt = root
         self.sb = s_bar
-        
+
         self.ntb = ttk.Notebook(self.rt)
         self.items_inst = Items()
         self.sales_inst = Sales()
@@ -55,4 +55,7 @@ class NtBook:
             self.t_items.i_main.all_items_works()
 
         elif s_tb_name == 'Sales':
+            self.t_sales.sales_main.work_on_years_and_months()
+            self.t_sales.sales_main.set_years_months_days()
+            self.t_sales.sales_main.work_on_period_sales()
             self.t_sales.sales_main.all_sales_fill()

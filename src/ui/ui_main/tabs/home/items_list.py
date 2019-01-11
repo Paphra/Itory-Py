@@ -1,8 +1,7 @@
-
 import tkinter as tk
 from tkinter import ttk
+
 from data.works import check
-from ui.structures.lists import ScrollListBox
 
 
 class ItemList:
@@ -11,9 +10,9 @@ class ItemList:
 
         self.ht = 26
         self.wt = 25
-        
+
         self.f_items_list = ttk.Frame(self.mf_all_items_list)
-        self.all_items_listbox = self.scroll_list_box.\
+        self.all_items_listbox = self.scroll_list_box. \
             new(self.f_items_list, width=28, height=26)
 
         self.lbox_w()
@@ -21,8 +20,8 @@ class ItemList:
     def lbox_w(self):
         self.f_items_list.grid(column=0, row=1, sticky='NESW', padx=5, pady=5)
         self.f_items_list.configure(width=230, height=400)
-    
-        self.all_items_listbox.bind("<ButtonRelease-1>", self._list_selection)        
+
+        self.all_items_listbox.bind("<ButtonRelease-1>", self._list_selection)
         self.set_items(self.all_items_list)
 
     def _list_selection(self, event=None):
@@ -55,11 +54,11 @@ class ItemList:
                     amt = sell_unit
 
                     my_item = {
-                        'name': item_name,
-                        'type': typ,
-                        'sell_unit': sell_unit,
-                        'qty': qty,
-                        'amount': amt
+                            'name': item_name,
+                            'type': typ,
+                            'sell_unit': sell_unit,
+                            'qty': qty,
+                            'amount': amt
                     }
                     self.c_selected_items.add_item(my_item)
 
@@ -84,14 +83,14 @@ class ItemList:
         l_num = self.all_items_listbox.size()
         if l_num > 0:
             self.all_items_listbox.delete(0, (l_num - 1))
-            
+
         if _items[0]['name'] == _msg_empty:
             self.all_items_listbox.insert(tk.END, _items[0]['name'])
             return True
 
         for item in _items:
             if item['qty'] > 0:
-                i_nm = ' ' +  item['name'] + '  \t\t  ' + str(item['qty'])
+                i_nm = ' ' + item['name'] + '  \t\t  ' + str(item['qty'])
                 self.all_items_listbox.insert(tk.END, i_nm)
 
         self.total_amount = self.c_selected_items.get_total_amount()

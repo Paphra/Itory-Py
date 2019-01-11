@@ -1,9 +1,7 @@
-
-import tkinter as tk
 from tkinter import ttk
 
 
-class TGraphs():
+class TGraphs:
 
     def __init__(self, nt_book, s_bar):
         self.ntb = nt_book
@@ -16,4 +14,3 @@ class TGraphs():
         self.ntb.add(self.t_graphs, text='Graphs')
         self.f_t.grid(column=0, row=0, padx=10, pady=10, sticky='NESW')
         self.f_t.configure(width=780, height=500)
-    

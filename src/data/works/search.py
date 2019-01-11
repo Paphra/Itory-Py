@@ -5,7 +5,8 @@ from tkinter import ttk
 
 class Search:
 
-    def __init__(self, master: any, work_function, _list: list, _use: list, width: int = None, sticky: str = None):
+    def __init__(self, master: any, work_function, _list: list, _use: list,
+                 width: int = None, sticky: str = None):
         self.v_search = tk.StringVar()
         self.e_search = ttk.Entry(master)
         self.work_function = work_function
@@ -30,12 +31,16 @@ class Search:
 
     def _search_list(self, event=None):
         txt = self.v_search.get()
-        list_ = []
+        _list_ = []
         if len(txt) > 0:
             for line in self._list:
-                if txt.lower() in line[self._use[0]].lower() \
-                        or txt.lower() in line[self._use[1]].lower():
-                    list_.append(line)
+                _c = False
+                for _u in self._use:
+                    if txt.lower() in line[_u].lower():
+                        _c = True
+                if _c:
+                    _list_.append(line)
         else:
-            list_ = self._list
-        self.work_function(list_)
+            _list_ = self._list
+
+        self.work_function(_list_)

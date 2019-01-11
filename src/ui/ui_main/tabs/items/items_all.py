@@ -25,11 +25,12 @@ class ItemsAll:
 
         :return:
         """
-        self.titles_list = [{'text': 'Item Name', 'width': 19},
-                            {'text': 'Item Type', 'width': 15},
-                            {'text': 'Quantity', 'width': 8},
-                            {'text': 'Unit Price', 'width': 9}]
-        self.table.create(self.titles_list, width=500, height=360)
+        self.titles_list = [{'text': 'Item Name', 'width': 20, 'type': 'l'},
+                            {'text': 'Item Type', 'width': 15, 'type': 'l'},
+                            {'text': 'Quantity', 'width': 8, 'type': 'l'},
+                            {'text': 'Unit Price', 'width': 10, 'type': 'l'}]
+
+        self.table.create(self.titles_list, width=500, height=390)
 
     def all_items_works(self):
         """
@@ -40,8 +41,7 @@ class ItemsAll:
         self._return = {'name': _msg_empty, 'type': '',
                         'qty': 0, 'sell_unit': 0}
         _items = check.if_empty(self.all_items_list, self._return)
-        self.table.add_rows(rows_list=_items,
-                            _keys_=self.row_keys)
+        self.table.add_rows(rows_list=_items, _keys_=self.row_keys)
 
     def fill_list(self, items_list: list):
         """
@@ -50,5 +50,4 @@ class ItemsAll:
         :return:
         """
         _items = check.if_empty(items_list, self._return)
-        self.table.add_rows(rows_list=_items,
-                            _keys_=self.row_keys)
+        self.table.add_rows(rows_list=_items, _keys_=self.row_keys)
