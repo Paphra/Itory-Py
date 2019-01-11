@@ -4,14 +4,10 @@ in the store
 """
 import tkinter as tk
 from datetime import datetime
-from tkinter import ttk
+from tkinter import messagebox as msg, ttk
 
 
 class Checkout:
-    """
-	Class for checking out the selected items in the store to
-	a customer.
-	"""
 
     def __init__(self):
 
@@ -70,10 +66,6 @@ class Checkout:
         self.btn_cw()
 
     def cus_entries_w(self):
-        """
-		Working on the customer entries fields
-		:return: None
-		"""
         self.e_tt.grid(column=2, row=1, sticky='E')
 
         self.e_dis.grid(column=4, row=1, sticky='W')
@@ -93,27 +85,12 @@ class Checkout:
         self.e_bl.grid(column=2, row=5, sticky='E')
 
     def _dis_wp(self, event=None):
-        """
-		Pressing the key while in the discount entry
-		:param event: event that occurs
-		:return: None
-		"""
         self._dis = self.v_dis.get()
 
     def _mo_p_wp(self, event=None):
-        """
-		Pressing the key while in the amount paid entry
-		:param event: event that occurs
-		:return: None
-		"""
         self._mo_p = self.v_mo_p.get()
 
     def _dis_w(self, event=None):
-        """
-
-		:param event:
-		:return:
-		"""
         if not self._val(self.v_dis.get()):
             self.v_dis.set(self._dis)
 
@@ -124,12 +101,6 @@ class Checkout:
             self.v_mo_tbp.set(str(self.total_amount))
 
     def _mo_p_w(self, event):
-        """
-        Button release within the amount paid entry
-        :param event: event of the entry
-        :return: None
-        """
-
         if not self._val(self.v_mo_p.get()):
             self.v_mo_p.set(self._mo_p)
 
@@ -147,21 +118,9 @@ class Checkout:
             els[_i].grid(column=col, row=_ii, padx=10, sticky=s)
 
     def lbs_cw(self, lbs):
-        """
-		Working on labels
-		:param lbs: list of labels to be worked upon
-		:return: None
-		"""
         self.label_works(lbs, 0, 'W')
 
     def entry_works(self, els, col, s):
-        """
-		Working on the entries
-		:param els: entries list
-		:param col: column
-		:param s: separators
-		:return: None
-		"""
         _ii = 0
         for _e in range(len(els)):
             if _e > 0:
@@ -171,78 +130,55 @@ class Checkout:
             els[_e].grid(column=col, row=_ii, padx=10, pady=5, sticky=s)
 
     def es_cw(self, es):
-        """
-		Working on the entries
-		:param es: entries list
-		:return: None
-		"""
         self.entry_works(es, 0, 'w')
 
     def es_pw(self, es):
-        """
-		Working on the entries
-		:param es: entries list
-		:return: None
-		"""
         for _i in es:
             _i.configure(width=17)
 
     def btn_cw(self):
-        """
-		Working on Buttons
-		:return: None
-		"""
         self.btn_checkout.grid(column=4, row=5, padx=5, sticky='SE')
         self.btn_checkout.bind("<Button-1>", self._checkout)
 
     def _checkout(self, event=None):
-        """
-		Performing the checkout action from the button
-		:param event:
-		:return:
-		"""
-        cus_name = self.v_nm.get()
-        cus_tel = self.v_tel.get()
-        cus_email = self.v_eml.get()
+        if msg.askquestion('Itory: Checkout Confirmation',
+                           'Confirm the Sale?') == u'yes':
+            cus_name = self.v_nm.get()
+            cus_tel = self.v_tel.get()
+            cus_email = self.v_eml.get()
 
-        amo_pd = self.v_mo_p.get()
-        bal = self.v_bl.get()
+            amo_pd = self.v_mo_p.get()
+            bal = self.v_bl.get()
 
-        _dt = datetime.now()
-        dt_str = self.vd_year.get() + '-' + self.vd_month.get() + \
-                 '-' + self.vd_day.get() + '|' + str(_dt.hour).zfill(2) + \
-                 ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
-        selected_items = self.selected_items_list[:]
-        names = []
-        for item in selected_items:
-            names.append(str(item['qty']) + '-' + item['name'])
+            _dt = datetime.now()
+            dt_str = self.vd_year.get() + '-' + self.vd_month.get() + \
+                     '-' + self.vd_day.get() + '|' + str(_dt.hour).zfill(2) + \
+                     ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
+            selected_items = self.selected_items_list[:]
+            names = []
+            for item in selected_items:
+                names.append(str(item['qty']) + '-' + item['name'])
 
-        sale = {
-                'customer_name': cus_name,
-                'customer_contact': cus_tel + ',' + cus_email,
-                'amount_paid': amo_pd,
-                'balance': bal,
-                'items': names,
-                'sale_date': dt_str
-        }
+            sale = {'customer_name': cus_name,
+                    'customer_contact': cus_tel + ',' + cus_email,
+                    'amount_paid': amo_pd,
+                    'balance': bal,
+                    'items': names,
+                    'sale_date': dt_str}
 
-        self.sales_inst.add_sale_given_sale(sale)
+            self.sales_inst.add_sale_given_sale(sale)
 
-        for item in self.selected_items_list:
-            for _item in self.all_items_list:
-                if item['name'] == _item['name']:
-                    new_qty = _item['qty'] - item['qty']
-                    self.items_inst.edit_qty_given_name(_item['name'], new_qty)
-        self.set_items(self.all_items_list)
+            for item in self.selected_items_list:
+                for _item in self.all_items_list:
+                    if item['name'] == _item['name']:
+                        new_qty = _item['qty'] - item['qty']
+                        self.items_inst.edit_qty_given_name(_item['name'], new_qty)
+            self.set_items(self.all_items_list)
 
-        self.clear_all_items()
-        self.clear_cus()
+            self.clear_all_items()
+            self.clear_cus()
 
     def clear_cus(self):
-        """
-		Clearing the customer details
-		:return: None
-		"""
         self.v_nm.set('')
         self.v_tel.set('')
         self.v_eml.set('')

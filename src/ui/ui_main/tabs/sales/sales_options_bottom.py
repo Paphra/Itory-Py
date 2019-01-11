@@ -51,10 +51,11 @@ class SalesOptionsBottom:
 
         def _delete_sale():
             result = self.main_table.delete_row()
-            self.calculate_totals()
+            if result is not None:
+                self.calculate_totals()
 
-            for sale in self.sales_inst.get_all_sales():
-                if sale['sale_date'] == result:
-                    self.sales_inst.delete_sale_given_sale(sale=sale)
+                for sale in self.sales_inst.get_all_sales():
+                    if sale['sale_date'] == result:
+                        self.sales_inst.delete_sale_given_sale(sale=sale)
 
         self.btn_delete.configure(command=_delete_sale)

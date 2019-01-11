@@ -1,6 +1,6 @@
 import tkinter as tk
 from datetime import datetime
-from tkinter import ttk
+from tkinter import messagebox as msg, ttk
 
 
 class ItemsAdd:
@@ -114,6 +114,7 @@ class ItemsAdd:
         self.all_items_works()
 
     def _save_item(self):
+
         serial = self.v_serial.get()
         name = self.v_name.get()
         _type = self.v_type.get()
@@ -122,7 +123,9 @@ class ItemsAdd:
         sell_unit = int(self.v_sell_unit.get())
 
         if len(name) > 0 and len(_type) > 0 and qty > 0 and \
-                buy_amount > 0 and sell_unit > 0:
+                buy_amount > 0 and sell_unit > 0 and \
+                msg.askquestion('Itory: Save Item Confirmation',
+                                'Confirm Item Saving?') == u'yes':
             buy_unit = buy_amount / qty
 
             for item_ in self.all_items_list:
