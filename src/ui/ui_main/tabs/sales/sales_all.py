@@ -16,12 +16,12 @@ class SalesAll:
                       'balance',
                       'items']
 
-        self.titles = [{'text': 'Date', 'width': 17, 'type': 'l'},
-                       {'text': "Customer", 'width': 15, 'type': 'l'},
-                       {'text': "Contact", 'width': 15, 'type': 'l'},
-                       {'text': 'Paid', 'width': 10, 'type': 'l'},
-                       {'text': 'Balance', 'width': 10, 'type': 'l'},
-                       {'text': 'Items Sold', 'width': 17, 'type': 'c'}]
+        self.titles = [{'text': 'Date', 'width': 20, 'type': 'l'},
+                       {'text': "Customer", 'width': 20, 'type': 'l'},
+                       {'text': "Contact", 'width': 23, 'type': 'l'},
+                       {'text': 'Paid', 'width': 15, 'type': 'l'},
+                       {'text': 'Balance', 'width': 15, 'type': 'l'},
+                       {'text': 'Items Sold', 'width': 25, 'type': 'c'}]
 
         self.main_table.create(titles=self.titles, height=370)
 

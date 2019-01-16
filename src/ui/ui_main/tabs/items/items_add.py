@@ -16,19 +16,19 @@ class ItemsAdd:
 
         self.e_serial = ttk.Entry(self.mf_items_add,
                                   textvariable=self.v_serial,
-                                  width=15)
+                                  width=20)
         self.e_name = ttk.Entry(self.mf_items_add, textvariable=self.v_name,
-                                width=15)
+                                width=20)
         self.e_type = ttk.Entry(self.mf_items_add, textvariable=self.v_type,
-                                width=15)
+                                width=20)
         self.e_qty = ttk.Entry(self.mf_items_add, textvariable=self.v_qty,
-                               width=15)
+                               width=20)
         self.e_buy_amount = ttk.Entry(self.mf_items_add,
                                       textvariable=self.v_buy_amount,
-                                      width=15)
+                                      width=20)
         self.e_sell_unit = ttk.Entry(self.mf_items_add,
                                      textvariable=self.v_sell_unit,
-                                     width=15)
+                                     width=20)
 
         self.btn_clear_all = ttk.Button(self.mf_items_add, text='Clear All',
                                         command=self._clear_all)

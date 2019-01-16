@@ -1,8 +1,8 @@
 
 import tkinter as tk
-from ui.menu_bar.mb_main import MBmain
-from ui.ui_main.ui import UImain
-from ui.ui_main.s_bar import Sbar
+from src.ui.menu_bar.mb_main import MBmain
+from src.ui.ui_main.ui import UImain
+from src.ui.ui_main.s_bar import Sbar
 
 
 class App:
@@ -20,7 +20,7 @@ class App:
         self.root['width'] = 800
         self.root['height'] = 600
         self.root.resizable(0, 0)
-        # self.root.iconbitmap(r'/usr/local/Python34/DLLs/pyc.ico')
+        self.root.iconbitmap(r'C:/Users/Paphra/AppData/Local/Programs/Python/Python37-32/DLLs/pyc.ico')
 
 
 if __name__ == '__main__':

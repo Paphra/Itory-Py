@@ -28,7 +28,7 @@ class NtBook:
         self.t_home = THome(self.ntb, self.sb, self.items_inst, self.sales_inst)
         self.t_items = TItems(self.ntb, self.sb, self.items_inst, self.purchases_inst)
         self.t_sales = TSales(self.ntb, self.sb, self.sales_inst)
-        self.t_purchases = TPurchases(self.ntb, self.sb)
+        self.t_purchases = TPurchases(self.ntb, self.sb, self.purchases_inst)
         self.t_accounts = TAccounts(self.ntb, self.sb)
         self.t_graphs = TGraphs(self.ntb, self.sb)
         self.t_management = TManagement(self.ntb, self.sb)

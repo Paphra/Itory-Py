@@ -30,16 +30,17 @@ class ItemsMain(ItemsAll, Date, ItemsAdd, Search, ItemsOptions):
         self.options_w()
 
         ItemsAll.__init__(self)
-        Date.__init__(self, y_width=7, m_width=7, d_width=7, orient='horizontal')
-        ItemsAdd.__init__(self)
         self._use = ['name', 'type']
         Search.__init__(self, self.f_items_search, self.fill_list,
                         self.all_items_list, self._use, sticky='ENS',
                         width=35)
         ItemsOptions.__init__(self)
+        Date.__init__(self, y_width=7, m_width=7, d_width=7, orient='horizontal')
+        ItemsAdd.__init__(self)
 
     def add_w(self):
-        self.mf_items_add.grid(column=0, row=0, sticky='WE', rowspan=3)
+        self.mf_items_add.grid(column=0, row=0, sticky='WE', rowspan=3,
+                               padx=15, pady=20)
         self.mf_items_add.configure(text='Add New Item')
         self.date_host.grid(column=0, row=0, columnspan=2, sticky='NES',
                             pady=5)

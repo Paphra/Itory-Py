@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from data.works import check
+from src.data.works import check
 
 
 class ItemList:
@@ -13,7 +13,7 @@ class ItemList:
 
         self.f_items_list = ttk.Frame(self.mf_all_items_list)
         self.all_items_listbox = self.scroll_list_box. \
-            new(self.f_items_list, width=28, height=26)
+            new(self.f_items_list, width=35, height=26)
 
         self.lbox_w()
 

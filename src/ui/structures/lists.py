@@ -15,11 +15,11 @@ class ScrollListBox(Lists):
 
         self._width = width
         if width is None:
-            self._width = 20
+            self._width = 30
 
         self._height = height
         if height is None:
-            self._height = 13
+            self._height = 15
 
         self.y = tk.Scrollbar(self.master, orient='vertical')
         self.x = tk.Scrollbar(self.master, orient='horizontal')

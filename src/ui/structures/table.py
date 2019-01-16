@@ -150,7 +150,7 @@ class Table:
         This method works on the titles. Positions the and sets the column widths
         :return: None
         """
-        lb_list = [ttk.Label(self.title_pane, text='S/N', width=4)]
+        lb_list = [ttk.Label(self.title_pane, text='S/N', width=5)]
 
         for title in self.titles:
             _lb = title['text']
@@ -191,7 +191,7 @@ class Table:
             _llb = ttk.Frame(self.list_canvas)
 
             lb_list = []
-            lb_sn = ttk.Label(_llb, text=str(i + 1), width=4)
+            lb_sn = ttk.Label(_llb, text=str(i + 1), width=5)
             lb_list.append(lb_sn)
             self._make_row_widgets(_llb, lb_list, i)
 
@@ -203,7 +203,7 @@ class Table:
             if i > 0:
                 y_cord = y_cord + 26
 
-            self.list_canvas.create_window(-1, y_cord, window=_llb,
+            self.list_canvas.create_window(-2, y_cord, window=_llb,
                                            anchor=tk.NW)
 
             for _ww in _llb.winfo_children():
@@ -224,7 +224,7 @@ class Table:
             if self.titles[self._keys_.index(key)]['type'] == 'l':
                 _w = ttk.Label(_llb, text=_text, width=_width)
             elif _type == 'c':
-                _w = ttk.Combobox(_llb, values=_text, width=(_width - 2),
+                _w = ttk.Combobox(_llb, values=_text, width=(_width - 3),
                                   state='readonly')
                 if len(_text) > 0:
                     _w.current(0)

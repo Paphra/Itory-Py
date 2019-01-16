@@ -1,11 +1,35 @@
+from random import randint as rdi
+
+
 class Purchases:
 
     def __init__(self):
         self.all_purchases = []
         self.fetch_db_purchases()
+        self.mock_()
 
     def fetch_db_purchases(self):
-        pass
+
+        self.all_purchases = []
+
+    def mock_(self):
+        """
+        Mocking the sales
+        :return: None
+        """
+        for i in range(400):
+            dt_str = str(20) + str(rdi(17, 19)) + '-' + str(rdi(1, 12)).zfill(2) + \
+                     '-' + str(rdi(1, 30)).zfill(2) + '|' + str(rdi(0, 24)).zfill(2) + \
+                     ':' + str(rdi(0, 61)).zfill(2) + ':' + str(rdi(0, 61)).zfill(2)
+
+            pur = {
+                'item': 'Item No. ' + str(rdi(1, 30)).zfill(2),
+                'amount': str(rdi(2, 1000) * 1000),
+                'details': str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40)) +
+                           str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40)) +
+                           str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40)),
+                'purchase_date': dt_str}
+            self.add_pur_given_pur(pur)
 
     def add_pur_given_pur(self, pur_: dict):
         self.all_purchases.append(pur_)
@@ -26,5 +50,5 @@ class Purchases:
             if _pur['purchase_date'] == date_:
                 self.all_purchases.remove(_pur)
 
-    def get_purchases(self):
+    def get_all_purchases(self):
         return self.all_purchases

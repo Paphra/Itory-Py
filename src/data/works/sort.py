@@ -1,4 +1,10 @@
 def rows(list_: list, key_: str):
+    """
+    This function sorts the given list basing on the key
+    :param list_: list
+    :param key_: str
+    :return: list of the sorted rows
+    """
     _key_value_list = []
     for _line in list_:
         _key_value_list.append(_line[key_])

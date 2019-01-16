@@ -29,7 +29,7 @@ class ItemCheckout(ItemList, ItemDetails, Date, Checkout, Search):
         self.selected_items_listbox = self.scroll_list_box.get()
 
         self.dls_host = ttk.LabelFrame(self.mf_item_checkout)
-        self.date_host = ttk.LabelFrame(self.mf_item_checkout)
+        self.date_host = ttk.LabelFrame(self.dls_host)
         self.cus_host = ttk.LabelFrame(self.mf_item_checkout)
 
         self.ic_w()
@@ -64,7 +64,7 @@ class ItemCheckout(ItemList, ItemDetails, Date, Checkout, Search):
         self.dls_host.configure(height=220, width=250, text='Item Details')
 
     def _date_w(self):
-        self.date_host.grid(column=0, row=1, columnspan=2, sticky='NES', pady=10)
+        self.date_host.grid(column=0, row=5, columnspan=2, sticky='NES', pady=10)
         self.date_host.configure(width=550, text="Date")
 
     def cus_w(self):
