@@ -1,5 +1,5 @@
 from tkinter import ttk
-from .purchases_main import PurchasesMain
+from src.ui.ui_main.tabs.commons.sales_purchases.main import Main
 
 
 class TPurchases:
@@ -10,7 +10,7 @@ class TPurchases:
         self.sb = s_bar
         self.t_purchases = ttk.Frame(self.ntb)
         self.mf_purchases = ttk.Frame(self.t_purchases)
-        self.p_main = PurchasesMain(self.mf_purchases, purchases_inst, self.sb)
+        self.p_main = Main(self.mf_purchases, purchases_inst, self.sb, 'Purchases')
 
         self.t_work()
 
@@ -18,4 +18,4 @@ class TPurchases:
 
         self.ntb.add(self.t_purchases, text='Purchases')
         self.mf_purchases.grid(column=0, row=0, padx=10, pady=10, sticky='NESW')
-        self.mf_purchases.configure(width=780, height=500)
+        self.mf_purchases.configure(width=750, height=500)

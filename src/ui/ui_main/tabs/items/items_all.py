@@ -3,6 +3,7 @@ Displays all the items in the store
 """
 from src.data.works.check import check_rows
 from src.ui.structures.table import Table
+from threading import Thread
 
 
 class ItemsAll:
@@ -15,8 +16,8 @@ class ItemsAll:
         _msg_empty = 'No Items Found!'
         self._return = {'name': _msg_empty, 'type': '',
                         'qty': 0, 'sell_unit': 0}
-        self.titles_list = [{'text': 'Item Name', 'width': 30, 'type': 'l'},
-                            {'text': 'Item Type', 'width': 25, 'type': 'l'},
+        self.titles_list = [{'text': 'Item Name', 'width': 27, 'type': 'l'},
+                            {'text': 'Item Type', 'width': 23, 'type': 'l'},
                             {'text': 'Quantity', 'width': 10, 'type': 'l'},
                             {'text': 'Unit Price', 'width': 10, 'type': 'l'}]
         self._padx = 4
@@ -30,10 +31,10 @@ class ItemsAll:
 
     def titles_works(self):
         """
-
         :return:
         """
-        self.table.create(self.titles_list, width=530, height=390)
+        Thread(target=self.table.create(
+            self.titles_list, width=500, height=390), daemon=True).start()
 
     def all_items_works(self):
         """
@@ -46,6 +47,6 @@ class ItemsAll:
         :param items_list:
         :return:
         """
-        self.table.add_rows(
+        Thread(target=self.table.add_rows(
             check_rows(items_list, self.titles_list, self.row_keys),
-            _keys_=self.row_keys)
+            _keys_=self.row_keys), daemon=True).start()

@@ -2,13 +2,13 @@ from tkinter import ttk
 
 from data.works.search import Search
 
-from src.ui.structures.date import Date
 from .items_add import ItemsAdd
 from .items_all import ItemsAll
 from .items_options import ItemsOptions
+from threading import Thread
 
 
-class ItemsMain(ItemsAll, Date, ItemsAdd, Search, ItemsOptions):
+class ItemsMain(ItemsAll, ItemsAdd, Search, ItemsOptions):
 
     def __init__(self, container, all_items_inst, purchases_inst, s_bar):
         self.host = container
@@ -29,14 +29,13 @@ class ItemsMain(ItemsAll, Date, ItemsAdd, Search, ItemsOptions):
         self.search_w()
         self.options_w()
 
+        ItemsAdd.__init__(self)
+        ItemsOptions.__init__(self)
         ItemsAll.__init__(self)
         self._use = ['name', 'type']
         Search.__init__(self, self.f_items_search, self.fill_list,
                         self.all_items_list, self._use, sticky='ENS',
                         width=35)
-        ItemsOptions.__init__(self)
-        Date.__init__(self, y_width=7, m_width=7, d_width=7, orient='horizontal')
-        ItemsAdd.__init__(self)
 
     def add_w(self):
         self.mf_items_add.grid(column=0, row=0, sticky='WE', rowspan=3,

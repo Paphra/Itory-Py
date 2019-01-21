@@ -1,9 +1,10 @@
 import tkinter as tk
 from datetime import datetime
 from tkinter import messagebox as msg, ttk
+from src.ui.structures.date import Date
 
 
-class ItemsAdd:
+class ItemsAdd(Date):
 
     def __init__(self):
         # variables
@@ -35,10 +36,12 @@ class ItemsAdd:
         self.btn_save = ttk.Button(self.mf_items_add, text='Save',
                                    command=self._save_item)
 
+        Date.__init__(self, y_width=7, m_width=7, d_width=7, orient='horizontal')
         self.add_works()
         self._clear_all()
 
     def add_works(self):
+
         _padx = 5
         _pady = 10
         lb_serial = ttk.Label(self.mf_items_add, text='Serial Number:')
@@ -111,8 +114,6 @@ class ItemsAdd:
         self.v_buy_amount.set('0')
         self.v_sell_unit.set('0')
 
-        self.all_items_works()
-
     def _save_item(self):
 
         serial = self.v_serial.get()
@@ -167,5 +168,7 @@ class ItemsAdd:
 
             self.all_items_inst.add_full_item(item)
             self.purchases_inst.add_pur_given_pur(purchase)
+
+            self.all_items_works()
 
             self._clear_all()

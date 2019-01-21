@@ -7,6 +7,38 @@ from datetime import datetime
 from tkinter import messagebox as msg, ttk
 
 
+def es_pw(es):
+    for _i in es:
+        _i.configure(width=25)
+
+
+def entry_works(els, col, s):
+    _ii = 0
+    for _e in range(len(els)):
+        if _e > 0:
+            _ii = _ii + 2
+        else:
+            _ii = _ii + 1
+        els[_e].grid(column=col, row=_ii, padx=10, pady=5, sticky=s)
+        els[_e].configure(width=30)
+
+
+def es_cw(es):
+    entry_works(es, 0, 'w')
+
+
+def label_works(els, col, s):
+    _ii = 0
+    for _i in range(len(els)):
+        if _i > 0:
+            _ii = _ii + 2
+        els[_i].grid(column=col, row=_ii, padx=10, sticky=s)
+
+
+def lbs_cw(lbs):
+    label_works(lbs, 0, 'W')
+
+
 class Checkout:
 
     def __init__(self):
@@ -16,7 +48,7 @@ class Checkout:
         l_eml = ttk.Label(self.cus_host, text='Email Address')
 
         lbs_c = [l_nm, l_tel, l_eml]
-        self.lbs_cw(lbs_c)
+        lbs_cw(lbs_c)
 
         self.v_nm = tk.StringVar()
         self.v_tel = tk.StringVar()
@@ -27,7 +59,7 @@ class Checkout:
         self.e_eml = ttk.Entry(self.cus_host, textvariable=self.v_eml)
 
         es_c = [self.e_nm, self.e_tel, self.e_eml]
-        self.es_cw(es_c)
+        es_cw(es_c)
 
         sep = ttk.Separator(self.cus_host, orient='vertical')
         sep.grid(column=1, row=0, rowspan=7, sticky='NS', padx=5)
@@ -59,7 +91,7 @@ class Checkout:
         self.e_bl = ttk.Entry(self.cus_host, textvariable=self.v_bl, state='readonly')
 
         es_p = [self.e_tt, self.e_dis, self.e_mo_tbp, self.e_mo_p, self.e_bl]
-        self.es_pw(es_p)
+        es_pw(es_p)
         self.cus_entries_w()
 
         self.btn_checkout = ttk.Button(self.cus_host, text='Check Out')
@@ -110,32 +142,6 @@ class Checkout:
         else:
             self.v_bl.set(str(self.v_mo_tbp.get()))
 
-    def label_works(self, els, col, s):
-        _ii = 0
-        for _i in range(len(els)):
-            if _i > 0:
-                _ii = _ii + 2
-            els[_i].grid(column=col, row=_ii, padx=10, sticky=s)
-
-    def lbs_cw(self, lbs):
-        self.label_works(lbs, 0, 'W')
-
-    def entry_works(self, els, col, s):
-        _ii = 0
-        for _e in range(len(els)):
-            if _e > 0:
-                _ii = _ii + 2
-            else:
-                _ii = _ii + 1
-            els[_e].grid(column=col, row=_ii, padx=10, pady=5, sticky=s)
-
-    def es_cw(self, es):
-        self.entry_works(es, 0, 'w')
-
-    def es_pw(self, es):
-        for _i in es:
-            _i.configure(width=17)
-
     def btn_cw(self):
         self.btn_checkout.grid(column=4, row=5, padx=5, sticky='SE')
         self.btn_checkout.bind("<Button-1>", self._checkout)
@@ -152,8 +158,8 @@ class Checkout:
 
             _dt = datetime.now()
             dt_str = self.vd_year.get() + '-' + self.vd_month.get() + \
-                     '-' + self.vd_day.get() + '|' + str(_dt.hour).zfill(2) + \
-                     ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
+                '-' + self.vd_day.get() + '|' + str(_dt.hour).zfill(2) + \
+                ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
             selected_items = self.selected_items_list[:]
             names = []
             for item in selected_items:

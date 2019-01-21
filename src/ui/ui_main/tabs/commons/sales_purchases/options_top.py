@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 
 
-class PurchasesOptionsTop:
+class OptionsTop:
 
     def __init__(self):
         self.v_year = tk.StringVar()
@@ -48,8 +48,8 @@ class PurchasesOptionsTop:
         self.day_combo['values'] = self.days
         self.day_combo.current(0)
         _day = self.v_day.get()
-        self.work_on_period_purchases(_year, _month, _day)
-        self.all_purchases_fill()
+        self.work_on_period(_year, _month, _day)
+        self.all_fill()
 
     def _month_selection(self, event=None):
         _month = self.v_month.get()
@@ -58,13 +58,13 @@ class PurchasesOptionsTop:
         self.day_combo['values'] = self.days
         self.day_combo.current(0)
         _day = self.v_day.get()
-        self.work_on_period_purchases(_year=_year, _month=_month, _day=_day)
-        self.all_purchases_fill()
+        self.work_on_period(_year=_year, _month=_month, _day=_day)
+        self.all_fill()
 
     def day_selection_works(self, event=None):
         _day = self.v_day.get()
         _month = self.v_month.get()
         _year = self.v_year.get()
         self.work_on_years_and_months(_year, _month)
-        self.work_on_period_purchases(_year, _month, _day)
-        self.all_purchases_fill()
+        self.work_on_period(_year, _month, _day)
+        self.all_fill()

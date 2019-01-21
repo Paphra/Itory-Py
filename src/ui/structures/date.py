@@ -29,6 +29,9 @@ class Date:
         else:
             self.orient = orient
 
+        self.pad_x = 10
+        self.pad_y = 5
+
         self.vd_year = tk.StringVar()
         self.vd_month = tk.StringVar()
         self.vd_day = tk.StringVar()
@@ -46,13 +49,19 @@ class Date:
 
     def _c_date_w(self):
         if self.orient != 'horizontal':
-            self.lf_year.grid(column=0, row=0)
-            self.lf_month.grid(column=0, row=1)
-            self.lf_day.grid(column=0, row=2)
+            self.lf_year.grid(column=0, row=0, padx=self.pad_x,
+                              pady=self.pad_y)
+            self.lf_month.grid(column=0, row=1, padx=self.pad_x,
+                               pady=self.pad_y)
+            self.lf_day.grid(column=0, row=2,  padx=self.pad_x,
+                             pady=self.pad_y)
         else:
-            self.lf_year.grid(column=0, row=0)
-            self.lf_month.grid(column=1, row=0)
-            self.lf_day.grid(column=2, row=0)
+            self.lf_year.grid(column=0, row=0,  padx=self.pad_x,
+                              pady=self.pad_y)
+            self.lf_month.grid(column=1, row=0,  padx=self.pad_x,
+                               pady=self.pad_y)
+            self.lf_day.grid(column=2, row=0,  padx=self.pad_x,
+                             pady=self.pad_y)
 
         self._dt = datetime.now()
         _year = str(self._dt.year).zfill(4)

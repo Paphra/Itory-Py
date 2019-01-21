@@ -1,7 +1,7 @@
 
 import tkinter as tk
 from tkinter import ttk
-from .sales_main import SalesMain
+from src.ui.ui_main.tabs.commons.sales_purchases.main import Main
 
 
 class TSales:
@@ -11,11 +11,11 @@ class TSales:
         self.sb = s_bar
         self.t_sales = ttk.Frame(self.ntb)
         self.mf_sales = ttk.Frame(self.t_sales)
-        self.sales_main = SalesMain(self.mf_sales, sales_inst, self.sb)
+        self.sales_main = Main(self.mf_sales, sales_inst, self.sb, 'Sales')
         
         self.t_work()
 
     def t_work(self):
         self.ntb.add(self.t_sales, text='Sales')
         self.mf_sales.grid(column=0, row=0, padx=10, pady=10, sticky='NESW')
-        self.mf_sales.configure(width=780, height=500)
+        self.mf_sales.configure(width=750, height=500)

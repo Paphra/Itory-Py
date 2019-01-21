@@ -3,6 +3,37 @@ import tkinter as tk
 from tkinter import ttk
 
 
+def lbs_w(lbs):
+    for c in range(5):
+        if c < 3:
+            lbs[c].grid(column=c, row=0, sticky='W', padx=3)
+        else:
+            if c == 4:
+                lbs[c].grid(column=(c-3), row=3, sticky='W', padx=3, columnspan=2)
+            else:
+                lbs[c].grid(column=(c-3), row=3, sticky='W', padx=3)
+
+
+def es_w(es):
+    for c in range(5):
+        if c < 3:
+            es[c].grid(column=c, row=1, sticky='W', padx=3, pady=3)
+        else:
+            if c == 4:
+                es[c].grid(column=(c-3), row=4, sticky='W', padx=3, pady=3, columnspan=2)
+            else:
+                es[c].grid(column=(c-3), row=4, sticky='W', padx=3, pady=3)
+
+
+def _val(txt):
+    try:
+        if len(txt) > 0:
+            int(txt)
+        return True
+    except TypeError:
+        return False
+
+
 class ItemDetails:
 
     def __init__(self):
@@ -10,6 +41,7 @@ class ItemDetails:
 
         self.selected_items_list = self.c_selected_items.get_all()
         self.selected_item_full = None
+        self.total_amount = None
 
         self.v_qty = tk.StringVar()
         self.v_sell_unit = tk.StringVar()
@@ -37,15 +69,15 @@ class ItemDetails:
         self.e_qty.bind('<FocusOut>', self._focus_out)
         self.e_qty.bind('<KeyPress>', self._val_qtyp)
         self.e_qty.bind('<KeyRelease>', self._val_qtyr)
-        self.e_qty.configure(textvariable=self.v_qty, width=5)
+        self.e_qty.configure(textvariable=self.v_qty, width=10)
 
         self.e_sell_unit.bind('<FocusIn>', self._focus_in)
         self.e_sell_unit.bind('<FocusOut>', self._focus_out)
         self.e_sell_unit.bind('<KeyPress>', self._val_sell_unitp)
         self.e_sell_unit.bind('<KeyRelease>', self._val_sell_unitr)
-        self.e_sell_unit.configure(textvariable=self.v_sell_unit, width=15)
+        self.e_sell_unit.configure(textvariable=self.v_sell_unit, width=22)
 
-        self.e_amt.configure(textvariable=self.v_amt)
+        self.e_amt.configure(textvariable=self.v_amt, width=30)
 
         es_l = [self.l_nm, self.l_typ, self.e_qty,
                 self.e_sell_unit, self.e_amt]
@@ -59,37 +91,15 @@ class ItemDetails:
 
         sep1 = ttk.Separator(self.dls_host)
         sep1.grid(column=0, row=2, sticky='WE', pady=5, columnspan=3)
-        sep2 = ttk.Separator(self.dls_host)
-        sep2.grid(column=0, row=5, sticky='WE', pady=5, columnspan=3)
 
         self.rm_btn['state'] = 'disabled'
         self.e_amt['state'] = 'readonly'
         self.e_qty['state'] = 'disabled'
         self.e_sell_unit['state'] = 'disabled'
 
-        self.lbs_w(lbs_l)
-        self.es_w(es_l)
+        lbs_w(lbs_l)
+        es_w(es_l)
         self.btn_w()
-
-    def lbs_w(self, lbs):
-        for c in range(5):
-            if c < 3:
-                lbs[c].grid(column=c, row=0, sticky='W', padx=3)
-            else:
-                if c == 4:
-                    lbs[c].grid(column=(c-3), row=3, sticky='W', padx=3, columnspan=2)
-                else:
-                    lbs[c].grid(column=(c-3), row=3, sticky='W', padx=3)
-
-    def es_w(self, es):
-        for c in range(5):
-            if c < 3:
-                es[c].grid(column=c, row=1, sticky='W', padx=3, pady=3)
-            else:
-                if c == 4:
-                    es[c].grid(column=(c-3), row=4, sticky='W', padx=3, pady=3, columnspan=2)
-                else:
-                    es[c].grid(column=(c-3), row=4, sticky='W', padx=3, pady=3)
 
     def btn_w(self):
         self.rm_btn.grid(column=2, row=6, sticky='E', padx=3, pady=3)
@@ -176,14 +186,6 @@ class ItemDetails:
         if v == '':
             w.insert(0, str(self._cfv))
 
-    def _val(self, txt):
-        try:
-            if len(txt) > 0:
-                int(txt)
-            return True
-        except TypeError:
-            return False
-
     def _val_qtyp(self, event=None):
         self.qty_ = self.v_qty.get()
 
@@ -192,7 +194,7 @@ class ItemDetails:
 
     def _val_qtyr(self, event=None):
         t = self.selected_item_max_qty
-        if not self._val(self.v_qty.get()):
+        if not _val(self.v_qty.get()):
             self.v_qty.set(self.qty_)
 
         v = self.v_qty.get()
@@ -218,7 +220,7 @@ class ItemDetails:
         self.update_amount_customer()
 
     def _val_sell_unitr(self, event=None):
-        if not self._val(self.v_sell_unit.get()):
+        if not _val(self.v_sell_unit.get()):
             self.v_sell_unit.set(self.sell_unit_)
 
         v = self.v_sell_unit.get()
@@ -265,6 +267,12 @@ class ItemDetails:
 class SelectedItems:
 
     def __init__(self):
+        self.name = None
+        self.type_ = None
+        self.sell_unit = None
+        self.qty = None
+        self.amount = None
+        self.item = None
         self.all_selected_items = []
 
     def add_details(self, name, type_, qty, sell_unit, amount):

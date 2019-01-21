@@ -3,20 +3,59 @@ from tkinter import ttk
 
 from src.data.works import sort
 from src.data.works.search import Search
-from .purchases_all import PurchasesAll
-from .purchases_options_top import PurchasesOptionsTop
-from .purchases_options_bottom import PurchasesOptionsBottom
+from .all import All
+from .options_top import OptionsTop
+from .options_bottom import OptionsBottom
 
 
-class PurchasesMain(PurchasesAll, Search, PurchasesOptionsTop,
-                    PurchasesOptionsBottom):
+class Main(All, Search, OptionsTop, OptionsBottom):
 
-    def __init__(self, container, purchases_inst, s_bar):
+    def __init__(self, container, _inst, s_bar, _caller):
         self.host = container
-        self.purchases_inst = purchases_inst
+        self._inst = _inst
         self.sb = s_bar
+        self.caller = _caller
 
-        self.mf_purchases = ttk.LabelFrame(master=self.host, text="Purchases")
+        self._use = None
+        self._date_key = None
+        self._amo_key = None
+        self._bal_key = None
+        if self.caller == 'Purchases':
+            self._use = ['purchase_date', 'item', 'details']
+            self._date_key = 'purchase_date'
+            self._amo_key = 'amount'
+
+            self._keys = ['purchase_date',
+                          'item',
+                          'details',
+                          'amount']
+
+            self.titles = [{'text': 'Date', 'width': 20, 'type': 'l'},
+                           {'text': "Item", 'width': 35, 'type': 'l'},
+                           {'text': "Details", 'width': 40, 'type': 'l'},
+                           {'text': 'Amount', 'width': 25, 'type': 'l'}]
+
+        elif self.caller == 'Sales':
+            self._use = ['sale_date', 'customer_name', 'customer_contact']
+            self._date_key = 'sale_date'
+            self._amo_key = 'amount_paid'
+            self._bal_key = 'balance'
+
+            self._keys = ['sale_date',
+                          'customer_name',
+                          'customer_contact',
+                          'amount_paid',
+                          'balance',
+                          'items']
+
+            self.titles = [{'text': 'Date', 'width': 20, 'type': 'l'},
+                           {'text': "Customer", 'width': 20, 'type': 'l'},
+                           {'text': "Contact", 'width': 23, 'type': 'l'},
+                           {'text': 'Paid', 'width': 15, 'type': 'l'},
+                           {'text': 'Balance', 'width': 15, 'type': 'l'},
+                           {'text': 'Items Sold', 'width': 25, 'type': 'c'}]
+
+        self.mf = ttk.LabelFrame(master=self.host, text=self.caller)
         self.top_row = ttk.Frame(self.host)
         self.lf_year = ttk.LabelFrame(self.top_row, text='Year')
         self.lf_month = ttk.LabelFrame(self.top_row, text='Month')
@@ -24,28 +63,26 @@ class PurchasesMain(PurchasesAll, Search, PurchasesOptionsTop,
         self.f_search = ttk.LabelFrame(self.top_row, text='Search ...')
         self.bottom_row = ttk.Frame(self.host)
 
-        self.purchases_list = []
+        self._list = []
 
-        self._purchases_works()
+        self._works()
 
         self.years = []
         self.months = []
         self.days = []
         self.work_on_years_and_months()
 
-        PurchasesOptionsTop.__init__(self)
-        PurchasesOptionsBottom.__init__(self)
-        self.work_on_period_purchases()
-        PurchasesAll.__init__(self)
-
-        self._use = ['purchase_date', 'item', 'details']
-        Search.__init__(self, self.f_search, self.fill_purchases,
-                        self.purchases_list, self._use, width=40)
+        OptionsTop.__init__(self)
+        OptionsBottom.__init__(self)
+        self.work_on_period()
+        All.__init__(self)
+        Search.__init__(self, self.f_search, self.fill,
+                        self._list, self._use, width=40)
 
         self._current_month = None
         self._current_year = None
 
-    def _purchases_works(self):
+    def _works(self):
         self._main_frame_w()
         self._year_month_day_w()
         self._search_w()
@@ -56,12 +93,16 @@ class PurchasesMain(PurchasesAll, Search, PurchasesOptionsTop,
         self.years[:] = []
         self.days[:] = []
         _dt = datetime.now()
+        _y = str(_dt.year).zfill(4)
+        _m = str(_dt.month).zfill(2)
+        _d = str(_dt.day).zfill(2)
+
         if year_ is None:
-            self._current_year = str(_dt.year).zfill(4)
+            self._current_year = _y
         else:
             self._current_year = year_
         if month_ is None:
-            self._current_month = str(_dt.month).zfill(2)
+            self._current_month = _m
         else:
             self._current_month = month_
 
@@ -69,9 +110,8 @@ class PurchasesMain(PurchasesAll, Search, PurchasesOptionsTop,
         self.months.append('All')
         self.months.append(self._current_month)
         self.days.append('All')
-        self.days.append(str(_dt.day).zfill(2))
-        for purchase in self.purchases_inst.get_all_purchases():
-            _s_date = purchase['purchase_date'].split('|')[0]
+        for row in self._inst.get_all():
+            _s_date = row[self._date_key].split('|')[0]
             _s_year = _s_date.split('-')[0]
             _s_month = _s_date.split('-')[1]
             _s_day = _s_date.split('-')[2]
@@ -84,13 +124,17 @@ class PurchasesMain(PurchasesAll, Search, PurchasesOptionsTop,
                     _s_day not in self.days:
                 self.days.append(_s_day)
 
+        if self._current_year == _y and self._current_month == _m and \
+                _d not in self.days:
+            self.days.append(_d)
+
         self.years.sort(reverse=True)
         self.months.sort(reverse=True)
         self.days.sort(reverse=True)
 
     def _main_frame_w(self):
-        self.mf_purchases.grid(column=0, row=1, sticky='WENS')
-        self.mf_purchases.configure(width=790, height=500)
+        self.mf.grid(column=0, row=1, sticky='WENS')
+        self.mf.configure(width=790, height=500)
 
         self.top_row.grid(column=0, row=0, sticky='NES', pady=5)
         self.bottom_row.grid(column=0, row=2, sticky='NES')
@@ -103,8 +147,8 @@ class PurchasesMain(PurchasesAll, Search, PurchasesOptionsTop,
         self.lf_month.grid(column=1, row=0, sticky='ENS', padx=10)
         self.lf_day.grid(column=2, row=0, sticky='ENS', padx=10)
 
-    def work_on_period_purchases(self, _year: int = None, _month: int = None,
-                                 _day: int = None):
+    def work_on_period(self, _year: int = None, _month: int = None,
+                       _day: int = None):
         _dt = datetime.now()
 
         if _year is None:
@@ -120,38 +164,41 @@ class PurchasesMain(PurchasesAll, Search, PurchasesOptionsTop,
             self.work_on_years_and_months(_year, _month)
             self.day_combo.current(self.days.index(_day))
 
-        self.purchases_list[:] = []
+        self._list[:] = []
 
-        for purchase in self.purchases_inst.get_all_purchases():
-            _s_date = purchase['purchase_date'].split('|')[0]
+        for row in self._inst.get_all():
+            _s_date = row[self._date_key].split('|')[0]
             _s_year = _s_date.split('-')[0]
             _s_month = _s_date.split('-')[1]
             _s_day = _s_date.split('-')[2]
 
             if _s_year == str(_year) and \
-                    purchase not in self.purchases_list and \
+                    row not in self._list and \
                     (str(_month) == 'All' or _s_month == str(_month)) and \
                     (str(_day) == 'All' or _s_day == str(_day)):
-                self.purchases_list.append(purchase)
+                self._list.append(row)
 
-        sort.rows(self.purchases_list, 'purchase_date')
+        sort.rows(self._list, self._date_key)
         self.calculate_totals()
 
     def calculate_totals(self, list_: list = None):
         if list_ is None:
-            list_ = self.purchases_list
+            list_ = self._list
 
         _total_bal = 0
-        _total_purchases = 0
+        _total = 0
 
         for _line in list_:
-            _total_purchases = _total_purchases + int(_line['amount'])
+            _total = _total + int(_line[self._amo_key])
+            if self._bal_key is not None:
+                _total_bal = _total_bal + int(_line[self._bal_key])
+                self.v_bal.set(_total_bal)
 
-        self.v_total.set(_total_purchases)
+        self.v_total.set(_total)
 
 
 def dt_split(_line):
-    _s_datetime = _line['purchase_date'].split('|')
+    _s_datetime = _line[self._date_key].split('|')
     _date = _s_datetime[0]
     _dt = _date.split('-')
     _t = _s_datetime[1]

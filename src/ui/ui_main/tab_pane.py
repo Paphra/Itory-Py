@@ -11,6 +11,7 @@ from .tabs.items.t_items import TItems
 from .tabs.management.t_management import TManagement
 from .tabs.purchases.t_purchases import TPurchases
 from .tabs.sales.t_sales import TSales
+from threading import Thread
 
 
 class NtBook:
@@ -25,13 +26,16 @@ class NtBook:
         self.purchases_inst = Purchases()
 
         # tabs
-        self.t_home = THome(self.ntb, self.sb, self.items_inst, self.sales_inst)
-        self.t_items = TItems(self.ntb, self.sb, self.items_inst, self.purchases_inst)
-        self.t_sales = TSales(self.ntb, self.sb, self.sales_inst)
-        self.t_purchases = TPurchases(self.ntb, self.sb, self.purchases_inst)
-        self.t_accounts = TAccounts(self.ntb, self.sb)
-        self.t_graphs = TGraphs(self.ntb, self.sb)
-        self.t_management = TManagement(self.ntb, self.sb)
+        def create_all():
+            self.t_home = THome(self.ntb, self.sb, self.items_inst, self.sales_inst)
+            self.t_items = TItems(self.ntb, self.sb, self.items_inst, self.purchases_inst)
+            self.t_sales = TSales(self.ntb, self.sb, self.sales_inst)
+            self.t_purchases = TPurchases(self.ntb, self.sb, self.purchases_inst)
+            self.t_accounts = TAccounts(self.ntb, self.sb)
+            self.t_graphs = TGraphs(self.ntb, self.sb)
+            self.t_management = TManagement(self.ntb, self.sb)
+
+        Thread(target=create_all).start()
 
         self.ntb_w()
 
@@ -52,10 +56,16 @@ class NtBook:
             self.t_home.i_c.clear_all_items()
 
         elif s_tb_name == 'Items':
-            self.t_items.i_main.all_items_works()
+            Thread(target=self.t_items.i_main.all_items_works()).start()
 
         elif s_tb_name == 'Sales':
             self.t_sales.sales_main.work_on_years_and_months()
             self.t_sales.sales_main.set_years_months_days()
-            self.t_sales.sales_main.work_on_period_sales()
-            self.t_sales.sales_main.all_sales_fill()
+            self.t_sales.sales_main.work_on_period()
+            self.t_sales.sales_main.all_fill()
+
+        elif s_tb_name == 'Purchases':
+            self.t_purchases.p_main.work_on_years_and_months()
+            self.t_purchases.p_main.set_years_months_days()
+            self.t_purchases.p_main.work_on_period()
+            self.t_purchases.p_main.all_fill()
