@@ -43,7 +43,7 @@ class Sales:
                               str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40))],
                     'sale_date': dt_str}
                 self.add_sale_given_sale(sale)
-            Thread(target=_w(), daemon=True).start()
+        _w()
 
     def add_sale_given_sale(self, sale: dict):
         """

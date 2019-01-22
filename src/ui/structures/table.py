@@ -5,6 +5,7 @@ from the designing developer
 
 import tkinter as tk  # importing tkinter as tk for easy reference
 from tkinter import messagebox as msg, ttk  # importing the themed tkinter module
+from threading import Thread
 
 
 def _shade(wl_: list, color: str = None):
@@ -176,38 +177,43 @@ class Table:
         if self._keys_ is None:
             self._keys_ = ['col1', 'col2', 'col3', 'col4']
 
-        for _w in self.list_canvas.winfo_children():
-            _w.destroy()
-            del _w
+        def des():
+            for _w in self.list_canvas.winfo_children():
+                _w.destroy()
+                del _w
+        Thread(target=des(), daemon=True).start()
 
         num_rows = len(self.rows_list)
         scr_v = num_rows * 26
 
         self.list_canvas['scrollregion'] = (0, 0, 0, scr_v)
 
-        y_cord = 0
-        for i in range(len(self.rows_list)):
-            _llb = 'frame' + str(i)
-            _llb = ttk.Frame(self.list_canvas)
+        def works():
 
-            lb_list = []
-            lb_sn = ttk.Label(_llb, text=str(i + 1), width=5)
-            lb_list.append(lb_sn)
-            self._make_row_widgets(_llb, lb_list, i)
+            y_cord = 0
+            for i in range(len(self.rows_list)):
+                _llb = 'frame' + str(i)
+                _llb = ttk.Frame(self.list_canvas)
 
-            _sep_work(_llb, lb_list)
+                lb_list = []
+                lb_sn = ttk.Label(_llb, text=str(i + 1), width=5)
+                lb_list.append(lb_sn)
+                self._make_row_widgets(_llb, lb_list, i)
 
-            sep11 = ttk.Separator(_llb, orient='horizontal')
-            sep11.grid(column=0, row=2, sticky='WE', columnspan=self.col_span)
+                _sep_work(_llb, lb_list)
 
-            if i > 0:
-                y_cord = y_cord + 26
+                sep11 = ttk.Separator(_llb, orient='horizontal')
+                sep11.grid(column=0, row=2, sticky='WE', columnspan=self.col_span)
 
-            self.list_canvas.create_window(-2, y_cord, window=_llb,
-                                           anchor=tk.NW)
+                if i > 0:
+                    y_cord = y_cord + 26
 
-            for _ww in _llb.winfo_children():
-                _ww.bind('<ButtonRelease-1>', self._click)
+                self.list_canvas.create_window(-2, y_cord, window=_llb,
+                                               anchor=tk.NW)
+
+                for _ww in _llb.winfo_children():
+                    _ww.bind('<ButtonRelease-1>', self._click)
+        Thread(target=works(), daemon=True).start()
 
     def _make_row_widgets(self, _llb, lb_list, _i):
         """

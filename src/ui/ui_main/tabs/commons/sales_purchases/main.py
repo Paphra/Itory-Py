@@ -179,22 +179,6 @@ class Main(All, Search, OptionsTop, OptionsBottom):
                 self._list.append(row)
 
         sort.rows(self._list, self._date_key)
-        self.calculate_totals()
-
-    def calculate_totals(self, list_: list = None):
-        if list_ is None:
-            list_ = self._list
-
-        _total_bal = 0
-        _total = 0
-
-        for _line in list_:
-            _total = _total + int(_line[self._amo_key])
-            if self._bal_key is not None:
-                _total_bal = _total_bal + int(_line[self._bal_key])
-                self.v_bal.set(_total_bal)
-
-        self.v_total.set(_total)
 
 
 def dt_split(_line):

@@ -32,7 +32,7 @@ class Purchases:
                                str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40)),
                     'purchase_date': dt_str}
                 self.add_pur_given_pur(pur)
-                Thread(target=_w(), daemon=True).start()
+        _w()
 
     def add_pur_given_pur(self, pur_: dict):
         self.all_purchases.append(pur_)

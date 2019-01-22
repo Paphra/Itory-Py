@@ -4,6 +4,7 @@ from tkinter import ttk
 from src.data.items import Items
 from src.data.purchases import Purchases
 from src.data.sales import Sales
+from src.data.accounts import Accounts
 from .tabs.accounts.t_accounts import TAccounts
 from .tabs.graphs.t_graphs import TGraphs
 from .tabs.home.t_home import THome
@@ -24,18 +25,17 @@ class NtBook:
         self.items_inst = Items()
         self.sales_inst = Sales()
         self.purchases_inst = Purchases()
+        self.acc_inst = Accounts()
 
         # tabs
-        def create_all():
-            self.t_home = THome(self.ntb, self.sb, self.items_inst, self.sales_inst)
-            self.t_items = TItems(self.ntb, self.sb, self.items_inst, self.purchases_inst)
-            self.t_sales = TSales(self.ntb, self.sb, self.sales_inst)
-            self.t_purchases = TPurchases(self.ntb, self.sb, self.purchases_inst)
-            self.t_accounts = TAccounts(self.ntb, self.sb)
-            self.t_graphs = TGraphs(self.ntb, self.sb)
-            self.t_management = TManagement(self.ntb, self.sb)
-
-        Thread(target=create_all).start()
+        self.t_home = THome(self.ntb, self.sb, self.items_inst, self.sales_inst)
+        self.t_items = TItems(self.ntb, self.sb, self.items_inst, self.purchases_inst)
+        self.t_sales = TSales(self.ntb, self.sb, self.sales_inst)
+        self.t_purchases = TPurchases(self.ntb, self.sb, self.purchases_inst)
+        self.t_accounts = TAccounts(self.ntb, self.sb, self.sales_inst,
+                                    self.purchases_inst, self.acc_inst)
+        self.t_graphs = TGraphs(self.ntb, self.sb)
+        self.t_management = TManagement(self.ntb, self.sb)
 
         self.ntb_w()
 
