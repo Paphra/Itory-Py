@@ -1,32 +1,25 @@
-
-import tkinter as tk
 from tkinter import ttk
-from .income.t_income import TIncome
-from .balance_sheet.t_balance_sheet import TBalanceSheet
-from .creditors.t_creditors import TCreditors
-from .debtors.t_debtors import TDebtors
+from src.ui.ui_main.tabs.accounts.assets.t_assets import TAssets
 from .expenses.t_expenses import TExpenses
-from .income_statement.t_income_statement import TIncomeStatement
+from src.ui.ui_main.tabs.accounts.liabilities.t_liabilities import TLiabilities
+from src.ui.ui_main.tabs.accounts.returns.t_returns import TReturns
+from src.ui.ui_main.tabs.accounts.statistics.t_statistics import TStatistics
 
 
 class AccMain:
 
-    def __init__(self, container, s_bar, sales_inst, pur_inst, acc_inst):
+    def __init__(self, container, s_bar, insts):
         self.host = container
         self.sb = s_bar
 
         self.acc_ntb = ttk.Notebook(self.host)
 
         # tabs
-        self.t_inc = TIncome(self.acc_ntb, self.sb, acc_inst)
-        self.t_exp = TExpenses(self.acc_ntb, self.sb, acc_inst)
-        self.t_debt = TDebtors(self.acc_ntb, self.sb, acc_inst)
-        self.t_cred = TCreditors(self.acc_ntb, self.sb, acc_inst)
-
-        self.t_bal_sheet = TBalanceSheet(self.acc_ntb, self.sb, sales_inst,
-                                         pur_inst, acc_inst)
-        self.t_inc_stmt = TIncomeStatement(self.acc_ntb, self.sb, sales_inst,
-                                           pur_inst, acc_inst)
+        self.t_assets = TAssets(self.acc_ntb, self.sb, insts)
+        self.t_expenses = TExpenses(self.acc_ntb, self.sb, insts)
+        self.t_liabilities = TLiabilities(self.acc_ntb, self.sb, insts)
+        self.t_returns = TReturns(self.acc_ntb, self.sb, insts)
+        self.t_statistics = TStatistics(self.acc_ntb, self.sb, insts)
 
         self._works()
 

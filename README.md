@@ -15,10 +15,10 @@ Businesses that deal in Merchandise resell often face a problem of monitoring
 - To ease the process of record keeping in the day-to-day business operations.
 - To provide illustrations and trends for the easy monitoring of the business
     progress.
-- Promoting transperance for business owners who do not engage in the daily
+- Promoting transparance for business owners who do not engage in the daily
     business operations hence enhancing accountability on the side of the
     business operators.
 - Ensuring accurate records and financial statements at the end of financial
     periods as may be needed by the business management department.
 - Keeping track of the business debtors, creditors and other business expences
-    over time.4
+    over time.

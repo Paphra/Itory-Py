@@ -4,13 +4,14 @@ from src.ui.ui_main.tabs.commons.sales_purchases.main import Main
 
 class TPurchases:
 
-    def __init__(self, nt_book, s_bar, purchases_inst):
+    def __init__(self, nt_book, s_bar, insts):
 
         self.ntb = nt_book
         self.sb = s_bar
         self.t_purchases = ttk.Frame(self.ntb)
         self.mf_purchases = ttk.Frame(self.t_purchases)
-        self.p_main = Main(self.mf_purchases, purchases_inst, self.sb, 'Purchases')
+        self.p_main = Main(self.mf_purchases, self.sb, insts['purchases'],
+                           'Purchases')
 
         self.t_work()
 

@@ -10,7 +10,7 @@ from .options_bottom import OptionsBottom
 
 class Main(All, Search, OptionsTop, OptionsBottom):
 
-    def __init__(self, container, _inst, s_bar, _caller):
+    def __init__(self, container, s_bar, _inst, _caller):
         self.host = container
         self._inst = _inst
         self.sb = s_bar
@@ -32,7 +32,7 @@ class Main(All, Search, OptionsTop, OptionsBottom):
 
             self.titles = [{'text': 'Date', 'width': 20, 'type': 'l'},
                            {'text': "Item", 'width': 35, 'type': 'l'},
-                           {'text': "Details", 'width': 40, 'type': 'l'},
+                           {'text': "Details", 'width': 40, 'type': 'c'},
                            {'text': 'Amount', 'width': 25, 'type': 'l'}]
 
         elif self.caller == 'Sales':
@@ -87,8 +87,12 @@ class Main(All, Search, OptionsTop, OptionsBottom):
         self._year_month_day_w()
         self._search_w()
 
-    def work_on_years_and_months(self, year_: str = None, month_: str = None):
+    def work_on_years_and_months(self, year_=None, month_=None):
+        """
 
+        :type month_: str
+        :type year_: str
+        """
         self.months[:] = []
         self.years[:] = []
         self.days[:] = []
@@ -147,8 +151,13 @@ class Main(All, Search, OptionsTop, OptionsBottom):
         self.lf_month.grid(column=1, row=0, sticky='ENS', padx=10)
         self.lf_day.grid(column=2, row=0, sticky='ENS', padx=10)
 
-    def work_on_period(self, _year: int = None, _month: int = None,
-                       _day: int = None):
+    def work_on_period(self, _year=None, _month=None, _day=None):
+        """
+
+        :type _month: int
+        :type _year: int
+        :type _day: int
+        """
         _dt = datetime.now()
 
         if _year is None:

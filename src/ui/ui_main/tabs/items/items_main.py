@@ -10,12 +10,12 @@ from threading import Thread
 
 class ItemsMain(ItemsAll, ItemsAdd, Search, ItemsOptions):
 
-    def __init__(self, container, all_items_inst, purchases_inst, s_bar):
+    def __init__(self, container, s_bar, insts):
         self.host = container
         self.sb = s_bar
-        self.purchases_inst = purchases_inst
-        self.all_items_inst = all_items_inst
-        self.all_items_list = all_items_inst.get_all_items()
+        self.purchases_inst = insts['purchases']
+        self.all_items_inst = insts['items']
+        self.all_items_list = self.all_items_inst.get_all_items()
 
         self.mf_items_add = ttk.LabelFrame(self.host)
         self.mf_all_items = ttk.LabelFrame(self.host)

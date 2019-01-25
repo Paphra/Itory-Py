@@ -1,0 +1,26 @@
+Income Statement
+================
+
+sales
+less returns
+less carriage
+    Net Sales
+    less cost of sales
+
+
+Opening Stock
+    add net purchases
+        Purchases
+        add carriages
+        less Returns
+    Net Purchases
+
+    Good available for Sale [GAFS]
+    less Closing stock
+        Cost of Sales
+
+        Net Sales less Cost of Sales
+            Gross Profit
+            add Other incomes
+            Less Total Expenses
+                Net Profit

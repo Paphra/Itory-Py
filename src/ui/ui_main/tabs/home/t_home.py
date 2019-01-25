@@ -6,13 +6,13 @@ from .items_checkout import ItemCheckout
 
 class THome:
 
-    def __init__(self, nt_book, s_bar, items_inst, sales_inst):
+    def __init__(self, nt_book, s_bar, insts):
         self.ntb = nt_book
         self.sb = s_bar
 
         self.t_home = ttk.Frame(self.ntb)
         self.lf_ht = ttk.LabelFrame(self.t_home)
-        self.i_c = ItemCheckout(self.lf_ht, items_inst, sales_inst, self.sb)
+        self.i_c = ItemCheckout(self.lf_ht, self.sb, insts)
 
         self.thome_w()
 

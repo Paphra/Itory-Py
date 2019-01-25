@@ -11,12 +11,11 @@ from .items_list import ItemList
 
 class ItemCheckout(ItemList, ItemDetails, Date, Checkout, Search):
 
-    def __init__(self, container: any, items_inst: list,
-                 sales_inst: any, s_bar: any):
+    def __init__(self, container, s_bar, insts):
         self.host = container
         self.sb = s_bar
-        self.items_inst = items_inst
-        self.sales_inst = sales_inst
+        self.items_inst = insts['items']
+        self.sales_inst = insts['sales']
         self.all_items_list = self.items_inst.get_all_items()
 
         self.mf_item_checkout = ttk.LabelFrame(self.host)

@@ -26,16 +26,19 @@ class NtBook:
         self.sales_inst = Sales()
         self.purchases_inst = Purchases()
         self.acc_inst = Accounts()
+        self.insts = {'items': self.items_inst,
+                      'sales': self.sales_inst,
+                      'purchases': self.purchases_inst,
+                      'accounts': self.acc_inst}
 
         # tabs
-        self.t_home = THome(self.ntb, self.sb, self.items_inst, self.sales_inst)
-        self.t_items = TItems(self.ntb, self.sb, self.items_inst, self.purchases_inst)
-        self.t_sales = TSales(self.ntb, self.sb, self.sales_inst)
-        self.t_purchases = TPurchases(self.ntb, self.sb, self.purchases_inst)
-        self.t_accounts = TAccounts(self.ntb, self.sb, self.sales_inst,
-                                    self.purchases_inst, self.acc_inst)
-        self.t_graphs = TGraphs(self.ntb, self.sb)
-        self.t_management = TManagement(self.ntb, self.sb)
+        self.t_home = THome(self.ntb, self.sb, self.insts)
+        self.t_items = TItems(self.ntb, self.sb, self.insts)
+        self.t_sales = TSales(self.ntb, self.sb, self.insts)
+        self.t_purchases = TPurchases(self.ntb, self.sb, self.insts)
+        self.t_accounts = TAccounts(self.ntb, self.sb, self.insts)
+        self.t_graphs = TGraphs(self.ntb, self.sb, self.insts)
+        self.t_management = TManagement(self.ntb, self.sb, self.insts)
 
         self.ntb_w()
 

@@ -27,28 +27,27 @@ class Purchases:
                 pur = {
                     'item': 'Item No. ' + str(rdi(1, 30)).zfill(2),
                     'amount': str(rdi(2, 1000) * 1000),
-                    'details': str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40)) +
-                               str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40)) +
-                               str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40)),
+                    'details': [str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40)),
+                                str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40)),
+                                str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40))],
                     'purchase_date': dt_str}
                 self.add_pur_given_pur(pur)
         _w()
 
-    def add_pur_given_pur(self, pur_: dict):
+    def add_pur_given_pur(self, pur_):
         self.all_purchases.append(pur_)
 
-    def add_pur_given_details(self, date_: str, item: str, details: str,
-                              amount: int):
+    def add_pur_given_details(self, date_, item, details, amount):
         _pur = {'purchase_date': date_,
                 'item': item,
                 'details': details,
                 'amount': amount}
         self.all_purchases.append(_pur)
 
-    def delete_pur_given_pur(self, pur_: dict):
+    def delete_pur_given_pur(self, pur_):
         self.all_purchases.remove(pur_)
 
-    def delete_pur_given_date(self, date_: str):
+    def delete_pur_given_date(self, date_):
         for _pur in self.all_purchases:
             if _pur['purchase_date'] == date_:
                 self.all_purchases.remove(_pur)

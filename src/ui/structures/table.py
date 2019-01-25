@@ -8,9 +8,11 @@ from tkinter import messagebox as msg, ttk  # importing the themed tkinter modul
 from threading import Thread
 
 
-def _shade(wl_: list, color: str = None):
+def _shade(wl_, color=None):
     """
     Shading a given row when selection occurs
+    :type wl_: list
+    :type color: str
     :param wl_: list of widgets on the row
     :param color: color to be used
     :return: None
@@ -22,9 +24,11 @@ def _shade(wl_: list, color: str = None):
             _w['background'] = color
 
 
-def _sep_work(cont: any, lb_list: list):
+def _sep_work(cont, lb_list):
     """
      Create and Situate separators on a given container between widgets
+    :type lb_list: list
+    :type cont: any
     :param cont: container widget
     :param lb_list: list of widgets to be separated using the separators
     :return: None
@@ -53,9 +57,10 @@ class Table:
     'l' is for ttk.Label(), 'c' is for ttk.Combobox(), 'e' is for ttk.Entry()
     """
 
-    def __init__(self, master: any):
+    def __init__(self, master):
         """
         Initializes the Table creation
+        :type master: any
         :param master: the container to hold the table structure
         """
         self.host = ttk.Frame(master=master)
@@ -86,10 +91,12 @@ class Table:
                     'col3': 'value of col 3 row ' + str(i + 1),
                     'col4': 'value of col 4 row ' + str(i + 1)})
 
-    def create(self, titles: list = None, width: int = None,
-               height: int = None):
+    def create(self, titles=None, width=None, height=None):
         """
         This function creates the actual table structure
+        :type width: int
+        :type height: int
+        :type titles: list
         :param titles: The titles of the table to put on the top of the table
         :param width: integer indicating the width of the table
         :param height: integer indicating the height of the table
@@ -162,9 +169,11 @@ class Table:
         _sep_work(cont=self.title_pane, lb_list=lb_list)
         return True
 
-    def add_rows(self, rows_list: list = None, _keys_: list = None):
+    def add_rows(self, rows_list=None, _keys_=None):
         """
         Add given rows on to the canvas of the table
+        :type _keys_: list
+        :type rows_list: list
         :param rows_list: list of rows[dictionaries] to be placed on the canvas
         :param _keys_: keys for the dictionaries contained in the rows_list
         :return: None
@@ -241,9 +250,10 @@ class Table:
 
             lb_list.append(_w)
 
-    def add_row(self, row_data: dict):
+    def add_row(self, row_data):
         """
         Adds a row of data tot the table
+        :type row_data: dict
         :param row_data: dictionary of details of the row
         :return: None
         """

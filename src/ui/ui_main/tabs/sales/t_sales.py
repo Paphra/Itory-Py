@@ -6,12 +6,13 @@ from src.ui.ui_main.tabs.commons.sales_purchases.main import Main
 
 class TSales:
 
-    def __init__(self, nt_book, s_bar, sales_inst):
+    def __init__(self, nt_book, s_bar, insts):
         self.ntb = nt_book
         self.sb = s_bar
         self.t_sales = ttk.Frame(self.ntb)
         self.mf_sales = ttk.Frame(self.t_sales)
-        self.sales_main = Main(self.mf_sales, sales_inst, self.sb, 'Sales')
+        self.sales_main = Main(self.mf_sales, self.sb, insts['sales'],
+                               'Sales')
         
         self.t_work()
 

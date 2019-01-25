@@ -3,7 +3,7 @@ from tkinter import ttk
 
 class TManagement:
 
-    def __init__(self, nt_book, s_bar):
+    def __init__(self, nt_book, s_bar, insts):
         self.ntb = nt_book
         self.sb = s_bar
         self.t_management = ttk.Frame(self.ntb)

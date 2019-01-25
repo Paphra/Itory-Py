@@ -5,14 +5,13 @@ from .items_main import ItemsMain
 
 class TItems:
 
-    def __init__(self, nt_book, s_bar, items_inst, purchases_inst):
+    def __init__(self, nt_book, s_bar, insts):
         self.ntb = nt_book
         self.sb = s_bar
 
         self.t_items = ttk.Frame(self.ntb)
         self.frame_items = ttk.Frame(self.t_items)
-        self.i_main = ItemsMain(self.frame_items, items_inst, purchases_inst,
-                                self.sb)
+        self.i_main = ItemsMain(self.frame_items, self.sb, insts)
 
         self.t_items_w()
 

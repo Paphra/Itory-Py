@@ -4,11 +4,10 @@ from tkinter import ttk
 
 class TBalanceSheet:
 
-    def __init__(self, container, s_bar, sales_inst, pur_inst, acc_inst):
+    def __init__(self, container, s_bar, insts):
 
         self.host = container
         self.sb = s_bar
-        self.acc_inst = acc_inst
 
         self.t_bal_sheet = ttk.Frame(self.host)
         self.mf = ttk.Frame(self.t_bal_sheet)

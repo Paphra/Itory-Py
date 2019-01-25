@@ -7,12 +7,14 @@ from threading import Thread
 
 class All:
 
-    def __init__(self):
+    def __init__(self, height_=None):
         self._f_ = ttk.Frame(self.mf)
         self.main_table = Table(self._f_)
+        if height_ is None:
+            height_ = 370
 
         Thread(self.main_table.create(
-            titles=self.titles, height=370), daemon=True).start()
+            titles=self.titles, height=height_), daemon=True).start()
 
         self._all_w()
         self.all_fill()
@@ -23,14 +25,14 @@ class All:
     def all_fill(self):
         self.fill(self._list)
 
-    def fill(self, _list: list):
+    def fill(self, _list):
         rows = check_rows(_list, self.titles, self._keys)
         Thread(target=self.main_table.add_rows(
                 rows_list=rows,
                 _keys_=self._keys), daemon=True).start()
         self.calculate_totals(rows)
 
-    def calculate_totals(self, list_: list = None):
+    def calculate_totals(self, list_=None):
         if list_ is None:
             list_ = self._list
 
