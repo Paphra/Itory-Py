@@ -72,3 +72,18 @@ class NtBook:
             self.t_purchases.p_main.set_years_months_days()
             self.t_purchases.p_main.work_on_period()
             self.t_purchases.p_main.all_fill()
+
+        elif s_tb_name == 'Accounts':
+            self.t_accounts.a_main.t_assets.t_debtors.debtors_main.\
+                work_on_years_and_months()
+            self.t_accounts.a_main.t_assets.t_debtors.debtors_main.\
+                set_years_months_days()
+            self.t_accounts.a_main.t_assets.t_debtors.debtors_main.\
+                work_on_period()
+            self.t_accounts.a_main.t_assets.t_debtors.debtors_main.\
+                all_fill()
+
+        elif s_tb_name == 'Graphs':
+            self.t_graphs.g_main.work_on_years_and_months()
+            self.t_graphs.g_main.work_on_period()
+            self.t_graphs.g_main.graph_it()

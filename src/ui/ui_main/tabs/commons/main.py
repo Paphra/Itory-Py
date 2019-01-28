@@ -6,9 +6,10 @@ from src.data.works.search import Search
 from .all import All
 from .options_top import OptionsTop
 from .options_bottom import OptionsBottom
+from .keys import Keys
 
 
-class Main(All, Search, OptionsTop, OptionsBottom):
+class Main(Keys, All, Search, OptionsTop, OptionsBottom):
 
     def __init__(self, container, s_bar, _inst, _caller):
         self.host = container
@@ -16,44 +17,15 @@ class Main(All, Search, OptionsTop, OptionsBottom):
         self.sb = s_bar
         self.caller = _caller
 
-        self._use = None
+        self._use = []
         self._date_key = None
         self._amo_key = None
         self._bal_key = None
-        if self.caller == 'Purchases':
-            self._use = ['purchase_date', 'item', 'details']
-            self._date_key = 'purchase_date'
-            self._amo_key = 'amount'
+        self._keys = []
+        self.titles = []
+        self.height = None
 
-            self._keys = ['purchase_date',
-                          'item',
-                          'details',
-                          'amount']
-
-            self.titles = [{'text': 'Date', 'width': 20, 'type': 'l'},
-                           {'text': "Item", 'width': 35, 'type': 'l'},
-                           {'text': "Details", 'width': 40, 'type': 'c'},
-                           {'text': 'Amount', 'width': 25, 'type': 'l'}]
-
-        elif self.caller == 'Sales':
-            self._use = ['sale_date', 'customer_name', 'customer_contact']
-            self._date_key = 'sale_date'
-            self._amo_key = 'amount_paid'
-            self._bal_key = 'balance'
-
-            self._keys = ['sale_date',
-                          'customer_name',
-                          'customer_contact',
-                          'amount_paid',
-                          'balance',
-                          'items']
-
-            self.titles = [{'text': 'Date', 'width': 20, 'type': 'l'},
-                           {'text': "Customer", 'width': 20, 'type': 'l'},
-                           {'text': "Contact", 'width': 23, 'type': 'l'},
-                           {'text': 'Paid', 'width': 15, 'type': 'l'},
-                           {'text': 'Balance', 'width': 15, 'type': 'l'},
-                           {'text': 'Items Sold', 'width': 25, 'type': 'c'}]
+        Keys.__init__(self)
 
         self.mf = ttk.LabelFrame(master=self.host, text=self.caller)
         self.top_row = ttk.Frame(self.host)
@@ -75,7 +47,7 @@ class Main(All, Search, OptionsTop, OptionsBottom):
         OptionsTop.__init__(self)
         OptionsBottom.__init__(self)
         self.work_on_period()
-        All.__init__(self)
+        All.__init__(self, self.height)
         Search.__init__(self, self.f_search, self.fill,
                         self._list, self._use, width=40)
 

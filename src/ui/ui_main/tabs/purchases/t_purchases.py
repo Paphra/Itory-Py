@@ -1,5 +1,5 @@
 from tkinter import ttk
-from src.ui.ui_main.tabs.commons.sales_purchases.main import Main
+from src.ui.ui_main.tabs.commons.main import Main
 
 
 class TPurchases:

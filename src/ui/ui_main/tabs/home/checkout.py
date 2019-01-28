@@ -197,8 +197,12 @@ class Checkout:
             self.set_items(self.all_items_list)
 
             if int(bal) > 0:
-                debtor = {'name': cus_name, 'tel': cus_tel,
-                          'email': cus_email, 'amount': bal,
+                debtor = {'name': cus_name,
+                          'tel': cus_tel,
+                          'email': cus_email,
+                          'paid': amo_pd,
+                          'balance': bal,
+                          'details': names,
                           'debt_date': dt_str}
                 self.debt_inst.work.add(debtor)
 
