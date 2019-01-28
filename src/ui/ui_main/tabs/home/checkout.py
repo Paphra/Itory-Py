@@ -39,6 +39,16 @@ def lbs_cw(lbs):
     label_works(lbs, 0, 'W')
 
 
+def _val(val):
+    if len(val) > 0:
+        try:
+            int(val)
+            return True
+        except (ValueError, TypeError):
+            return False
+    return False
+
+
 class Checkout:
 
     def __init__(self):
@@ -123,7 +133,7 @@ class Checkout:
         self._mo_p = self.v_mo_p.get()
 
     def _dis_w(self, event=None):
-        if not self._val(self.v_dis.get()):
+        if not _val(self.v_dis.get()):
             self.v_dis.set(self._dis)
 
         if int('0' + str(self.v_dis.get())) > 0:
@@ -133,7 +143,7 @@ class Checkout:
             self.v_mo_tbp.set(str(self.total_amount))
 
     def _mo_p_w(self, event):
-        if not self._val(self.v_mo_p.get()):
+        if not _val(self.v_mo_p.get()):
             self.v_mo_p.set(self._mo_p)
 
         if int('0' + str(self.v_mo_p.get())) > 0:
@@ -172,14 +182,25 @@ class Checkout:
                     'items': names,
                     'sale_date': dt_str}
 
-            self.sales_inst.add_sale_given_sale(sale)
+            income = {'from': 'Sales', 'income_date': dt_str,
+                      'details': names,
+                      'amount': amo_pd}
+
+            self.sales_inst.add_sale(sale)
+            self.inc_inst.work.add(income)
 
             for item in self.selected_items_list:
                 for _item in self.all_items_list:
                     if item['name'] == _item['name']:
                         new_qty = _item['qty'] - item['qty']
-                        self.items_inst.edit_qty_given_name(_item['name'], new_qty)
+                        self.items_inst.edit_qty(_item['name'], new_qty)
             self.set_items(self.all_items_list)
+
+            if int(bal) > 0:
+                debtor = {'name': cus_name, 'tel': cus_tel,
+                          'email': cus_email, 'amount': bal,
+                          'debt_date': dt_str}
+                self.debt_inst.work.add(debtor)
 
             self.clear_all_items()
             self.clear_cus()

@@ -21,7 +21,7 @@ class GraphList:
         self.btn_long_liabs = tk.Button(self.f_minor, text='Long Term Liabilities')
         self.btn_current_liabs = tk.Button(self.f_minor, text='Current Liabilities')
 
-        self.btn_list = [self.btn_sales, self.btn_inc, self.btn_purch,
+        self.btn_list = [self.btn_sales, self.btn_purch, self.btn_inc,
                          self.btn_exp, self.btn_prof_loss, self.btn_debt,
                          self.btn_cred, self.btn_rtin, self.btn_rtout,
                          self.btn_curr_ass, self.btn_fixed_ass,
@@ -30,12 +30,12 @@ class GraphList:
         self._works()
 
     def _works(self):
-        self.f_minor.grid(column=0, row=0, sticky='NEWS', pady=5, padx=10)
+        self.f_minor.grid(column=0, row=0, sticky='NEWS', pady=5, padx=2)
         self.f_minor.configure(width=50, height=525)
 
         for btn in self.btn_list:
             btn.grid(column=0, row=self.btn_list.index(btn), sticky='E',
-                     padx=20, pady=4, ipadx=5, ipady=2)
+                     padx=0, pady=4, ipadx=2)
             btn.bind('<Button-1>', self.selection)
             if self.btn_list.index(btn) == 0:
                 btn.configure(background='green')
@@ -51,4 +51,16 @@ class GraphList:
             else:
                 btn.configure(background='lightgrey')
 
-        self.plot_it()
+        if self.current_selection == 'Sales':
+            self.caller = {'name': 'sales',
+                           'date_key': 'sale_date',
+                           'amo_key': 'amount_paid'}
+            self._inst = self.sales_inst
+
+        elif self.current_selection == 'Purchases':
+            self.caller = {'name': 'purchases',
+                           'date_key': 'purchase_date',
+                           'amo_key': 'amount'}
+            self._inst = self.pur_inst
+
+        self.graph_it()

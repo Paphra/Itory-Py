@@ -56,8 +56,8 @@ class OptionsBottom:
                 for row in self._inst.get_all():
                     if row[self._date_key] == result:
                         if self.caller == 'Purchases':
-                            self._inst.delete_purchase_given_purchase(row)
+                            self._inst.delete_purchase(row)
                         elif self.caller == 'Sales':
-                            self._inst.delete_sale_given_sale(row)
+                            self._inst.delete_sale(row)
 
         self.btn_delete.configure(command=_delete)

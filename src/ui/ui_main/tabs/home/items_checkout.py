@@ -16,7 +16,10 @@ class ItemCheckout(ItemList, ItemDetails, Date, Checkout, Search):
         self.sb = s_bar
         self.items_inst = insts['items']
         self.sales_inst = insts['sales']
-        self.all_items_list = self.items_inst.get_all_items()
+        self.acc_inst = insts['accounts']
+        self.debt_inst = self.acc_inst.assets.current.debtors
+        self.inc_inst = self.acc_inst.statistics.income
+        self.all_items_list = self.items_inst.get_all()
 
         self.mf_item_checkout = ttk.LabelFrame(self.host)
         self.mf_all_items_list = ttk.Frame(self.host)

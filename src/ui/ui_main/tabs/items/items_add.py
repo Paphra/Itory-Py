@@ -135,16 +135,10 @@ class ItemsAdd(Date):
                 if o_name.lower() == name.lower() or \
                         o_serial.lower() == serial.lower():
                     n_qty = item_['qty'] + qty
-                    self.all_items_inst.edit_type_given_name(o_name,
-                                                             new_type=_type)
-                    self.all_items_inst.edit_qty_given_name(o_name,
-                                                            new_qty=n_qty)
-                    self.all_items_inst.edit_unit_given_name(
-                            o_name,
-                            new_sell_unit=sell_unit)
-                    self.all_items_inst.edit_buy_unit_given_name(
-                            o_name,
-                            new_buy_unit=buy_unit)
+                    self.items_inst.edit_type(o_name, new_type=_type)
+                    self.items_inst.edit_qty(o_name, new_qty=n_qty)
+                    self.items_inst.edit_unit(o_name, sell_unit)
+                    self.items_inst.edit_buy_unit(o_name, buy_unit)
 
                     self._clear_all()
                     return True
@@ -166,8 +160,8 @@ class ItemsAdd(Date):
                         'buy_unit': buy_unit,
                         'amount': buy_amount}
 
-            self.all_items_inst.add_full_item(item)
-            self.purchases_inst.add_pur_given_pur(purchase)
+            self.items_inst.add_item(item)
+            self.purchases_inst.add_purchase(purchase)
 
             self.all_items_works()
 

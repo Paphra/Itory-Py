@@ -14,8 +14,8 @@ class ItemsMain(ItemsAll, ItemsAdd, Search, ItemsOptions):
         self.host = container
         self.sb = s_bar
         self.purchases_inst = insts['purchases']
-        self.all_items_inst = insts['items']
-        self.all_items_list = self.all_items_inst.get_all_items()
+        self.items_inst = insts['items']
+        self.all_items_list = self.items_inst.get_all()
 
         self.mf_items_add = ttk.LabelFrame(self.host)
         self.mf_all_items = ttk.LabelFrame(self.host)

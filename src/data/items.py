@@ -7,13 +7,13 @@ class Items:
     def __init__(self):
         self.all_items = []
 
-        self.fetch_db_items()
+        self.db_fetch()
 
-    def get_all_items(self):
+    def get_all(self):
         return self.all_items
 
-    def fetch_db_items(self):
-        self.delete_all_items()
+    def db_fetch(self):
+        self.delete_all()
 
         # this is just the mock items in the list but it shall be the items from the database
         for i in range(40):
@@ -24,18 +24,9 @@ class Items:
                     'type': 'Automatic ' + str(i + 1),
                     'sell_unit': rdi(1, 30) * 1000,
                     'buy_unit': ((rdi(1, 30) * 1000) - 500)}
-            self.add_full_item(item)
+            self.add_item(item)
 
-    def add_item_with_details(self, serial, name, _type, qty, sell_unit, buy_unit):
-        item = {'serial': serial,
-                'name': name,
-                'type': _type,
-                'qty': qty,
-                'sell_unit': sell_unit,
-                'buy_unit': buy_unit}
-        self.add_full_item(item)
-
-    def add_full_item(self, item=None):
+    def add_item(self, item=None):
         self.all_items.append(item)
 
     def get_item(self, name):
@@ -43,55 +34,30 @@ class Items:
             if item['name'] == name:
                 return item
 
-    def delete_item_given_name(self, name):
-        for item in self.all_items:
-            if item['name'] == name:
-                self.all_items.remove(item)
-
-    def delete_item_given_item(self, item):
+    def delete_item(self, item):
         for _item in self.all_items:
             if item == _item:
                 self.all_items.remove(_item)
 
-    def delete_all_items(self):
+    def delete_all(self):
         self.all_items[:] = []
 
-    def edit_type_given_name(self, name, new_type):
+    def edit_type(self, name, new_type):
         for item in self.all_items:
             if item['name'] == name:
                 item['type'] = new_type
 
-    def edit_qty_given_name(self, name, new_qty):
+    def edit_qty(self, name, new_qty):
         for item in self.all_items:
             if item['name'] == name:
                 item['qty'] = new_qty
 
-    def edit_unit_given_name(self, name, new_sell_unit):
+    def edit_unit(self, name, new_sell_unit):
         for item in self.all_items:
             if item['name'] == name:
                 item['sell_unit'] = new_sell_unit
 
-    def edit_buy_unit_given_name(self, name, new_buy_unit):
+    def edit_buy_unit(self, name, new_buy_unit):
         for item in self.all_items:
             if item['name'] == name:
                 item['buy_unit'] = new_buy_unit
-
-    def edit_buy_unit_given_item(self, item_, new_buy_unit):
-        for item in self.all_items:
-            if item == item_:
-                item['buy_unit'] = new_buy_unit
-
-    def edit_type_given_item(self, item, new_type):
-        for _item in self.all_items:
-            if item == _item:
-                _item['type'] = new_type
-
-    def edit_qty_given_item(self, item, new_qty):
-        for _item in self.all_items:
-            if item == _item:
-                _item['qty'] = new_qty
-
-    def edit_unit_given_item(self, item, new_sell_unit):
-        for _item in self.all_items:
-            if _item == item:
-                _item['sell_unit'] = new_sell_unit
