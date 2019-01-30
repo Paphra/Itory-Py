@@ -1,4 +1,4 @@
-
+from src.ui.routine.widget_works import *
 import tkinter as tk
 from tkinter import ttk
 
@@ -17,15 +17,16 @@ class GraphList:
         self.btn_exp = tk.Button(self.f_minor, text='Expenses')
         self.btn_prof_loss = tk.Button(self.f_minor, text='Profits')
         self.btn_fixed_ass = tk.Button(self.f_minor, text='Fixed Assets')
+
+        # not included
         self.btn_curr_ass = tk.Button(self.f_minor, text='Current Assets')
-        self.btn_long_liabs = tk.Button(self.f_minor, text='Long Term Liabilities')
         self.btn_current_liabs = tk.Button(self.f_minor, text='Current Liabilities')
+        self.btn_long_liabs = tk.Button(self.f_minor, text='Long Term Liabilities')
 
         self.btn_list = [self.btn_sales, self.btn_purch, self.btn_inc,
                          self.btn_exp, self.btn_prof_loss, self.btn_debt,
                          self.btn_cred, self.btn_rtin, self.btn_rtout,
-                         self.btn_curr_ass, self.btn_fixed_ass,
-                         self.btn_current_liabs, self.btn_long_liabs]
+                         self.btn_fixed_ass]
 
         self._works()
 
@@ -35,7 +36,7 @@ class GraphList:
 
         for btn in self.btn_list:
             btn.grid(column=0, row=self.btn_list.index(btn), sticky='E',
-                     padx=0, pady=4, ipadx=2)
+                     padx=5, pady=4, ipadx=5)
             btn.bind('<Button-1>', self.selection)
             if self.btn_list.index(btn) == 0:
                 btn.configure(background='green')
@@ -43,10 +44,13 @@ class GraphList:
                 btn.configure(background='lightgrey')
 
     def selection(self, event=None):
-        _btn = event.widget
-        self.current_selection = _btn['text']
+        if event is None:
+            self.current_selection = 'Sales'
+        else:
+            _btn = event.widget
+            self.current_selection = _btn['text']
         for btn in self.btn_list:
-            if btn is _btn:
+            if btn['text'] == self.current_selection:
                 btn.configure(background='green')
             else:
                 btn.configure(background='lightgrey')
@@ -55,12 +59,44 @@ class GraphList:
             self.caller = {'name': 'sales',
                            'date_key': 'sale_date',
                            'amo_key': 'amount_paid'}
+            enable([self.month_combo])
             self._inst = self.sales_inst
 
         elif self.current_selection == 'Purchases':
             self.caller = {'name': 'purchases',
                            'date_key': 'purchase_date',
                            'amo_key': 'amount'}
+            enable([self.month_combo])
             self._inst = self.pur_inst
+
+        elif self.current_selection == 'Income':
+            self.caller = {'name': 'income',
+                           'date_key': 'income_date',
+                           'amo_key': 'amount'}
+            enable([self.month_combo])
+            self._inst = self.acc_inst.statistics.income
+
+        elif self.current_selection == 'Debtors':
+            self.caller = {'name': 'debtors',
+                           'date_key': 'debt_date',
+                           'amo_key': 'balance'}
+            enable([self.month_combo])
+            self._inst = self.acc_inst.assets.current.debtors
+
+        elif self.current_selection == 'Expenses':
+            self.caller = {'name': 'expenses',
+                           'date_key': 'exp_date',
+                           'amo_key': 'amount'}
+            enable([self.month_combo])
+            self._inst = self.acc_inst.expenses
+
+        elif self.current_selection == 'Profits':
+            self.caller = {'name': 'profits',
+                           'date_key': 'profit_date',
+                           'amo_key': 'amount'}
+            disable([self.month_combo])
+            self._inst = self.acc_inst.assets.current.profits
+            self.graph_it(month='All')
+            return True
 
         self.graph_it()

@@ -13,7 +13,11 @@ class Main(Keys, All, Search, OptionsTop, OptionsBottom):
 
     def __init__(self, container, s_bar, _inst, _caller):
         self.host = container
-        self._inst = _inst
+        if _caller == 'Debtors':
+            self._inst = _inst[0]
+            self.inc_inst = _inst[1]
+        else:
+            self._inst = _inst
         self.sb = s_bar
         self.caller = _caller
 

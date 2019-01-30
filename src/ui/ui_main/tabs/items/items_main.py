@@ -15,6 +15,7 @@ class ItemsMain(ItemsAll, ItemsAdd, Search, ItemsOptions):
         self.sb = s_bar
         self.purchases_inst = insts['purchases']
         self.items_inst = insts['items']
+        self.acc_inst = insts['accounts']
         self.all_items_list = self.items_inst.get_all()
 
         self.mf_items_add = ttk.LabelFrame(self.host)
@@ -28,6 +29,8 @@ class ItemsMain(ItemsAll, ItemsAdd, Search, ItemsOptions):
         self.list_w()
         self.search_w()
         self.options_w()
+
+        self.editing = False
 
         ItemsAdd.__init__(self)
         ItemsOptions.__init__(self)

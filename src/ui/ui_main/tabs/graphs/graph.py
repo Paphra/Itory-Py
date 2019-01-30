@@ -14,7 +14,7 @@ class Graph:
     def plot_it(self):
         for child in self.graph_canvas.winfo_children():
             child.destroy()
-        fig = Figure(figsize=(7, 3.8), facecolor='white')
+        fig = Figure(figsize=(7.2, 4.6), facecolor='white')
 
         axis = fig.add_subplot(111)
         axis.plot(self.x_values, self.y_values, marker='o')

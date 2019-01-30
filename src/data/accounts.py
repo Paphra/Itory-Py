@@ -54,22 +54,22 @@ class Statistics:
 
 class Expenses:
 
-            def __init__(self):
-                self.all_expenses = []
+    def __init__(self):
+        self.all_expenses = []
 
-                self.db_fetch()
-                self.mock()
+        self.db_fetch()
+        self.mock()
 
-                self.work = Universal(self.all_expenses)
+        self.work = Universal(self.all_expenses)
 
-            def db_fetch(self):
-                self.all_expenses = []
+    def db_fetch(self):
+        self.all_expenses = []
 
-            def mock(self):
-                pass
+    def mock(self):
+        pass
 
-            def get_all(self):
-                return self.all_expenses
+    def get_all(self):
+        return self.all_expenses
 
 
 class Assets:
@@ -101,6 +101,7 @@ class Assets:
 
         def __init__(self):
             self.debtors = self.Debtors()
+            self.profits = self.Profits()
 
         class Debtors:
 
@@ -120,6 +121,25 @@ class Assets:
 
             def get_all(self):
                 return self.all_debtors
+
+        class Profits:
+
+            def __init__(self):
+                self.all_profits = []
+
+                self.db_fetch()
+                self.mock()
+
+                self.work = Universal(self.all_profits)
+
+            def db_fetch(self):
+                self.all_profits = []
+
+            def mock(self):
+                pass
+
+            def get_all(self):
+                return self.all_profits
 
 
 class Liabilities:

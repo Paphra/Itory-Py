@@ -10,6 +10,10 @@ class Date:
     def __init__(self, master: any = None, y_width: int = None,
                  m_width: int = None, d_width: int = None,
                  orient: str = None):
+        self.vd_day = None
+        self.vd_month = None
+        self.vd_year = None
+
         if master is not None:
             self.date_host = master
         if y_width is None:
@@ -75,8 +79,8 @@ class Date:
         self.val_year = Validate(self.vd_year, self.ed_year)
         self.val_year.int_(max_=int(_year), min_=1900, max_len_=4)
 
-        self.ed_year.bind('<KeyRelease>', self._year_selection, True)
-        self.ed_year.bind('<FocusOut>', self._year_selection, True)
+        self.ed_year.bind('<KeyRelease>', self._y_sel, True)
+        self.ed_year.bind('<FocusOut>', self._y_sel, True)
 
         _months = []
         for i in range(int(_month)):
@@ -85,7 +89,7 @@ class Date:
         self.cb_month.configure(width=self.m_width, values=_months,
                                 state='readonly')
         self.cb_month.current(int(_month) - 1)
-        self.cb_month.bind('<<ComboboxSelected>>', self._month_selection, True)
+        self.cb_month.bind('<<ComboboxSelected>>', self._m_sel, True)
 
         self.ed_day.grid(column=0, row=0, padx=5)
         self.ed_day.configure(width=self.d_width)
@@ -94,7 +98,7 @@ class Date:
         self.val_day = Validate(self.vd_day, self.ed_day)
         self.val_day.int_(max_=int(_day), min_=1, max_len_=2, min_len_=2)
 
-    def _year_selection(self, event=None):
+    def _y_sel(self, event=None):
         _months = []
         if len(self.vd_year.get()) > 0 and \
                 int(self.vd_year.get()) < self._dt.year:
@@ -103,15 +107,15 @@ class Date:
             self.cb_month['values'] = _months
             self.cb_month.current(11)
 
-            self._month_selection()
+            self._m_sel()
         else:
             for i in range(self._dt.month):
                 _months.append(str(i + 1).zfill(2))
             self.cb_month['values'] = _months
             self.cb_month.current(self._dt.month - 1)
-            self._month_selection()
+            self._m_sel()
 
-    def _month_selection(self, event=None):
+    def _m_sel(self, event=None):
         _cur = int(self.vd_month.get())
 
         def _leap():

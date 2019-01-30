@@ -1,28 +1,49 @@
 from tkinter import ttk
+from src.ui.routine.widget_works import *
 
 
 class ItemsOptions:
 
     def __init__(self):
+
+        self.btn_edit_item = ttk.Button(self.f_items_options,
+                                        text='Edit Item')
         self.btn_delete_item = ttk.Button(self.f_items_options,
                                           text='Delete Item')
+        self.edit_wo()
         self.delete_wo()
 
+    def edit_wo(self):
+        self.btn_edit_item.grid(column=0, row=0, sticky='NES',
+                                padx=10, pady=5)
+
+        def _edit_item():
+            row = self.table.get_selected()
+            if row is not None:
+                self.editing = True
+                disable([self.e_serial, self.e_name])
+
+                self.v_serial.set(row['serial'])
+                self.v_name.set(row['name'])
+                self.v_qty.set(str(row['qty']))
+                self.v_type.set(row['type'])
+
+                buy = int(row['qty']) * int(row['buy_unit'])
+                self.v_buy_amount.set(str(buy))
+                self.v_sell_unit.set((row['sell_unit']))
+
+            del row
+
+        self.btn_edit_item.configure(command=_edit_item)
+
     def delete_wo(self):
-        _col = 0
-        for _i in range(2):
-            if _i > 0:
-                _col = _col + 2
-            sep_v = 'sep' + str(_i)
-            sep_v = ttk.Separator(self.f_items_options, orient='vertical')
-            sep_v.grid(column=_col, row=0, sticky='NS')
         self.btn_delete_item.grid(column=1, row=0, sticky='NES',
                                   padx=10, pady=5)
-        sep02 = ttk.Separator(self.f_items_options, orient='horizontal')
-        sep02.grid(column=0, row=1, sticky='WE', columnspan=5)
 
         def _delete_item():
-            result = self.table.delete_row()
-            del result
+            row = self.table.delete_row()
+            for pur in self.purchases_inst.get_all():
+                if row['item_date'] == pur['purchase_date']:
+                    self.purchases_inst.get_all().remove(pur)
 
         self.btn_delete_item.configure(command=_delete_item)

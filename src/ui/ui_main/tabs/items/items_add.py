@@ -2,6 +2,7 @@ import tkinter as tk
 from datetime import datetime
 from tkinter import messagebox as msg, ttk
 from src.ui.structures.date import Date
+from src.ui.routine.widget_works import *
 
 
 class ItemsAdd(Date):
@@ -107,12 +108,12 @@ class ItemsAdd(Date):
             v_.set(self._prev_val)
 
     def _clear_all(self):
-        self.v_serial.set('')
-        self.v_name.set('')
-        self.v_type.set('')
+        clear([self.v_serial, self.v_name, self.v_type])
         self.v_qty.set('0')
         self.v_buy_amount.set('0')
         self.v_sell_unit.set('0')
+
+        enable([self.e_name, self.e_serial])
 
     def _save_item(self):
 
@@ -129,29 +130,17 @@ class ItemsAdd(Date):
                                 'Confirm Item Saving?') == u'yes':
             buy_unit = buy_amount / qty
 
-            for item_ in self.all_items_list:
-                o_name = item_['name']
-                o_serial = item_['serial']
-                if o_name.lower() == name.lower() or \
-                        o_serial.lower() == serial.lower():
-                    n_qty = item_['qty'] + qty
-                    self.items_inst.edit_type(o_name, new_type=_type)
-                    self.items_inst.edit_qty(o_name, new_qty=n_qty)
-                    self.items_inst.edit_unit(o_name, sell_unit)
-                    self.items_inst.edit_buy_unit(o_name, buy_unit)
-
-                    self._clear_all()
-                    return True
-
             _dt = datetime.now()
             dt_str = self.vd_year.get() + '-' + self.vd_month.get() + \
-                     '-' + self.vd_day.get() + '|' + str(_dt.hour).zfill(2) + \
-                     ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
+                '-' + self.vd_day.get() + '|' + str(_dt.hour).zfill(2) + \
+                ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
 
             item = {'serial': serial,
                     'name': name, 'type': _type,
                     'qty': qty, 'buy_unit': buy_unit,
-                    'sell_unit': sell_unit}
+                    'sell_unit': sell_unit,
+                    'buy_amount': buy_amount,
+                    'item_date': dt_str}
 
             purchase = {'purchase_date': dt_str,
                         'item': name,
@@ -160,9 +149,30 @@ class ItemsAdd(Date):
                         'buy_unit': buy_unit,
                         'amount': buy_amount}
 
+            for item_ in self.all_items_list:
+                o_name = item_['name']
+                o_serial = item_['serial']
+                if o_name.lower() == name.lower() or \
+                        o_serial.lower() == serial.lower():
+                    if self.editing:
+                        n_qty = qty
+                        for pur in self.purchase_inst.get_all():
+                            if item_['item_date'] == pur['purchase_date']:
+                                pur['amount'] = buy_amount
+                    else:
+                        n_qty = item_['qty'] + qty
+                        self.purchases_inst.add_purchase(purchase)
+                    self.items_inst.edit_type(o_name, _type)
+                    self.items_inst.edit_qty(o_name, n_qty)
+                    self.items_inst.edit_unit(o_name, sell_unit)
+                    self.items_inst.edit_buy_unit(o_name, buy_unit)
+                    self.items_inst.edit_date(o_name, dt_str)
+
+                    self.all_items_works()
+                    self._clear_all()
+                    return True
+
             self.items_inst.add_item(item)
             self.purchases_inst.add_purchase(purchase)
-
             self.all_items_works()
-
             self._clear_all()

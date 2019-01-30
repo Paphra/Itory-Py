@@ -59,6 +59,7 @@ class GraphMain(GraphTopOptions, GraphBottomOptions, GraphList,
         Graph.__init__(self)
 
         self._worker()
+
         self.graph_it()
 
     def _worker(self):
@@ -71,7 +72,8 @@ class GraphMain(GraphTopOptions, GraphBottomOptions, GraphList,
         self.list_pane.grid(column=0, row=1, sticky='WNS')
         self.list_pane.configure(width=300, height=500)
 
-        self.graph_canvas.grid(column=1, row=1, sticky='NESW')
+        self.graph_canvas.grid(column=1, row=1, sticky='NESW',
+                               pady=10, padx=5)
         self.graph_canvas.configure(width=630, height=450)
 
     def work_on_years_and_months(self, year_=None,
@@ -150,16 +152,15 @@ class GraphMain(GraphTopOptions, GraphBottomOptions, GraphList,
 
         if year_ is None:
             year_ = str(_dt.year).zfill(4)
-            self.work_on_years_and_months(year_=year_)
-            self.year_combo.current(self.years.index(year_))
-        else:
-            self._current_year = year_
+
+        self.work_on_years_and_months(year_=year_)
+        self.year_combo.current(self.years.index(year_))
+
         if month_ is None:
             month_ = str(_dt.month).zfill(2)
-            self.work_on_years_and_months(year_=year_, month_=month_)
-            self.month_combo.current(self.months.index(month_))
-        else:
-            self._current_month = month_
+
+        self.work_on_years_and_months(year_, month_)
+        self.month_combo.current(self.months.index(month_))
 
         if self._inst is None:
             self._inst = self.sales_inst

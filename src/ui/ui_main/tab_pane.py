@@ -13,6 +13,7 @@ from .tabs.management.t_management import TManagement
 from .tabs.purchases.t_purchases import TPurchases
 from .tabs.sales.t_sales import TSales
 from threading import Thread
+from src.ui.routine.f_make import focus
 
 
 class NtBook:
@@ -62,28 +63,19 @@ class NtBook:
             Thread(target=self.t_items.i_main.all_items_works()).start()
 
         elif s_tb_name == 'Sales':
-            self.t_sales.sales_main.work_on_years_and_months()
-            self.t_sales.sales_main.set_years_months_days()
-            self.t_sales.sales_main.work_on_period()
-            self.t_sales.sales_main.all_fill()
+            focus(self.t_sales.sales_main)
 
         elif s_tb_name == 'Purchases':
-            self.t_purchases.p_main.work_on_years_and_months()
-            self.t_purchases.p_main.set_years_months_days()
-            self.t_purchases.p_main.work_on_period()
-            self.t_purchases.p_main.all_fill()
+            focus(self.t_purchases.p_main)
 
         elif s_tb_name == 'Accounts':
-            self.t_accounts.a_main.t_assets.t_debtors.debtors_main.\
-                work_on_years_and_months()
-            self.t_accounts.a_main.t_assets.t_debtors.debtors_main.\
-                set_years_months_days()
-            self.t_accounts.a_main.t_assets.t_debtors.debtors_main.\
-                work_on_period()
-            self.t_accounts.a_main.t_assets.t_debtors.debtors_main.\
-                all_fill()
+            self.t_accounts.a_main.acc_ntb.select(0)
+            self.t_accounts.a_main.t_assets.mf_ntb.select(0)
+            focus(self.t_accounts.a_main.t_assets.t_debtors.debtors_main)
 
         elif s_tb_name == 'Graphs':
             self.t_graphs.g_main.work_on_years_and_months()
             self.t_graphs.g_main.work_on_period()
+            self.t_graphs.g_main.selection()
             self.t_graphs.g_main.graph_it()
+

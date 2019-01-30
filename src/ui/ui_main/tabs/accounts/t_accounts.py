@@ -1,5 +1,6 @@
 from tkinter import ttk
 from .acc_main import AccMain
+from src.ui.routine.f_make import focus
 
 
 class TAccounts:
@@ -16,3 +17,24 @@ class TAccounts:
         self.ntb.add(self.t_accounts, text='Accounts')
         self.f_t.grid(column=0, row=0, padx=10, pady=10, sticky='NESW')
         self.f_t.configure(width=825, height=525)
+
+        self.a_main.acc_ntb.bind("<<NotebookTabChanged>>", self._tabchanged)
+
+    def select_tab(self, index):
+        self.a_main.acc_ntb.select(index)
+
+    def _tabchanged(self, event=None):
+        sel_tb = self.a_main.acc_ntb.tab('current')
+        self.sb.lb_left['text'] = "Current Tab: " + sel_tb['text']
+        s_tb_name = sel_tb['text']
+
+        if s_tb_name == 'Assets':
+            self.a_main.t_assets.mf_ntb.select(0)
+            focus(self.a_main.t_assets.t_debtors.debtors_main)
+
+        elif s_tb_name == 'Expenses':
+            focus(self.a_main.t_expenses.expenses_main)
+
+        elif s_tb_name == 'Statistics':
+            self.a_main.t_statistics.mf_ntb.select(0)
+            focus(self.a_main.t_statistics.t_income.income_main)

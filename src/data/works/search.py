@@ -36,7 +36,7 @@ class Search:
             for line in self._list:
                 _c = False
                 for _u in self._use:
-                    if txt.lower() in line[_u].lower():
+                    if txt.lower() in str(line[_u]).lower():
                         _c = True
                 if _c:
                     _list_.append(line)

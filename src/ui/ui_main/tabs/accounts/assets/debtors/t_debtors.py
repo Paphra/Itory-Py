@@ -10,9 +10,11 @@ class TDebtors:
         self.ntb = nt_book
         self.sb = s_bar
         self.deb_inst = insts['accounts'].assets.current.debtors
+        self.inc_inst = insts['accounts'].statistics.income
         self.t_debtors = ttk.Frame(self.ntb)
         self.mf_debtors = ttk.Frame(self.t_debtors)
-        self.debtors_main = Main(self.mf_debtors, self.sb, self.deb_inst,
+        self.debtors_main = Main(self.mf_debtors, self.sb, [self.deb_inst,
+                                 self.inc_inst],
                                  'Debtors')
         
         self.t_work()

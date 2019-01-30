@@ -75,7 +75,7 @@ class Table:
         self.rows_list = None
         self._keys_ = None
         self.selected_w = None
-        self.selected_txt = None
+        self.selected_row = None
         self.mock_rows = []
         self.work_on_mock()
 
@@ -186,6 +186,9 @@ class Table:
         if self._keys_ is None:
             self._keys_ = ['col1', 'col2', 'col3', 'col4']
 
+        self.selected_row = None
+        self.selected_w = None
+
         def des():
             for _w in self.list_canvas.winfo_children():
                 _w.destroy()
@@ -266,39 +269,44 @@ class Table:
         :param event: event of button
         :return: None
         """
-        self.selected_w = None
-        self.selected_txt = None
 
         self._selection(event.widget.winfo_parent())
 
     def _selection(self, parent_name):
         self.sel_ind = None
-        self.selected_w = None
-        self.selected_txt = None
+        self.selected_row = None
 
         counts = 0
         _children = self.list_canvas.winfo_children()
+        if self.selected_w is not None:
+            try:
+                self.selected_w.configure(relief='', borderwidth=0)
+                _shade(self.selected_w.winfo_children())
+                self.selected_w = None
+            except Exception:
+                pass
+
         for win_ in _children:
             w_name = win_.winfo_name()
             if str(w_name) in str(parent_name):
                 self._select(win_)
-
                 self.sel_ind = counts
 
             else:
-                win_.configure(relief='', borderwidth=0)
-                _shade(win_.winfo_children())
                 if counts == len(_children):
                     self.selected_w = None
             counts = counts + 1
 
     def _select(self, widget):
-        win_ = widget
-        win_.configure(relief='sunken', borderwidth=1)
-        _wch = win_.winfo_children()
-        self.selected_w = win_
-        self.selected_txt = _wch[1]['text']
-        _shade(_wch, 'grey')
+        _wch = widget.winfo_children()
+        selected_txt = _wch[1]['text']
+        if selected_txt != 'Nothing is Found!':
+            self.selected_w = widget
+            self.selected_w.configure(relief='sunken', borderwidth=1)
+            for row in self.rows_list:
+                if selected_txt == row[self._keys_[0]]:
+                    self.selected_row = row
+            _shade(_wch, 'grey')
 
     def _select_new_after_delete(self):
         """
@@ -310,7 +318,8 @@ class Table:
         for win_ in list_:
             if counts == len(list_):
                 self.selected_w = None
-                self.selected_txt = None
+                self.selected_row = None
+                self.sel_ind = None
                 break
             if counts == self.sel_ind:
                 self._select(win_)
@@ -323,21 +332,15 @@ class Table:
         Delete a selected row
         :return: None
         """
-        if self.selected_w is not None and self.selected_txt is not None:
-            try:
-                self.selected_w.winfo_children()[1]['text']
-            except Exception:
-                return None
-
-            if msg.askquestion('Itory: Deletion Confirmation',
-                               'Confirm Deletion?') == u'yes':
+        if self.selected_row is not None and \
+            msg.askquestion('Itory: Deletion Confirmation',
+                            'Confirm Deletion?') == u'yes':
                 self.selected_w.destroy()
-                for row in self.rows_list:
-                    if row[self._keys_[0]] == self.selected_txt:
-                        self.rows_list.remove(row)
+                self.rows_list.remove(self.selected_row)
+                prev_selected = self.selected_row
                 self.add_rows()
                 self._select_new_after_delete()
-                return self.selected_txt
+                return prev_selected
         return None
 
     def get_selected(self):
@@ -345,4 +348,4 @@ class Table:
         Get the the text on the first widget of the selected row
         :return: str
         """
-        return self.selected_txt
+        return self.selected_row

@@ -23,7 +23,8 @@ class Items:
                     'qty': rdi(1, 31),
                     'type': 'Automatic ' + str(i + 1),
                     'sell_unit': rdi(1, 30) * 1000,
-                    'buy_unit': ((rdi(1, 30) * 1000) - 500)}
+                    'buy_unit': ((rdi(1, 30) * 1000) - 500),
+                    'item_date': '2019-01-20|09:20:03'}
             self.add_item(item)
 
     def add_item(self, item=None):
@@ -61,3 +62,8 @@ class Items:
         for item in self.all_items:
             if item['name'] == name:
                 item['buy_unit'] = new_buy_unit
+
+    def edit_date(self, name, new_date):
+        for item in self.all_items:
+            if item['name'] == name:
+                item['item_date'] = new_date
