@@ -8,17 +8,13 @@ from src.data.works import sort
 from datetime import datetime
 import numpy as np
 from src.data.works import convert
+from src.ui.routine.date_works import split_date
 
 
 class GraphMain(GraphTopOptions, GraphBottomOptions, GraphList,
                 Graph):
 
     def __init__(self, container, s_bar, insts):
-        """
-
-        :type insts: dict
-        :type caller: dict
-        """
         self.sb = s_bar
         self.host = container
         self.insts = insts
@@ -39,7 +35,6 @@ class GraphMain(GraphTopOptions, GraphBottomOptions, GraphList,
         self.current_selection = None
         self.years = []
         self.months = []
-        self.days = []
         self._list = []
 
         self.caller = None
@@ -47,11 +42,9 @@ class GraphMain(GraphTopOptions, GraphBottomOptions, GraphList,
         self.x_label = 'Days of the Month'
         self.y_label = 'Sales [000] (UGX)'
         self.amounts = {}
-        self.periods = {}
         self.x_values = []
         self.y_values = []
 
-        self.work_on_years_and_months()
         GraphTopOptions.__init__(self)
         self.graph_title = None
         GraphBottomOptions.__init__(self)
@@ -76,23 +69,13 @@ class GraphMain(GraphTopOptions, GraphBottomOptions, GraphList,
                                pady=10, padx=5)
         self.graph_canvas.configure(width=630, height=450)
 
-    def work_on_years_and_months(self, year_=None,
-                                 month_=None):
-        """
-
-        :type month_: str
-        :type year_: str
-        :type inst_: object
-        :type caller: dict
-        """
+    def work_on_years_and_months(self, year_=None, month_=None):
         self.months[:] = []
         self.years[:] = []
-        self.days[:] = []
 
         _dt = datetime.now()
         _y = str(_dt.year).zfill(4)
         _m = str(_dt.month).zfill(2)
-        _d = str(_dt.day).zfill(2)
 
         if year_ is None:
             self._current_year = _y
@@ -113,77 +96,47 @@ class GraphMain(GraphTopOptions, GraphBottomOptions, GraphList,
 
         self.years.append(self._current_year)
         self.months.append('All')
-        self.months.append(self._current_month)
+        if self._current_month not in self.months:
+            self.months.append(self._current_month)
         for row in self._inst.get_all():
-            _s_date = row[self.caller['date_key']].split('|')[0]
-            _s_year = _s_date.split('-')[0]
-            _s_month = _s_date.split('-')[1]
-            _s_day = _s_date.split('-')[2]
+            _date = split_date(row[self.caller['date_key']])
+            _year = _date['year']
+            _month = _date['month']
 
-            self._y_m_d(_s_year, _s_month, _s_day)
-
-        if self._current_year == _y and self._current_month == _m and \
-                _d not in self.days:
-            self.days.append(_d)
+            self._y_m(_year, _month)
 
         self.years.sort(reverse=True)
         self.months.sort(reverse=True)
-        self.days.sort(reverse=True)
 
-    def _y_m_d(self, _s_year, _s_month, _s_day):
-        if _s_year not in self.years:
-            self.years.append(_s_year)
-        if self._current_year == _s_year and _s_month not in self.months:
-            self.months.append(_s_month)
-        if self._current_year == _s_year and \
-                self._current_month == _s_month and \
-                _s_day not in self.days:
-            self.days.append(_s_day)
+        self.set_years_months()
 
-    def work_on_period(self, year_=None, month_=None):
-        """
-
-        :type month_: int
-        :type year_: int
-        :type inst_: object
-        :type caller: dict
-        """
-        _dt = datetime.now()
-
-        if year_ is None:
-            year_ = str(_dt.year).zfill(4)
-
-        self.work_on_years_and_months(year_=year_)
-        self.year_combo.current(self.years.index(year_))
-
-        if month_ is None:
-            month_ = str(_dt.month).zfill(2)
-
-        self.work_on_years_and_months(year_, month_)
-        self.month_combo.current(self.months.index(month_))
-
-        if self._inst is None:
-            self._inst = self.sales_inst
-
-        if self.caller is None:
-            self.caller = {'name': 'sales',
-                           'date_key': 'sale_date',
-                           'amo_key': 'amount_paid'}
-
+        self.year_combo.current(self.years.index(self._current_year))
+        self.month_combo.current(self.months.index(self._current_month))
         self._list[:] = []
 
         for row in self._inst.get_all():
-            _s_date = row[self.caller['date_key']].split('|')[0]
-            _s_year = _s_date.split('-')[0]
-            _s_month = _s_date.split('-')[1]
+            _date = split_date(row[self.caller['date_key']])
+            _year = _date['year']
+            _month = _date['month']
 
-            if _s_year == str(year_) and \
+            if _year == self._current_year and \
                     row not in self._list and \
-                    (str(month_) == 'All' or _s_month == str(month_)):
+                    (self._current_month == 'All' or
+                     _month == self._current_month):
                 self._list.append(row)
 
         sort.rows(self._list, self.caller['date_key'])
         self.make_xy()
+
+    def set_years_months(self):
+        self.year_combo['values'] = self.years
+        self.month_combo['values'] = self.months
+
+    def _y_m(self, _year, _month):
+        if _year not in self.years:
+            self.years.append(_year)
+        if self._current_year == _year and _month not in self.months:
+            self.months.append(_month)
 
     def make_xy(self):
         self.amounts = {}
@@ -226,7 +179,6 @@ class GraphMain(GraphTopOptions, GraphBottomOptions, GraphList,
 
     def graph_it(self, year=None, month=None):
         self.work_on_years_and_months(year_=year, month_=month)
-        self.work_on_period(year_=year, month_=month)
 
         if self.current_selection is not None:
             self.y_label = self.current_selection + ' [000] (UGX)'

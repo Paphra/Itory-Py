@@ -7,6 +7,7 @@ from .all import All
 from .options_top import OptionsTop
 from .options_bottom import OptionsBottom
 from .keys import Keys
+from src.ui.routine.date_works import split_date
 
 
 class Main(Keys, All, Search, OptionsTop, OptionsBottom):
@@ -46,29 +47,25 @@ class Main(Keys, All, Search, OptionsTop, OptionsBottom):
         self.years = []
         self.months = []
         self.days = []
-        self.work_on_years_and_months()
 
         OptionsTop.__init__(self)
         OptionsBottom.__init__(self)
-        self.work_on_period()
         All.__init__(self, self.height)
         Search.__init__(self, self.f_search, self.fill,
                         self._list, self._use, width=40)
 
         self._current_month = None
         self._current_year = None
+        self._current_day = None
+
+        self.all_fill()
 
     def _works(self):
         self._main_frame_w()
         self._year_month_day_w()
         self._search_w()
 
-    def work_on_years_and_months(self, year_=None, month_=None):
-        """
-
-        :type month_: str
-        :type year_: str
-        """
+    def work_on_years_months_days(self, year_=None, month_=None, day_=None):
         self.months[:] = []
         self.years[:] = []
         self.days[:] = []
@@ -85,24 +82,25 @@ class Main(Keys, All, Search, OptionsTop, OptionsBottom):
             self._current_month = _m
         else:
             self._current_month = month_
+        if day_ is None:
+            self._current_day = _d
+        else:
+            self._current_day = day_
 
         self.years.append(self._current_year)
         self.months.append('All')
-        self.months.append(self._current_month)
+        if self._current_month not in self.months:
+            self.months.append(self._current_month)
         self.days.append('All')
+        if self._current_day not in self.days:
+            self.days.append(self._current_day)
         for row in self._inst.get_all():
-            _s_date = row[self._date_key].split('|')[0]
-            _s_year = _s_date.split('-')[0]
-            _s_month = _s_date.split('-')[1]
-            _s_day = _s_date.split('-')[2]
-            if _s_year not in self.years:
-                self.years.append(_s_year)
-            if self._current_year == _s_year and _s_month not in self.months:
-                self.months.append(_s_month)
-            if self._current_year == _s_year and \
-                    self._current_month == _s_month and \
-                    _s_day not in self.days:
-                self.days.append(_s_day)
+            _date = split_date(row[self._date_key])
+            _year = _date['year']
+            _month = _date['month']
+            _day = _date['day']
+
+            self._y_m_d(_year, _month, _day)
 
         if self._current_year == _y and self._current_month == _m and \
                 _d not in self.days:
@@ -111,6 +109,48 @@ class Main(Keys, All, Search, OptionsTop, OptionsBottom):
         self.years.sort(reverse=True)
         self.months.sort(reverse=True)
         self.days.sort(reverse=True)
+
+        self.set_years_months_days()
+
+        self.year_combo.current(self.years.index(self._current_year))
+        self.month_combo.current(self.months.index(self._current_month))
+        self.day_combo.current(self.days.index(self._current_day))
+
+        self._list[:] = []
+
+        self._set_period()
+
+        sort.rows(self._list, self._date_key)
+
+    def _set_period(self):
+        for row in self._inst.get_all():
+            _date = split_date(row[self._date_key])
+            _year = _date['year']
+            _month = _date['month']
+            _day = _date['day']
+
+            if _year == self._current_year and \
+                    row not in self._list and \
+                    (self._current_month == 'All' or
+                     _month == self._current_month) and \
+                    (self._current_day == 'All' or
+                     _day == self._current_day):
+                self._list.append(row)
+
+    def set_years_months_days(self):
+        self.year_combo['values'] = self.years
+        self.month_combo['values'] = self.months
+        self.day_combo['values'] = self.days
+
+    def _y_m_d(self, _year, _month, _day):
+        if _year not in self.years:
+            self.years.append(_year)
+        if self._current_year == _year and _month not in self.months:
+            self.months.append(_month)
+        if self._current_year == _year and \
+                self._current_month == _month and \
+                _day not in self.days:
+            self.days.append(_day)
 
     def _main_frame_w(self):
         self.mf.grid(column=0, row=1, sticky='WENS')
@@ -126,54 +166,3 @@ class Main(Keys, All, Search, OptionsTop, OptionsBottom):
         self.lf_year.grid(column=0, row=0, sticky='ENS', padx=10)
         self.lf_month.grid(column=1, row=0, sticky='ENS', padx=10)
         self.lf_day.grid(column=2, row=0, sticky='ENS', padx=10)
-
-    def work_on_period(self, _year=None, _month=None, _day=None):
-        """
-
-        :type _month: int
-        :type _year: int
-        :type _day: int
-        """
-        _dt = datetime.now()
-
-        if _year is None:
-            _year = str(_dt.year).zfill(4)
-            self.work_on_years_and_months(_year)
-            self.year_combo.current(self.years.index(_year))
-        if _month is None:
-            _month = str(_dt.month).zfill(2)
-            self.work_on_years_and_months(_year, _month)
-            self.month_combo.current(self.months.index(_month))
-        if _day is None:
-            _day = str(_dt.day).zfill(2)
-            self.work_on_years_and_months(_year, _month)
-            self.day_combo.current(self.days.index(_day))
-
-        self._list[:] = []
-
-        for row in self._inst.get_all():
-            _s_date = row[self._date_key].split('|')[0]
-            _s_year = _s_date.split('-')[0]
-            _s_month = _s_date.split('-')[1]
-            _s_day = _s_date.split('-')[2]
-
-            if _s_year == str(_year) and \
-                    row not in self._list and \
-                    (str(_month) == 'All' or _s_month == str(_month)) and \
-                    (str(_day) == 'All' or _s_day == str(_day)):
-                self._list.append(row)
-
-        sort.rows(self._list, self._date_key)
-
-
-def dt_split(_line):
-    _s_datetime = _line[self._date_key].split('|')
-    _date = _s_datetime[0]
-    _dt = _date.split('-')
-    _t = _s_datetime[1]
-    return {'year': int(_dt[0]),
-            'month': int(_dt[1]),
-            'day': int(_dt[2]),
-            'hour': int(_t[0]),
-            'minute': int(_t[1]),
-            'second': int(_t[2])}

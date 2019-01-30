@@ -2,9 +2,6 @@ from datetime import datetime
 
 
 def focus(inst_):
-    inst_.work_on_years_and_months()
-    inst_.set_years_months_days()
-    inst_.work_on_period()
     inst_.all_fill()
 
 

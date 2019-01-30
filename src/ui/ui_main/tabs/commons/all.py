@@ -22,7 +22,8 @@ class All:
     def _all_w(self):
         self._f_.grid(column=0, row=1, sticky='NEWS')
 
-    def all_fill(self):
+    def all_fill(self, year=None, month=None, day=None):
+        self.work_on_years_months_days(year, month, day)
         self.fill(self._list)
 
     def fill(self, _list):

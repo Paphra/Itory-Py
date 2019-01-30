@@ -1,6 +1,7 @@
 from src.ui.routine.widget_works import *
 import tkinter as tk
 from tkinter import ttk
+from datetime import datetime
 
 
 class GraphList:
@@ -55,14 +56,7 @@ class GraphList:
             else:
                 btn.configure(background='lightgrey')
 
-        if self.current_selection == 'Sales':
-            self.caller = {'name': 'sales',
-                           'date_key': 'sale_date',
-                           'amo_key': 'amount_paid'}
-            enable([self.month_combo])
-            self._inst = self.sales_inst
-
-        elif self.current_selection == 'Purchases':
+        if self.current_selection == 'Purchases':
             self.caller = {'name': 'purchases',
                            'date_key': 'purchase_date',
                            'amo_key': 'amount'}
@@ -99,4 +93,14 @@ class GraphList:
             self.graph_it(month='All')
             return True
 
-        self.graph_it()
+        else:
+            self.caller = {'name': 'sales',
+                           'date_key': 'sale_date',
+                           'amo_key': 'amount_paid'}
+            enable([self.month_combo])
+            self._inst = self.sales_inst
+
+        _dt = datetime.now()
+
+        self.graph_it(year=str(_dt.year).zfill(4),
+                      month=str(_dt.month).zfill(2))

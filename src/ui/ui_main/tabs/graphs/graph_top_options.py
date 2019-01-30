@@ -17,7 +17,6 @@ class GraphTopOptions:
         self.year_combo.grid(column=0, row=0, sticky='ENS', padx=5)
         self.year_combo.configure(state='readonly', values=self.years,
                                   width=10, textvariable=self.v_year)
-        self.year_combo.current(0)
         self.year_combo.bind('<<ComboboxSelected>>', self._year_selection)
 
         self.month_combo.grid(column=0, row=0, sticky='ENS', padx=5)
@@ -25,17 +24,9 @@ class GraphTopOptions:
                                    width=10, textvariable=self.v_month)
         self.month_combo.bind('<<ComboboxSelected>>', self._month_selection)
 
-    def set_years_months_days(self):
-        self.year_combo['values'] = self.years
-        self.month_combo['values'] = self.months
-
     def _year_selection(self, event=None):
         _year = self.v_year.get()
-        self.work_on_years_and_months(year_=_year)
-        self.month_combo['values'] = self.months
-        self.month_combo.current(0)
-        _month = self.v_month.get()
-        self.graph_it(year=_year, month=_month)
+        self.graph_it(year=_year, month='All')
 
     def _month_selection(self, event=None):
         _month = self.v_month.get()

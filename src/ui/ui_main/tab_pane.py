@@ -74,8 +74,6 @@ class NtBook:
             focus(self.t_accounts.a_main.t_assets.t_debtors.debtors_main)
 
         elif s_tb_name == 'Graphs':
-            self.t_graphs.g_main.work_on_years_and_months()
-            self.t_graphs.g_main.work_on_period()
             self.t_graphs.g_main.selection()
             self.t_graphs.g_main.graph_it()
 
