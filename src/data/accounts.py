@@ -5,6 +5,7 @@ class Accounts:
     def __init__(self):
         self.statistics = Statistics()
         self.expenses = Expenses()
+        self.drawings = Drawings()
         self.assets = Assets()
         self.liabilities = Liabilities()
         self.returns = Returns()
@@ -70,6 +71,26 @@ class Expenses:
 
     def get_all(self):
         return self.all_expenses
+
+
+class Drawings:
+
+    def __init__(self):
+        self.all_drawings = []
+
+        self.db_fetch()
+        self.mock()
+
+        self.work = Universal(self.all_drawings)
+
+    def db_fetch(self):
+        self.all_drawings = []
+
+    def mock(self):
+        pass
+
+    def get_all(self):
+        return self.all_drawings
 
 
 class Assets:
@@ -145,57 +166,53 @@ class Assets:
 class Liabilities:
 
     def __init__(self):
-        self.current = self.Current()
         self.long_term = self.LongTerm()
+
+        self.creditors = self.Creditors()
+        self.accruals = self.Accruals()
 
     class LongTerm:
 
         def __init__(self):
             pass
 
-    class Current:
+    class Creditors:
 
         def __init__(self):
-            self.creditors = self.Creditors()
-            self.drawings = self.Drawings()
+            self.all_creditors = []
 
-        class Creditors:
+            self.db_fetch()
+            self.mock()
 
-            def __init__(self):
-                self.all_creditors = []
+            self.work = Universal(self.all_creditors)
 
-                self.db_fetch()
-                self.mock()
+        def db_fetch(self):
+            self.all_creditors = []
 
-                self.work = Universal(self.all_creditors)
+        def mock(self):
+            pass
 
-            def db_fetch(self):
-                self.all_creditors = []
+        def get_all(self):
+            return self.all_creditors
 
-            def mock(self):
-                pass
+    class Accruals:
 
-            def get_all(self):
-                return self.all_creditors
+        def __init__(self):
+            self.all_accruals = []
 
-        class Drawings:
+            self.db_fetch()
+            self.mock()
 
-            def __init__(self):
-                self.all_drawings = []
+            self.work = Universal(self.all_accruals)
 
-                self.db_fetch()
-                self.mock()
+        def db_fetch(self):
+            self.all_accruals = []
 
-                self.work = Universal(self.all_drawings)
+        def mock(self):
+            pass
 
-            def db_fetch(self):
-                self.all_drawings = []
-
-            def mock(self):
-                pass
-
-            def get_all(self):
-                return self.all_drawings
+        def get_all(self):
+            return self.all_accruals
 
 
 class Returns:

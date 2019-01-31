@@ -4,8 +4,8 @@ from the designing developer
 """
 
 import tkinter as tk  # importing tkinter as tk for easy reference
-from tkinter import messagebox as msg, ttk  # importing the themed tkinter module
 from threading import Thread
+from tkinter import messagebox as msg, ttk  # importing the themed tkinter module
 
 
 def _shade(wl_, color=None):
@@ -43,6 +43,22 @@ def _sep_work(cont, lb_list):
         if _c < len(lb_list):
             lb_list[_c].grid(column=(_col + 1), row=1, sticky='WE',
                              padx=2, pady=2)
+
+
+def check_rows(rows_list: list, titles: list, _keys_: list):
+    """
+    Checking the rows to see if they are okay
+    :return:
+    """
+    if len(rows_list) == 0:
+        no_rows = {}
+        for _t in titles:
+            if titles.index(_t) == 0:
+                no_rows[_keys_[0]] = 'Nothing is Found!'
+            else:
+                no_rows[_keys_[titles.index(_t)]] = ''
+        return [no_rows]
+    return rows_list
 
 
 class Table:
@@ -150,7 +166,7 @@ class Table:
     def _mouse_wheel(self, widgets):
 
         def _wheel(event):
-            move = int(event.delta / 100)
+            move = int(event.delta / 60)
             self.list_canvas.yview_scroll(move, tk.UNITS)
 
         for widget in widgets:
@@ -296,6 +312,9 @@ class Table:
                 if selected_txt == row[self._keys_[0]]:
                     self.selected_row = row
             _shade(_wch, 'grey')
+        else:
+            self.selected_row = None
+            self.selected_w = None
 
     def _select_new_after_delete(self):
         """
@@ -327,7 +346,8 @@ class Table:
                 self.selected_w.destroy()
                 self.rows_list.remove(self.selected_row)
                 prev_selected = self.selected_row
-                self.add_rows()
+                self.add_rows(check_rows(self.rows_list, self.titles,
+                                         self._keys_))
                 self._select_new_after_delete()
                 return prev_selected
         return None
@@ -335,6 +355,6 @@ class Table:
     def get_selected(self):
         """
         Get the the text on the first widget of the selected row
-        :return: str
+        :return: dict row
         """
         return self.selected_row

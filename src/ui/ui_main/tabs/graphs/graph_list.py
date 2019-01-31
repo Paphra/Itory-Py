@@ -1,7 +1,8 @@
-from src.ui.routine.widget_works import *
 import tkinter as tk
-from tkinter import ttk
 from datetime import datetime
+from tkinter import ttk
+
+from src.ui.routine.widget_works import *
 
 
 class GraphList:
@@ -56,6 +57,14 @@ class GraphList:
             else:
                 btn.configure(background='lightgrey')
 
+        if self._switch():
+            return True
+
+        _dt = datetime.now()
+        self.graph_it(year=str(_dt.year).zfill(4),
+                      month=str(_dt.month).zfill(2))
+
+    def _switch(self):
         if self.current_selection == 'Purchases':
             self.caller = {'name': 'purchases',
                            'date_key': 'purchase_date',
@@ -93,14 +102,39 @@ class GraphList:
             self.graph_it(month='All')
             return True
 
+        elif self.current_selection == 'Fixed Assets':
+            self.caller = {'name': 'fixed_assets',
+                           'date_key': 'fixed_assets_date',
+                           'amo_key': 'amount'}
+            enable([self.month_combo])
+            self._inst = self.acc_inst.assets.fixed
+            self.graph_it(month='All')
+            return True
+
+        elif self.current_selection == 'Creditors':
+            self.caller = {'name': 'creditors',
+                           'date_key': 'cred_date',
+                           'amo_key': 'amount'}
+            enable([self.month_combo])
+            self._inst = self.acc_inst.liabilities.creditors
+
+        elif self.current_selection == 'Returns In':
+            self.caller = {'name': 'returns_in',
+                           'date_key': 'retin_date',
+                           'amo_key': 'amount'}
+            enable([self.month_combo])
+            self._inst = self.acc_inst.returns.sales
+
+        elif self.current_selection == 'Returns Out':
+            self.caller = {'name': 'returns_out',
+                           'date_key': 'retout_date',
+                           'amo_key': 'amount'}
+            enable([self.month_combo])
+            self._inst = self.acc_inst.returns.purchases
+
         else:
             self.caller = {'name': 'sales',
                            'date_key': 'sale_date',
                            'amo_key': 'amount_paid'}
             enable([self.month_combo])
             self._inst = self.sales_inst
-
-        _dt = datetime.now()
-
-        self.graph_it(year=str(_dt.year).zfill(4),
-                      month=str(_dt.month).zfill(2))

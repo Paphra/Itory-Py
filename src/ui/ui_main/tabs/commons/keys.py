@@ -15,18 +15,18 @@ class Keys:
         _l = 'l'
         _c = 'c'
 
-        if self.caller == 'Purchases':
-            self._use = ['purchase_date', 'item', 'details']
-            self._date_key = 'purchase_date'
-            self._amo_key = 'amount'
+        self.list_of_commons = ["Expenses", 'Income', 'Sales Returns',
+                                'Purchases Returns', 'Fixed Assets',
+                                'Drawings', 'Creditors', 'Accruals']
 
-            self._keys = ['purchase_date',
-                          'item',
-                          'details',
-                          'amount']
+        if self.caller == 'Purchases':
+            self._keys = ['purchase_date', 'item', 'details', 'amount']
+            self._use = self._keys[:-1]
+            self._date_key = self._keys[0]
+            self._amo_key = self._keys[-1]
 
             self.titles = [_date(), _set("Item", 35, _l),
-                           _set("Details", 40, _c), _set('Amount', 25, _l)]
+                           _set("Details", 41, _c), _set('Amount', 25, _l)]
 
         elif self.caller == 'Sales':
             self._keys = ['sale_date', 'customer_name', 'customer_contact',
@@ -53,20 +53,39 @@ class Keys:
                            _set('Balance', 10, _l)]
             self.height = 230
 
-        elif self.caller == 'Expenses':
-            self._keys = ['exp_date', 'responsible', 'details', 'amount']
-            self._use = self._keys[:3]
-            self._date_key = self._keys[0]
-            self._amo_key = self._keys[-1]
-            self.titles = [_date(), _set('Responsible', 25, _l),
-                           _set('Details', 53, _l), _set('Amount', 20, _l)]
-            self.height = 250
+        elif self.caller in self.list_of_commons:
+            _k, _name_k, self.name, _d, _h, _tt = 'exp_date', 'responsible', \
+                                                  'Person Responsible', _l, \
+                                                  250, 220  # expenses catered for
+            _w = 50
 
-        elif self.caller == 'Income':
-            self._keys = ['income_date', 'from', 'details', 'amount']
+            if self.caller == 'Drawings':
+                _k, _w = 'draw_date', 52
+            elif self.caller == 'Income':
+                _k, _name_k, self.name, _d, _h = 'income_date', 'from', \
+                                                 'Source', _c, _tt
+            elif self.caller == 'Fixed Assets':
+                _k, _name_k, self.name, _d, _h = 'fixed_assets_date', 'name', \
+                                                 'Asset', _l, _tt
+            elif self.caller == 'Sales Returns':
+                _k, _name_k, self.name, _d, _h = 'retin_date', 'customer', \
+                                                 'Customer', _l, _tt
+            elif self.caller == 'Purchases Returns':
+                _k, _name_k, self.name, _d, _h = 'retout_date', 'supplier', \
+                                                 'Supplier', _l, _tt
+            elif self.caller == 'Creditors':
+                _k, _name_k, self.name, _d, _h = 'cred_date', 'creditor', \
+                                                 'Creditor', _l, _tt
+            elif self.caller == 'Accruals':
+                _k, _name_k, self.name, _d, _h = 'accr_date', 'accruer', \
+                                                 'Accruer', _l, _tt
+            else:
+                _w = 52
+
+            self._keys = [_k, _name_k, 'details', 'amount']
             self._use = self._keys[:-1]
-            self._amo_key = self._keys[-1]
             self._date_key = self._keys[0]
-            self.titles = [_date(), _set('Source', 25, _l),
-                           _set('Details', 50, _c), _set('Amount', 20, _l)]
-            self.height = 220
+            self._amo_key = self._keys[-1]
+            self.titles = [_date(), _set(self.name, 27, _l),
+                           _set('Details', _w, _d), _set('Amount', 20, _l)]
+            self.height = _h

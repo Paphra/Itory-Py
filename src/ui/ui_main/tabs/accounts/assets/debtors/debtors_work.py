@@ -1,8 +1,8 @@
 from tkinter import ttk
-import tkinter as tk
+
 from src.ui.routine.entry_validate import Validate
-from src.ui.routine.widget_works import *
 from src.ui.routine.f_make import *
+from src.ui.routine.widget_works import *
 
 
 class DebtorsWork:
@@ -60,6 +60,8 @@ class DebtorsWork:
         if row is not None:
             enable([self.e_edit_amo, self.e_edit_name,
                     self.e_edit_tel, self.e_edit_email])
+
+            self.e_edit_name.focus()
 
             amo_p = row['paid']
             tt_amo = int(row['balance']) + int(amo_p)

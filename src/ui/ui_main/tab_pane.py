@@ -1,10 +1,11 @@
 
 from tkinter import ttk
 
+from src.data.accounts import Accounts
 from src.data.items import Items
 from src.data.purchases import Purchases
 from src.data.sales import Sales
-from src.data.accounts import Accounts
+from src.ui.routine.f_make import focus
 from .tabs.accounts.t_accounts import TAccounts
 from .tabs.graphs.t_graphs import TGraphs
 from .tabs.home.t_home import THome
@@ -12,8 +13,6 @@ from .tabs.items.t_items import TItems
 from .tabs.management.t_management import TManagement
 from .tabs.purchases.t_purchases import TPurchases
 from .tabs.sales.t_sales import TSales
-from threading import Thread
-from src.ui.routine.f_make import focus
 
 
 class NtBook:
@@ -54,26 +53,25 @@ class NtBook:
         sel_tb = self.ntb.tab('current')
         self.sb.lb_left['text'] = "Current Tab: " + sel_tb['text']
 
-        s_tb_name = sel_tb['text']
-        if s_tb_name == 'Home':
+        _name = sel_tb['text']
+        if _name == 'Home':
             self.t_home.i_c.set_items(self.t_items.i_main.all_items_list)
             self.t_home.i_c.clear_all_items()
 
-        elif s_tb_name == 'Items':
-            Thread(target=self.t_items.i_main.all_items_works()).start()
+        elif _name == 'Items':
+            self.t_items.i_main.all_items_works()
 
-        elif s_tb_name == 'Sales':
+        elif _name == 'Sales':
             focus(self.t_sales.sales_main)
 
-        elif s_tb_name == 'Purchases':
+        elif _name == 'Purchases':
             focus(self.t_purchases.p_main)
 
-        elif s_tb_name == 'Accounts':
+        elif _name == 'Accounts':
             self.t_accounts.a_main.acc_ntb.select(0)
             self.t_accounts.a_main.t_assets.mf_ntb.select(0)
             focus(self.t_accounts.a_main.t_assets.t_debtors.debtors_main)
 
-        elif s_tb_name == 'Graphs':
+        elif _name == 'Graphs':
             self.t_graphs.g_main.selection()
             self.t_graphs.g_main.graph_it()
-

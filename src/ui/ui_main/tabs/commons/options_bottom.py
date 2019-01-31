@@ -1,8 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
+
 from src.ui.structures.date import Date
-from .options_bottom_general import GeneralBottom
 from src.ui.ui_main.tabs.accounts.assets.debtors.debtors_work import DebtorsWork
+from .options_bottom_general import GeneralBottom
 
 
 class OptionsBottom(Date, DebtorsWork, GeneralBottom):
@@ -53,7 +54,7 @@ class OptionsBottom(Date, DebtorsWork, GeneralBottom):
         if self.caller in ['Debtors']:
             self.btn_edit = ttk.Button(self.bottom_row,
                                        text='Edit ' + self.label)
-        if self.caller in ['Expenses', 'Income']:
+        if self.caller in self.list_of_commons:
             self.btn_add = ttk.Button(self.bottom_row,
                                       text='Add ' + self.label)
         self.btn_delete = ttk.Button(self.bottom_row,
@@ -64,7 +65,7 @@ class OptionsBottom(Date, DebtorsWork, GeneralBottom):
         if self.caller in ['Debtors']:
             DebtorsWork.__init__(self)
 
-        elif self.caller in ["Expenses", 'Income']:
+        elif self.caller in self.list_of_commons:
             GeneralBottom.__init__(self)
 
     def _works_btm(self):
@@ -82,7 +83,7 @@ class OptionsBottom(Date, DebtorsWork, GeneralBottom):
             self.e_total_bal.grid(column=0, row=0, sticky='S', padx=5, pady=2)
             self.e_total_bal.configure(state='readonly')
 
-        if self.caller in ['Expenses', 'Income']:
+        if self.caller in self.list_of_commons:
             self.date_host.grid(column=5, row=1, sticky='NES', padx=10)
 
     def _delete_wo(self):
@@ -95,10 +96,13 @@ class OptionsBottom(Date, DebtorsWork, GeneralBottom):
         if row is not None:
             self.calculate_totals()
 
+            _new_c = ['Debtors']
+            _new_c.extend(self.list_of_commons)
+
             if self.caller == 'Purchases':
                 self._inst.delete_purchase(row)
             elif self.caller == 'Sales':
                 self._inst.delete_sale(row)
-            elif self.caller in ['Debtors', 'Expenses', 'Income']:
+            elif self.caller in _new_c:
                 self._inst.work.delete(row)
         del row

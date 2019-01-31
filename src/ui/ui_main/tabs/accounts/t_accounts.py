@@ -1,6 +1,7 @@
 from tkinter import ttk
-from .acc_main import AccMain
+
 from src.ui.routine.f_make import focus
+from .acc_main import AccMain
 
 
 class TAccounts:
@@ -26,15 +27,26 @@ class TAccounts:
     def _tabchanged(self, event=None):
         sel_tb = self.a_main.acc_ntb.tab('current')
         self.sb.lb_left['text'] = "Current Tab: " + sel_tb['text']
-        s_tb_name = sel_tb['text']
+        _name = sel_tb['text']
 
-        if s_tb_name == 'Assets':
+        if _name == 'Assets':
             self.a_main.t_assets.mf_ntb.select(0)
             focus(self.a_main.t_assets.t_debtors.debtors_main)
 
-        elif s_tb_name == 'Expenses':
+        elif _name == 'Expenses':
             focus(self.a_main.t_expenses.expenses_main)
 
-        elif s_tb_name == 'Statistics':
+        elif _name == 'Drawings':
+            focus(self.a_main.t_drawings.drawings_main)
+
+        elif _name == 'Statistics':
             self.a_main.t_statistics.mf_ntb.select(0)
             focus(self.a_main.t_statistics.t_income.income_main)
+
+        elif _name == 'Returns':
+            self.a_main.t_returns.mf_ntb.select(0)
+            focus(self.a_main.t_returns.t_sales_ret.sales_main)
+
+        elif _name == 'Liabilities':
+            self.a_main.t_liabilities.mf_ntb.select(0)
+            focus(self.a_main.t_liabilities.t_accruals.accruals_main)

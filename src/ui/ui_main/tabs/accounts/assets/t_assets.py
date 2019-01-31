@@ -1,8 +1,9 @@
 
 from tkinter import ttk
+
+from src.ui.routine.f_make import focus
 from .debtors.t_debtors import TDebtors
 from .fixed_assets.t_fixed_assets import TFixedAssets
-from src.ui.routine.f_make import focus
 
 
 class TAssets:
@@ -34,10 +35,9 @@ class TAssets:
         sel_tb = self.mf_ntb.tab('current')
         self.sb.lb_left['text'] = "Current Tab: " + sel_tb['text']
 
-        s_tb_name = sel_tb['text']
-        if s_tb_name == 'Debtors':
+        _name = sel_tb['text']
+        if _name == 'Debtors':
             focus(self.t_debtors.debtors_main)
 
-        elif s_tb_name == 'Fixed Assets':
-            pass
-
+        elif _name == 'Fixed Assets':
+            focus(self.t_fixed_assets.fixed_main)
