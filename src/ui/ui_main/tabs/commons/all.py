@@ -9,12 +9,10 @@ class All:
 
     def __init__(self, height_=None):
         self._f_ = ttk.Frame(self.mf)
-        self.main_table = Table(self._f_)
         if height_ is None:
             height_ = 370
-
-        Thread(self.main_table.create(
-            titles=self.titles, height=height_), daemon=True).start()
+        self.main_table = Table(self._f_, titles=self.titles, height=height_,
+                                _keys_=self._keys)
 
         self._all_w()
         self.all_fill()
@@ -29,8 +27,7 @@ class All:
     def fill(self, _list):
         rows = check_rows(_list, self.titles, self._keys)
         Thread(target=self.main_table.add_rows(
-                rows_list=rows,
-                _keys_=self._keys), daemon=True).start()
+                rows_list=rows), daemon=True).start()
         self.calculate_totals(rows)
 
     def calculate_totals(self, list_=None):

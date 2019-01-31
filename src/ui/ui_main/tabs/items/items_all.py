@@ -22,19 +22,12 @@ class ItemsAll:
                             {'text': 'Unit Price', 'width': 10, 'type': 'l'}]
         self._padx = 4
         self._pady = 2
-        self.table = Table(master=self.f_items_list)
 
         self.row_keys = ['name', 'type', 'qty', 'sell_unit']
+        self.table = Table(master=self.f_items_list, titles=self.titles_list,
+                           width=500, height=390, _keys_=self.row_keys)
 
-        self.titles_works()
         self.all_items_works()
-
-    def titles_works(self):
-        """
-        :return:
-        """
-        Thread(target=self.table.create(
-            self.titles_list, width=500, height=390), daemon=True).start()
 
     def all_items_works(self):
         """
@@ -48,5 +41,5 @@ class ItemsAll:
         :return:
         """
         Thread(target=self.table.add_rows(
-            check_rows(items_list, self.titles_list, self.row_keys),
-            _keys_=self.row_keys), daemon=True).start()
+            check_rows(items_list, self.titles_list, self.row_keys)),
+            daemon=True).start()

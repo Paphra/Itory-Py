@@ -37,7 +37,6 @@ def _sep_work(cont, lb_list):
     for _c in range(len(lb_list) + 1):
         if _c > 0:
             _col = _col + 2
-        sep = 'sep' + str(_c) + cont.winfo_name()
         sep = ttk.Separator(cont, orient='vertical')
         sep.grid(column=_col, row=1, sticky='NS')
 
@@ -57,7 +56,8 @@ class Table:
     'l' is for ttk.Label(), 'c' is for ttk.Combobox(), 'e' is for ttk.Entry()
     """
 
-    def __init__(self, master):
+    def __init__(self, master, _keys_=None, titles=None, width=None,
+                 height=None):
         """
         Initializes the Table creation
         :type master: any
@@ -67,17 +67,36 @@ class Table:
         self.title_pane = ttk.Frame(self.host)
         # the main canvas that is scrollable
         self.list_canvas = tk.Canvas(self.host)
+        self._keys_ = _keys_
+        if self._keys_ is None:
+            self._keys_ = ['col1', 'col2', 'col3', 'col4']
+        self._width = width
+        if self._width is None:
+            self._width = 200
+        self._height = height
+        if self._height is None:
+            self._height = 300
+
+        self.titles = titles
+        # if the titles list is None, then a mock is created
+        if self.titles is None:
+            self.titles = [{'text': 'Column 1', 'width': 15, 'type': 'l'},
+                           {'text': 'Column 2', 'width': 15, 'type': 'l'},
+                           {'text': 'Column 3', 'width': 15, 'type': 'l'},
+                           {'text': 'Column 4', 'width': 15, 'type': 'l'}]
 
         # instance variables
         self.sel_ind = None
         self.col_span = None
-        self.titles = None
         self.rows_list = None
-        self._keys_ = None
         self.selected_w = None
         self.selected_row = None
         self.mock_rows = []
         self.work_on_mock()
+        self.rows = []
+
+        # self._make_rows(50)
+        self._create()
 
     def work_on_mock(self):
         """
@@ -91,32 +110,7 @@ class Table:
                     'col3': 'value of col 3 row ' + str(i + 1),
                     'col4': 'value of col 4 row ' + str(i + 1)})
 
-    def create(self, titles=None, width=None, height=None):
-        """
-        This function creates the actual table structure
-        :type width: int
-        :type height: int
-        :type titles: list
-        :param titles: The titles of the table to put on the top of the table
-        :param width: integer indicating the width of the table
-        :param height: integer indicating the height of the table
-        :return: None
-        """
-        _width = width
-        if _width is None:
-            _width = 200
-        _height = height
-        if _height is None:
-            _height = 300
-
-        self.titles = titles
-        # if the titles list is None, then a mock is created
-        if self.titles is None:
-            self.titles = [
-                    {'text': 'Column 1', 'width': 15, 'type': 'l'},
-                    {'text': 'Column 2', 'width': 15, 'type': 'l'},
-                    {'text': 'Column 3', 'width': 15, 'type': 'l'},
-                    {'text': 'Column 4', 'width': 15, 'type': 'l'}]
+    def _create(self):
 
         # situating the host on the master
         self.host.grid(column=0, row=0, sticky='NSE')
@@ -135,7 +129,6 @@ class Table:
 
         # adding 2 separators at the bottom of the title pane
         for i in range(2, 4):
-            t_btm = 'titles_btm' + str(i)
             t_btm = ttk.Separator(self.title_pane, orient='horizontal')
             t_btm.grid(column=0, row=i, sticky='WE', columnspan=self.col_span)
 
@@ -146,12 +139,22 @@ class Table:
         self.list_canvas.grid(column=0, row=1, sticky='WENS',
                               columnspan=(self.col_span - 1))
         self.list_canvas.configure(yscrollcommand=v_scr.set,
-                                   width=_width,
-                                   height=_height)
+                                   width=self._width,
+                                   height=self._height)
 
         v_scr.grid(column=(self.col_span - 1), row=1, sticky='NS', rowspan=3)
 
         v_scr['command'] = self.list_canvas.yview
+        self._mouse_wheel([self.list_canvas, self.host])
+
+    def _mouse_wheel(self, widgets):
+
+        def _wheel(event):
+            move = int(event.delta / 100)
+            self.list_canvas.yview_scroll(move, tk.UNITS)
+
+        for widget in widgets:
+            widget.bind('<MouseWheel>', _wheel, True)
 
     def _titles_works(self):
         """
@@ -169,22 +172,16 @@ class Table:
         _sep_work(cont=self.title_pane, lb_list=lb_list)
         return True
 
-    def add_rows(self, rows_list=None, _keys_=None):
+    def add_rows(self, rows_list=None):
         """
         Add given rows on to the canvas of the table
-        :type _keys_: list
         :type rows_list: list
         :param rows_list: list of rows[dictionaries] to be placed on the canvas
-        :param _keys_: keys for the dictionaries contained in the rows_list
         :return: None
         """
-        if rows_list is not None and _keys_ is not None:
-            self.rows_list = rows_list
-            self._keys_ = _keys_
+        self.rows_list = rows_list
         if self.rows_list is None:
             self.rows_list = self.mock_rows
-        if self._keys_ is None:
-            self._keys_ = ['col1', 'col2', 'col3', 'col4']
 
         self.selected_row = None
         self.selected_w = None
@@ -224,7 +221,9 @@ class Table:
                                                anchor=tk.NW)
 
                 for _ww in _llb.winfo_children():
-                    _ww.bind('<ButtonRelease-1>', self._click)
+                    _ww.bind('<ButtonRelease-1>', self._click, True)
+                    self._mouse_wheel([_ww])
+
         Thread(target=works(), daemon=True).start()
 
     def _make_row_widgets(self, _llb, lb_list, _i):
@@ -252,16 +251,6 @@ class Table:
                                state='readonly')
 
             lb_list.append(_w)
-
-    def add_row(self, row_data):
-        """
-        Adds a row of data tot the table
-        :type row_data: dict
-        :param row_data: dictionary of details of the row
-        :return: None
-        """
-        self.rows_list.append(row_data)
-        self.add_rows()
 
     def _click(self, event=None):
         """
