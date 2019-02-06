@@ -136,6 +136,8 @@ class ItemDetails:
 
     def _selections(self, event=None):
         self.cur_selection = self.selected_items_listbox.curselection()
+        if self.cur_selection is None:
+            return True
         n1 = len(self.cur_selection)
         if n1 > 0 and n1 == 1:
             self.selected_item_raw = self.selected_items_listbox.get(self.cur_selection[0])
@@ -147,7 +149,7 @@ class ItemDetails:
             selected_item_qty = selected_item_split[0]
             selected_item_type = self.selected_item_full['type']
             selected_item_sell_unit = self.selected_item_full['sell_unit']
-            for item in self.all_items_list:
+            for item in self.items_inst.get_all():
                 if item['name'] == self.selected_item_name:
                     self.selected_item_max_qty = item['qty']
             self.selected_item_amount = int(selected_item_qty) * selected_item_sell_unit

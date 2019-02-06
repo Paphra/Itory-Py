@@ -3,7 +3,6 @@ Displays all the items in the store
 """
 from src.data.works.check import check_rows
 from src.ui.structures.table import Table
-from threading import Thread
 
 
 class ItemsAll:
@@ -33,13 +32,12 @@ class ItemsAll:
         """
         :return: None
         """
-        self.fill_list(self.all_items_list)
+        self.fill_list(self.items_inst.get_all())
 
-    def fill_list(self, items_list: list):
+    def fill_list(self, items_list):
         """
         :param items_list:
         :return:
         """
-        Thread(target=self.table.add_rows(
-            check_rows(items_list, self.titles_list, self.row_keys)),
-            daemon=True).start()
+        self.table.add_rows(
+            check_rows(items_list, self.titles_list, self.row_keys))

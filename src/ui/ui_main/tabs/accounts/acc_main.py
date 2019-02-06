@@ -1,3 +1,5 @@
+"""Working on the accounts main."""
+
 from tkinter import ttk
 
 from src.ui.ui_main.tabs.accounts.assets.t_assets import TAssets
@@ -9,8 +11,10 @@ from .expenses.t_expenses import TExpenses
 
 
 class AccMain:
+    """accounts main class."""
 
     def __init__(self, container, s_bar, insts):
+        """Initializing function."""
         self.host = container
         self.sb = s_bar
 

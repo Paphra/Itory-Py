@@ -1,45 +1,38 @@
-"""
-The Class ..
-"""
-from random import randint as rdi
-from threading import Thread
+"""Module for Sales records model."""
+
+from datetime import datetime as dt
+
+from .db_connection import Conn
 
 
 class Sales:
-    """
-    This Class ...
-    """
+    """Sales model class."""
 
     def __init__(self):
+        """Initialize the list and then fetch records."""
         self.all_sales = []
+        db_con = Conn()
+        self.collection = db_con.get_collection('col_sales')
         self.db_fetch()
-        self.mock_()
 
     def db_fetch(self):
+        """Fetch db records."""
         self.all_sales = []
-
-    def mock_(self):
-        for i in range(400):
-            dt_str = str(20) + str(rdi(17, 19)) + '-' + str(rdi(1, 12)).zfill(2) + \
-                     '-' + str(rdi(1, 30)).zfill(2) + '|' + str(rdi(0, 24)).zfill(2) + \
-                     ':' + str(rdi(0, 61)).zfill(2) + ':' + str(rdi(0, 61)).zfill(2)
-
-            sale = {
-                'customer_name': 'Customer No. ' + str(rdi(1, 30)).zfill(2),
-                'customer_contact': str(rdi(1, 1000000000)).zfill(10),
-                'amount_paid': str(rdi(2, 1000) * 1000),
-                'balance': str(rdi(0, 20) * 500),
-                'items': [str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40)),
-                          str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40)),
-                          str(rdi(1, 30)) + '-Item No. ' + str(rdi(1, 40))],
-                'sale_date': dt_str}
-            self.add_sale(sale)
+        _sales = self.collection.find({}).sort('sale_date', -1)
+        for sale in _sales:
+            self.all_sales.append(sale)
 
     def add_sale(self, sale):
-        self.all_sales.append(sale)
+        """Add a sale document to the collection and re-fetch"""
+        sale['_id'] = dt.now()
+        self.collection.insert_one(sale)
+        self.db_fetch()
 
     def delete_sale(self, sale):
-        self.all_sales.remove(sale)
+        _date = sale['sale_date']
+        _query = {'sale_date': _date}
+        self.collection.delete_one(_query)
+        self.db_fetch()
 
     def get_all(self):
         return self.all_sales

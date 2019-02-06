@@ -83,13 +83,13 @@ class DebtorsWork:
             def _save(event=None):
                 new_p = self.v_edit_amo.get()
                 new_b = tt_amo - int(new_p)
-                self._inst.work.edit(row, 'paid', new_p)
-                self._inst.work.edit(row, 'balance', new_b)
-                self._inst.work.edit(row, 'name',
+                self._inst.work.edit(row, 'debt_date', 'paid', new_p)
+                self._inst.work.edit(row, 'debt_date', 'balance', new_b)
+                self._inst.work.edit(row, 'debt_date', 'name',
                                      self.v_edit_name.get())
-                self._inst.work.edit(row, 'tel',
+                self._inst.work.edit(row, 'debt_date', 'tel',
                                      self.v_edit_tel.get())
-                self._inst.work.edit(row, 'email',
+                self._inst.work.edit(row, 'debt_date', 'email',
                                      self.v_edit_email.get())
                 increment = int(new_p) - int(amo_p)
                 if increment:
@@ -99,9 +99,6 @@ class DebtorsWork:
                               'amount': int(new_p) - int(amo_p)}
                     self.inc_inst.work.add(income)
 
-                self.work_on_years_and_months()
-                self.set_years_months_days()
-                self.work_on_period()
                 self.all_fill()
                 _cancel()
 

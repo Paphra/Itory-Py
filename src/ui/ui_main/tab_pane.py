@@ -55,7 +55,7 @@ class NtBook:
 
         _name = sel_tb['text']
         if _name == 'Home':
-            self.t_home.i_c.set_items(self.t_items.i_main.all_items_list)
+            self.t_home.i_c.set_items(self.items_inst.get_all())
             self.t_home.i_c.clear_all_items()
 
         elif _name == 'Items':

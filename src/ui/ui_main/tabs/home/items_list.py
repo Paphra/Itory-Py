@@ -22,11 +22,11 @@ class ItemList:
         self.f_items_list.configure(width=230, height=400)
 
         self.all_items_listbox.bind("<ButtonRelease-1>", self._list_selection)
-        self.set_items(self.all_items_list)
+        self.set_items(self.items_inst.get_all())
 
     def _list_selection(self, event=None):
         cur = self.all_items_listbox.curselection()
-        if len(cur) > 0:
+        if self.all_items_listbox.get(0) != 'No Items Found!':
             self._select(cur)
 
     def _select(self, cur):
@@ -46,7 +46,7 @@ class ItemList:
                     break
             n_i = "1-" + item_name
 
-            for item in self.all_items_list:
+            for item in self.items_inst.get_all():
                 if item['name'] == item_name:
                     typ = item['type']
                     qty = 1
@@ -74,18 +74,23 @@ class ItemList:
             self.total_amount = self.c_selected_items.get_total_amount()
             self.update_amount_customer()
 
-    def set_items(self, items: list):
+    def set_items(self, items):
+        """Set Items on to the list.
+        :type: items: list list of items to be set on the list of items."""
+
         _msg_empty = 'No Items Found!'
         _return = {'name': _msg_empty, 'type': '',
                    'qty': 0, 'sell_unit': 0}
         _items = check.if_empty(items, _return)
 
+        self.all_items_listbox.configure(state='normal')
         l_num = self.all_items_listbox.size()
         if l_num > 0:
             self.all_items_listbox.delete(0, (l_num - 1))
 
         if _items[0]['name'] == _msg_empty:
             self.all_items_listbox.insert(tk.END, _items[0]['name'])
+            self.all_items_listbox.configure(state='disabled')
             return True
 
         for item in _items:
@@ -97,4 +102,4 @@ class ItemList:
         self.update_amount_customer()
 
     def get_list(self):
-        return self.all_items_list
+        return self.items_inst.get_all()

@@ -1,4 +1,5 @@
 from tkinter import ttk
+
 from src.ui.routine.widget_works import *
 
 
@@ -42,8 +43,9 @@ class ItemsOptions:
 
         def _delete_item():
             row = self.table.delete_row()
+            self.items_inst.delete_item(row)
             for pur in self.purchases_inst.get_all():
                 if row['item_date'] == pur['purchase_date']:
-                    self.purchases_inst.get_all().remove(pur)
+                    self.purchases_inst.delete_purchase(pur)
 
         self.btn_delete_item.configure(command=_delete_item)

@@ -104,5 +104,5 @@ class OptionsBottom(Date, DebtorsWork, GeneralBottom):
             elif self.caller == 'Sales':
                 self._inst.delete_sale(row)
             elif self.caller in _new_c:
-                self._inst.work.delete(row)
+                self._inst.work.delete(row, self._date_key)
         del row

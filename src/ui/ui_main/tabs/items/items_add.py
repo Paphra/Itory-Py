@@ -1,8 +1,9 @@
 import tkinter as tk
 from datetime import datetime
 from tkinter import messagebox as msg, ttk
-from src.ui.structures.date import Date
+
 from src.ui.routine.widget_works import *
+from src.ui.structures.date import Date
 
 
 class ItemsAdd(Date):
@@ -131,9 +132,9 @@ class ItemsAdd(Date):
             buy_unit = buy_amount / qty
 
             _dt = datetime.now()
-            dt_str = self.vd_year.get() + '-' + self.vd_month.get() + \
-                '-' + self.vd_day.get() + '|' + str(_dt.hour).zfill(2) + \
-                ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
+            dt_str = self.vd_year.get().zfill(4) + '-' + self.vd_month.get().zfill(2) + \
+                     '-' + self.vd_day.get().zfill(2) + '|' + str(_dt.hour).zfill(2) + \
+                     ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
 
             item = {'serial': serial,
                     'name': name, 'type': _type,
@@ -156,9 +157,10 @@ class ItemsAdd(Date):
                         o_serial.lower() == serial.lower():
                     if self.editing:
                         n_qty = qty
-                        for pur in self.purchase_inst.get_all():
+                        for pur in self.purchases_inst.get_all():
                             if item_['item_date'] == pur['purchase_date']:
-                                pur['amount'] = buy_amount
+                                self.purchases_inst.edit_purchase_amount(
+                                    pur, buy_amount)
                     else:
                         n_qty = item_['qty'] + qty
                         self.purchases_inst.add_purchase(purchase)

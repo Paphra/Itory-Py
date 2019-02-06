@@ -1,9 +1,8 @@
 from tkinter import ttk
 
-from data.works.search import Search
-from ui.structures.lists import ScrollListBox
-
+from src.data.works.search import Search
 from src.ui.structures.date import Date
+from src.ui.structures.lists import ScrollListBox
 from .checkout import Checkout
 from .item_details import ItemDetails
 from .items_list import ItemList
@@ -47,7 +46,7 @@ class ItemCheckout(ItemList, ItemDetails, Date, Checkout, Search):
         ItemList.__init__(self)
         self._use = ['name', 'type']
         Search.__init__(self, self.f_items_search, self.set_items,
-                        self.all_items_list, self._use)
+                        self.items_inst, self._use)
 
     def all_items_w(self):
         self.mf_all_items_list.grid(column=0, row=0, sticky='NS')

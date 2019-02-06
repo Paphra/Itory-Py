@@ -358,3 +358,11 @@ class Table:
         :return: dict row
         """
         return self.selected_row
+
+
+if __name__ == '__main__':
+    root = tk.Tk()
+    table = Table(root)
+    table.add_rows()
+
+    root.mainloop()

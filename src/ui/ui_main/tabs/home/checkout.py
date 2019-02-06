@@ -167,9 +167,12 @@ class Checkout:
             bal = self.v_bl.get()
 
             _dt = datetime.now()
-            dt_str = self.vd_year.get() + '-' + self.vd_month.get() + \
-                '-' + self.vd_day.get() + '|' + str(_dt.hour).zfill(2) + \
-                ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
+            dt_str = self.vd_year.get().zfill(4) + '-' + \
+                     self.vd_month.get().zfill(2) + \
+                     '-' + self.vd_day.get().zfill(2) + '|' + \
+                     str(_dt.hour).zfill(2) + \
+                     ':' + str(_dt.minute).zfill(2) + ':' + \
+                     str(_dt.second).zfill(2)
             selected_items = self.selected_items_list[:]
             names = []
             for item in selected_items:
@@ -190,11 +193,11 @@ class Checkout:
             self.inc_inst.work.add(income)
 
             for item in self.selected_items_list:
-                for _item in self.all_items_list:
+                for _item in self.items_inst.get_all():
                     if item['name'] == _item['name']:
                         new_qty = _item['qty'] - item['qty']
                         self.items_inst.edit_qty(_item['name'], new_qty)
-            self.set_items(self.all_items_list)
+            self.set_items(self.items_inst.get_all())
 
             if int(bal) > 0:
                 debtor = {'name': cus_name,

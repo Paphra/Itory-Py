@@ -62,9 +62,12 @@ class GeneralBottom:
 
         def _save(event=None):
             _dt = datetime.now()
-            dt_str = self.ed_year.get() + '-' + self.vd_month.get() + \
-                '-' + self.ed_day.get() + '|' + str(_dt.hour).zfill(2) + \
-                ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
+            dt_str = self.ed_year.get().zfill(4) + '-' + \
+                     self.vd_month.get().zfill(2) + \
+                     '-' + self.ed_day.get().zfill(2) + '|' + \
+                     str(_dt.hour).zfill(2) + \
+                     ':' + str(_dt.minute).zfill(2) + ':' + \
+                     str(_dt.second).zfill(2)
             amo = int(self.v_edit_amo.get())
             name = self.v_edit_name.get()
             det = self.v_add_details.get()

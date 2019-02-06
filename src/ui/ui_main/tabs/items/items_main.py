@@ -1,11 +1,9 @@
 from tkinter import ttk
 
-from data.works.search import Search
-
+from src.data.works.search import Search
 from .items_add import ItemsAdd
 from .items_all import ItemsAll
 from .items_options import ItemsOptions
-from threading import Thread
 
 
 class ItemsMain(ItemsAll, ItemsAdd, Search, ItemsOptions):
@@ -37,7 +35,7 @@ class ItemsMain(ItemsAll, ItemsAdd, Search, ItemsOptions):
         ItemsAll.__init__(self)
         self._use = ['name', 'type']
         Search.__init__(self, self.f_items_search, self.fill_list,
-                        self.all_items_list, self._use, sticky='ENS',
+                        self.items_inst, self._use, sticky='ENS',
                         width=35)
 
     def add_w(self):

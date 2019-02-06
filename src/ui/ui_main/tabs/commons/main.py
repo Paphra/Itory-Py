@@ -3,11 +3,11 @@ from tkinter import ttk
 
 from src.data.works import sort
 from src.data.works.search import Search
-from .all import All
-from .options_top import OptionsTop
-from .options_bottom import OptionsBottom
-from .keys import Keys
 from src.ui.routine.date_works import split_date
+from .all import All
+from .keys import Keys
+from .options_bottom import OptionsBottom
+from .options_top import OptionsTop
 
 
 class Main(Keys, All, Search, OptionsTop, OptionsBottom):
@@ -52,7 +52,7 @@ class Main(Keys, All, Search, OptionsTop, OptionsBottom):
         OptionsBottom.__init__(self)
         All.__init__(self, self.height)
         Search.__init__(self, self.f_search, self.fill,
-                        self._list, self._use, width=40)
+                        self._inst, self._use, width=40)
 
         self._current_month = None
         self._current_year = None

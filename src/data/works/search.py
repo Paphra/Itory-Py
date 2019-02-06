@@ -5,12 +5,12 @@ from tkinter import ttk
 
 class Search:
 
-    def __init__(self, master: any, work_function, _list: list, _use: list,
-                 width: int = None, sticky: str = None):
+    def __init__(self, master, work_function, _inst, _use,
+                 width=None, sticky=None):
         self.v_search = tk.StringVar()
         self.e_search = ttk.Entry(master)
         self.work_function = work_function
-        self._list = _list
+        self._inst = _inst
         self._use = _use
         self._width = width
         if self._width is None:
@@ -33,7 +33,7 @@ class Search:
         txt = self.v_search.get()
         _list_ = []
         if len(txt) > 0:
-            for line in self._list:
+            for line in self._inst.get_all():
                 _c = False
                 for _u in self._use:
                     if txt.lower() in str(line[_u]).lower():
@@ -41,6 +41,6 @@ class Search:
                 if _c:
                     _list_.append(line)
         else:
-            _list_ = self._list
+            _list_ = self._inst.get_all()
 
         self.work_function(_list_)
