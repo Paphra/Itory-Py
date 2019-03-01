@@ -1,11 +1,11 @@
 """App module.
-   It initializes the entire Application"""
+   It initializes the entire Application."""
 
 import tkinter as tk
 
-from src.ui.menu_bar.mb_main import MBmain
-from src.ui.ui_main.s_bar import Sbar
-from src.ui.ui_main.ui import UImain
+from ui.menu_bar.mb_main import MBmain
+from ui.ui_main.s_bar import Sbar
+from ui.ui_main.ui import UImain
 
 
 class App:

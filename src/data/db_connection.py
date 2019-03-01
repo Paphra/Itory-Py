@@ -1,4 +1,5 @@
-"""Connection module."""
+""" Connection module.
+    Connecting to the Database for Data Fetching."""
 
 import pymongo
 

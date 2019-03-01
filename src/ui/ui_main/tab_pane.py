@@ -5,6 +5,7 @@ from src.data.accounts import Accounts
 from src.data.items import Items
 from src.data.purchases import Purchases
 from src.data.sales import Sales
+from src.data.management import Management
 from src.ui.routine.f_make import focus
 from .tabs.accounts.t_accounts import TAccounts
 from .tabs.graphs.t_graphs import TGraphs
@@ -26,10 +27,12 @@ class NtBook:
         self.sales_inst = Sales()
         self.purchases_inst = Purchases()
         self.acc_inst = Accounts()
+        self.management = Management()
         self.insts = {'items': self.items_inst,
                       'sales': self.sales_inst,
                       'purchases': self.purchases_inst,
-                      'accounts': self.acc_inst}
+                      'accounts': self.acc_inst,
+                      'management': self.management}
 
         # tabs
         self.t_home = THome(self.ntb, self.sb, self.insts)

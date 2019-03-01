@@ -1,4 +1,6 @@
-"""Items model."""
+""" Items model module.
+    Structuring the way how items are fetched from the
+    database to the application."""
 
 from datetime import datetime as dt
 

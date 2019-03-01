@@ -1,4 +1,5 @@
 from tkinter import ttk
+from .main_man import MainMan
 
 
 class TManagement:
@@ -8,6 +9,7 @@ class TManagement:
         self.sb = s_bar
         self.t_management = ttk.Frame(self.ntb)
         self.f_t = ttk.Frame(self.t_management)
+        self.man_main = MainMan(self.f_t, self.sb, insts)
         self.t_work()
 
     def t_work(self):

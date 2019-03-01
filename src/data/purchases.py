@@ -1,3 +1,7 @@
+""" Purchases model module
+    Structuring the way how Purchases Data is fecthed from the database
+    for the application usage."""
+
 from .db_connection import Conn
 
 

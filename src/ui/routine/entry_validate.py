@@ -40,6 +40,9 @@ class Validate:
         if self._max_len is not None and len(self._cur) > self._max_len:
             self._var.set(self._prev)
 
+        if len(self._cur) == 0:
+            self._var.set('0')
+
     def _work_current_focus(self, event=None):
         self._cur = self._var.get()
         if (self._min is not None and len(self._cur) > 0 and

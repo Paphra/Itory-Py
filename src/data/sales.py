@@ -1,4 +1,7 @@
-"""Module for Sales records model."""
+""" Module for Sales records model
+    Structuring the way how the records for the
+    business sales are fetched from the database for usage
+    in the Application."""
 
 from datetime import datetime as dt
 

@@ -1,4 +1,5 @@
-"""Accounts model module"""
+""" Accounts model module
+    Initializes the model for the Accounts Fectching from the Database."""
 
 from .db_connection import Conn
 

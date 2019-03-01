@@ -6,6 +6,8 @@ import tkinter as tk
 from datetime import datetime
 from tkinter import messagebox as msg, ttk
 
+from src.ui.routine.entry_validate import Validate
+
 
 def es_pw(es):
     for _i in es:
@@ -37,16 +39,6 @@ def label_works(els, col, s):
 
 def lbs_cw(lbs):
     label_works(lbs, 0, 'W')
-
-
-def _val(val):
-    if len(val) > 0:
-        try:
-            int(val)
-            return True
-        except (ValueError, TypeError):
-            return False
-    return False
 
 
 class Checkout:
@@ -109,42 +101,30 @@ class Checkout:
 
     def cus_entries_w(self):
         self.e_tt.grid(column=2, row=1, sticky='E')
-
         self.e_dis.grid(column=4, row=1, sticky='W')
-        self.e_dis.bind('<FocusIn>', self._focus_in)
-        self.e_dis.bind('<FocusOut>', self._focus_out)
-        self.e_dis.bind("<KeyPress>", self._dis_wp)
-        self.e_dis.bind("<KeyRelease>", self._dis_w)
-
+        dis = Validate(self.v_dis, self.e_dis)
+        dis.int_(min_=0)
+        self.e_dis.bind('<KeyRelease>', self._dis_w, True)
         self.e_mo_tbp.grid(column=2, row=3, sticky='E')
-
         self.e_mo_p.grid(column=4, row=3, sticky='W')
-        self.e_mo_p.bind('<FocusIn>', self._focus_in)
-        self.e_mo_p.bind('<FocusOut>', self._focus_out)
-        self.e_mo_p.bind("<KeyPress>", self._mo_p_wp)
-        self.e_mo_p.bind("<KeyRelease>", self._mo_p_w)
-
+        paid = Validate(self.v_mo_p, self.e_mo_p)
+        paid.int_(min_=0)
+        self.e_mo_p.bind('<KeyRelease>', self._mo_p_w, True)
         self.e_bl.grid(column=2, row=5, sticky='E')
 
-    def _dis_wp(self, event=None):
-        self._dis = self.v_dis.get()
-
-    def _mo_p_wp(self, event=None):
-        self._mo_p = self.v_mo_p.get()
-
     def _dis_w(self, event=None):
-        if not _val(self.v_dis.get()):
-            self.v_dis.set(self._dis)
 
         if int('0' + str(self.v_dis.get())) > 0:
             tbp = int(self.total_amount) - int(self.v_dis.get())
             self.v_mo_tbp.set(str(tbp))
+            self.v_bl.set(str(tbp))
+            self.v_mo_p.set(str(0))
         else:
             self.v_mo_tbp.set(str(self.total_amount))
+            self.v_mo_p.set(str(0))
+            self.v_bl.set(str(self.total_amount))
 
     def _mo_p_w(self, event):
-        if not _val(self.v_mo_p.get()):
-            self.v_mo_p.set(self._mo_p)
 
         if int('0' + str(self.v_mo_p.get())) > 0:
             _bl = int(self.v_mo_tbp.get()) - int(self.v_mo_p.get())
