@@ -1,9 +1,9 @@
 from datetime import datetime
 from tkinter import ttk
 
-from src.data.works import sort
-from src.data.works.search import Search
-from src.ui.routine.date_works import split_date
+from data.works import sort
+from data.works.search import Search
+from ui.routine.date_works import split_date
 from .all import All
 from .keys import Keys
 from .options_bottom import OptionsBottom

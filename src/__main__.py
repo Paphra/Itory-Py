@@ -2,7 +2,8 @@
     'python src', the folder will run the
     Application."""
 
-from app import i_app
+from app import App
 
 """ Run the root """
-i_app.root.mainloop()
+app = App()
+app.root.mainloop()

@@ -1,6 +1,7 @@
 
 import tkinter as tk
 from tkinter import ttk
+
 from .loginas import LogInAs
 from .employees import Employees
 from .networth import NetWorth
@@ -15,6 +16,9 @@ class MainMan(LogInAs, Employees, NetWorth, Promotions, Suppliers, Contacts):
         self.host = container
         self.sb = _sb
         self.inst = man_inst
+        self.note_book = ttk.Notebook(self.host)
+
+        self.main_works()
 
         LogInAs.__init__(self)
         Employees.__init__(self)
@@ -22,3 +26,6 @@ class MainMan(LogInAs, Employees, NetWorth, Promotions, Suppliers, Contacts):
         Promotions.__init__(self)
         Suppliers.__init__(self)
         Contacts.__init__(self)
+
+    def main_works(self):
+        self.note_book.grid(column=0, row=0, sticky='NEWS')

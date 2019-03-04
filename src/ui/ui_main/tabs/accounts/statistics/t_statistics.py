@@ -1,7 +1,7 @@
 
 from tkinter import ttk
 
-from src.ui.routine.f_make import focus
+from ui.routine.f_make import focus
 from .balance_sheet.t_balance_sheet import TBalanceSheet
 from .income.t_income import TIncome
 from .income_statement.t_income_statement import TIncomeStatement

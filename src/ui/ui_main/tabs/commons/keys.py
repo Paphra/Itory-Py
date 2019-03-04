@@ -15,20 +15,12 @@ class Keys:
         _l = 'l'
         _c = 'c'
 
-        self.list_of_commons = ["Expenses", 'Income', 'Sales Returns',
-                                'Purchases Returns', 'Fixed Assets',
-                                'Drawings', 'Creditors', 'Accruals']
+        self.list_of_commons = ['Purchases', 'Expenses', 'Income',
+                                'Sales Returns', 'Purchases Returns',
+                                'Fixed Assets', 'Drawings', 'Creditors',
+                                'Accruals']
 
-        if self.caller == 'Purchases':
-            self._keys = ['purchase_date', 'item', 'details', 'amount']
-            self._use = self._keys[:-1]
-            self._date_key = self._keys[0]
-            self._amo_key = self._keys[-1]
-
-            self.titles = [_date(), _set("Item", 35, _l),
-                           _set("Details", 41, _c), _set('Amount', 25, _l)]
-
-        elif self.caller == 'Sales':
+        if self.caller == 'Sales':
             self._keys = ['sale_date', 'customer_name', 'customer_contact',
                           'amount_paid', 'balance', 'items']
             self._use = self._keys[:3]
@@ -61,6 +53,9 @@ class Keys:
 
             if self.caller == 'Drawings':
                 _k, _w = 'draw_date', 52
+            elif self.caller == 'Purchases':
+                _k, _name_k, self.name, _d, _h, _w = 'purchase_date', 'supplier', \
+                                                 'Supplier', _c, 290, 55
             elif self.caller == 'Income':
                 _k, _name_k, self.name, _d, _h = 'income_date', 'from', \
                                                  'Source', _c, _tt

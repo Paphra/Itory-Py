@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 
-from src.ui.structures.date import Date
-from src.ui.ui_main.tabs.accounts.assets.debtors.debtors_work import DebtorsWork
+from ui.structures.date import Date
+from ui.ui_main.tabs.accounts.assets.debtors.debtors_work import DebtorsWork
 from .options_bottom_general import GeneralBottom
 
 
@@ -99,10 +99,8 @@ class OptionsBottom(Date, DebtorsWork, GeneralBottom):
             _new_c = ['Debtors']
             _new_c.extend(self.list_of_commons)
 
-            if self.caller == 'Purchases':
-                self._inst.delete_purchase(row)
-            elif self.caller == 'Sales':
-                self._inst.delete_sale(row)
+            if self.caller == 'Sales':
+                self._inst.delete(row)
             elif self.caller in _new_c:
                 self._inst.work.delete(row, self._date_key)
         del row

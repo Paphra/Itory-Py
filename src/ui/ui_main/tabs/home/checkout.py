@@ -6,7 +6,7 @@ import tkinter as tk
 from datetime import datetime
 from tkinter import messagebox as msg, ttk
 
-from src.ui.routine.entry_validate import Validate
+from ui.routine.entry_validate import Validate
 
 
 def es_pw(es):
@@ -169,7 +169,7 @@ class Checkout:
                       'details': names,
                       'amount': amo_pd}
 
-            self.sales_inst.add_sale(sale)
+            self.sales_inst.add(sale)
             self.inc_inst.work.add(income)
 
             for item in self.selected_items_list:

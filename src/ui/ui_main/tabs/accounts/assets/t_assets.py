@@ -1,7 +1,7 @@
 
 from tkinter import ttk
 
-from src.ui.routine.f_make import focus
+from ui.routine.f_make import focus
 from .debtors.t_debtors import TDebtors
 from .fixed_assets.t_fixed_assets import TFixedAssets
 

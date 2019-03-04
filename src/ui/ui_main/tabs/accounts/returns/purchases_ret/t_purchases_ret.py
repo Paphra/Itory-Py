@@ -1,6 +1,6 @@
 from tkinter import ttk
 
-from src.ui.ui_main.tabs.commons.main import Main
+from ui.ui_main.tabs.commons.main import Main
 
 
 class TPurchasesRet:

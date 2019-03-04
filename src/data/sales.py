@@ -20,18 +20,18 @@ class Sales:
 
     def db_fetch(self):
         """Fetch db records."""
-        self.all_sales = []
+        self.all_sales[:] = []
         _sales = self.collection.find({}).sort('sale_date', -1)
         for sale in _sales:
             self.all_sales.append(sale)
 
-    def add_sale(self, sale):
+    def add(self, sale):
         """Add a sale document to the collection and re-fetch"""
         sale['_id'] = dt.now()
         self.collection.insert_one(sale)
         self.db_fetch()
 
-    def delete_sale(self, sale):
+    def delete(self, sale):
         _date = sale['sale_date']
         _query = {'sale_date': _date}
         self.collection.delete_one(_query)

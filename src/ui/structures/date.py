@@ -2,7 +2,7 @@ import tkinter as tk
 from datetime import datetime
 from tkinter import ttk
 
-from src.ui.routine.entry_validate import Validate
+from ui.routine.entry_validate import Validate
 
 
 class Date:

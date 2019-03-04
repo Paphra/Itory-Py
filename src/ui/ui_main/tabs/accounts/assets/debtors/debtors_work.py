@@ -1,8 +1,8 @@
 from tkinter import ttk
 
-from src.ui.routine.entry_validate import Validate
-from src.ui.routine.f_make import *
-from src.ui.routine.widget_works import *
+from ui.routine.entry_validate import Validate
+from ui.routine.f_make import *
+from ui.routine.widget_works import *
 
 
 class DebtorsWork:

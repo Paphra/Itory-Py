@@ -2,8 +2,8 @@ import tkinter as tk
 from datetime import datetime
 from tkinter import messagebox as msg, ttk
 
-from src.ui.routine.widget_works import *
-from src.ui.structures.date import Date
+from ui.routine.widget_works import *
+from ui.structures.date import Date
 
 
 class ItemsAdd(Date):
@@ -116,7 +116,7 @@ class ItemsAdd(Date):
 
         enable([self.e_name, self.e_serial])
 
-    def _save_item(self):
+    def _save_item(self, event=None):
 
         serial = self.v_serial.get()
         name = self.v_name.get()
@@ -136,45 +136,32 @@ class ItemsAdd(Date):
                      '-' + self.vd_day.get().zfill(2) + '|' + str(_dt.hour).zfill(2) + \
                      ':' + str(_dt.minute).zfill(2) + ':' + str(_dt.second).zfill(2)
 
-            item = {'serial': serial,
-                    'name': name, 'type': _type,
-                    'qty': qty, 'buy_unit': buy_unit,
-                    'sell_unit': sell_unit,
-                    'buy_amount': buy_amount,
-                    'item_date': dt_str}
+            for item_ in self.items_inst.get_all():
+                if item_['name'].lower() == name.lower() or \
+                        item_['serial'].lower() == serial.lower():
+                    self.editing = True
 
-            purchase = {'purchase_date': dt_str,
-                        'item': name,
-                        'serial': serial,
-                        'details': str(qty) + '-' + _type,
-                        'buy_unit': buy_unit,
-                        'amount': buy_amount}
+            if self.editing:
+                self._edit()
+            else:
+                item = {'serial': serial,
+                        'name': name, 'type': _type,
+                        'qty': qty, 'buy_unit': buy_unit,
+                        'sell_unit': sell_unit,
+                        'buy_amount': buy_amount,
+                        'item_date': dt_str}
+                self.items_inst.add_item(item)
+                self._clear_refresh()
 
-            for item_ in self.all_items_list:
-                o_name = item_['name']
-                o_serial = item_['serial']
-                if o_name.lower() == name.lower() or \
-                        o_serial.lower() == serial.lower():
-                    if self.editing:
-                        n_qty = qty
-                        for pur in self.purchases_inst.get_all():
-                            if item_['item_date'] == pur['purchase_date']:
-                                self.purchases_inst.edit_purchase_amount(
-                                    pur, buy_amount)
-                    else:
-                        n_qty = item_['qty'] + qty
-                        self.purchases_inst.add_purchase(purchase)
-                    self.items_inst.edit_type(o_name, _type)
-                    self.items_inst.edit_qty(o_name, n_qty)
-                    self.items_inst.edit_unit(o_name, sell_unit)
-                    self.items_inst.edit_buy_unit(o_name, buy_unit)
-                    self.items_inst.edit_date(o_name, dt_str)
+    def _clear_refresh():
+        self.all_items_works()
+        self._clear_all()
 
-                    self.all_items_works()
-                    self._clear_all()
-                    return True
-
-            self.items_inst.add_item(item)
-            self.purchases_inst.add_purchase(purchase)
-            self.all_items_works()
-            self._clear_all()
+    def _edit(self):
+        self.items_inst.edit_type(o_name, _type)
+        self.items_inst.edit_qty(o_name, n_qty)
+        self.items_inst.edit_unit(o_name, sell_unit)
+        self.items_inst.edit_buy_unit(o_name, buy_unit)
+        self.items_inst.edit_date(o_name, dt_str)
+        self._clear_refresh()
+        self.editing = False

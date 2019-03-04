@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from src.data.works import check
+from data.works import check
 
 
 class ItemList:

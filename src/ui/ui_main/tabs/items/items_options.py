@@ -1,6 +1,6 @@
 from tkinter import ttk
 
-from src.ui.routine.widget_works import *
+from ui.routine.widget_works import *
 
 
 class ItemsOptions:
@@ -32,6 +32,9 @@ class ItemsOptions:
                 buy = int(row['qty']) * int(row['buy_unit'])
                 self.v_buy_amount.set(str(buy))
                 self.v_sell_unit.set((row['sell_unit']))
+
+                self.edit_name = row['name']
+                self.edit_serial = row['serial']
 
             del row
 

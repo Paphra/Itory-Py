@@ -1,6 +1,6 @@
 from tkinter import ttk
 
-from src.data.works.search import Search
+from data.works.search import Search
 from .items_add import ItemsAdd
 from .items_all import ItemsAll
 from .items_options import ItemsOptions
@@ -11,7 +11,6 @@ class ItemsMain(ItemsAll, ItemsAdd, Search, ItemsOptions):
     def __init__(self, container, s_bar, insts):
         self.host = container
         self.sb = s_bar
-        self.purchases_inst = insts['purchases']
         self.items_inst = insts['items']
         self.acc_inst = insts['accounts']
         self.all_items_list = self.items_inst.get_all()

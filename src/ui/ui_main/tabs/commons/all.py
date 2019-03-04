@@ -1,8 +1,8 @@
 from threading import Thread
 from tkinter import ttk
 
-from src.data.works.check import check_rows
-from src.ui.structures.table import Table
+from data.works.check import check_rows
+from ui.structures.table import Table
 
 
 class All:
@@ -22,7 +22,7 @@ class All:
 
     def all_fill(self, year=None, month=None, day=None):
         self.work_on_years_months_days(year, month, day)
-        self.fill(self._inst.get_all())
+        self.fill(self._list)
 
     def fill(self, _list):
         rows = check_rows(_list, self.titles, self._keys)
@@ -52,4 +52,3 @@ class All:
                 self.v_bal.set(_total_bal)
 
         self.v_total.set(_total)
-

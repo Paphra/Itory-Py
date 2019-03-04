@@ -1,8 +1,8 @@
 """
 Displays all the items in the store
 """
-from src.data.works.check import check_rows
-from src.ui.structures.table import Table
+from data.works.check import check_rows
+from ui.structures.table import Table
 
 
 class ItemsAll:

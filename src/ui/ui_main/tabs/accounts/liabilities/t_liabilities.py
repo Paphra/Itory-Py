@@ -1,8 +1,8 @@
 
 from tkinter import ttk
 
-from src.ui.routine.f_make import focus
-from src.ui.ui_main.tabs.accounts.liabilities.accruals.t_accruals import TAccruals
+from ui.routine.f_make import focus
+from ui.ui_main.tabs.accounts.liabilities.accruals.t_accruals import TAccruals
 from .creditors.t_creditors import TCreditors
 
 

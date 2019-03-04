@@ -2,7 +2,7 @@ import tkinter as tk
 from datetime import datetime
 from tkinter import ttk
 
-from src.ui.routine.widget_works import *
+from ui.routine.widget_works import *
 
 
 class GraphList:

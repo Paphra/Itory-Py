@@ -2,11 +2,11 @@
 
 from tkinter import ttk
 
-from src.ui.ui_main.tabs.accounts.assets.t_assets import TAssets
-from src.ui.ui_main.tabs.accounts.drawings.t_drawings import TDrawings
-from src.ui.ui_main.tabs.accounts.liabilities.t_liabilities import TLiabilities
-from src.ui.ui_main.tabs.accounts.returns.t_returns import TReturns
-from src.ui.ui_main.tabs.accounts.statistics.t_statistics import TStatistics
+from ui.ui_main.tabs.accounts.assets.t_assets import TAssets
+from ui.ui_main.tabs.accounts.drawings.t_drawings import TDrawings
+from ui.ui_main.tabs.accounts.liabilities.t_liabilities import TLiabilities
+from ui.ui_main.tabs.accounts.returns.t_returns import TReturns
+from ui.ui_main.tabs.accounts.statistics.t_statistics import TStatistics
 from .expenses.t_expenses import TExpenses
 
 

@@ -1,7 +1,7 @@
 
 from tkinter import ttk
 
-from src.ui.routine.f_make import focus
+from ui.routine.f_make import focus
 from .purchases_ret.t_purchases_ret import TPurchasesRet
 from .sales_ret.t_sales_ret import TSalesRet
 

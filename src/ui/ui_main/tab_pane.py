@@ -1,12 +1,12 @@
 
 from tkinter import ttk
 
-from src.data.accounts import Accounts
-from src.data.items import Items
-from src.data.purchases import Purchases
-from src.data.sales import Sales
-from src.data.management import Management
-from src.ui.routine.f_make import focus
+from data.accounts import Accounts
+from data.items import Items
+from data.purchases import Purchases
+from data.sales import Sales
+from data.management import Management
+from ui.routine.f_make import focus
 from .tabs.accounts.t_accounts import TAccounts
 from .tabs.graphs.t_graphs import TGraphs
 from .tabs.home.t_home import THome
@@ -41,7 +41,16 @@ class NtBook:
         self.t_purchases = TPurchases(self.ntb, self.sb, self.insts)
         self.t_accounts = TAccounts(self.ntb, self.sb, self.insts)
         self.t_graphs = TGraphs(self.ntb, self.sb, self.insts)
-        self.t_management = TManagement(self.ntb, self.sb, self.insts)
+        self.tabs_inst = {
+            'home': self.t_home,
+            'items': self.t_items,
+            'sales': self.t_sales,
+            'purchases': self.t_purchases,
+            'accounts': self.t_accounts,
+            'graphs': self.t_graphs
+        }
+        self.t_management = TManagement(self.ntb, self.sb, self.insts,
+                                        self.tabs_inst)
 
         self.ntb_w()
 

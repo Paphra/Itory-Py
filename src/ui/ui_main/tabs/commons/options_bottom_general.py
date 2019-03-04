@@ -1,8 +1,8 @@
 from datetime import datetime
-from tkinter import ttk
+from tkinter import messagebox as msg, ttk
 
-from src.ui.routine.entry_validate import Validate
-from src.ui.routine.widget_works import *
+from ui.routine.entry_validate import Validate
+from ui.routine.widget_works import *
 
 
 class GeneralBottom:
@@ -61,37 +61,52 @@ class GeneralBottom:
                      self.cb_month, self.ed_day, self.ed_year])
 
         def _save(event=None):
-            _dt = datetime.now()
-            dt_str = self.ed_year.get().zfill(4) + '-' + \
-                     self.vd_month.get().zfill(2) + \
-                     '-' + self.ed_day.get().zfill(2) + '|' + \
-                     str(_dt.hour).zfill(2) + \
-                     ':' + str(_dt.minute).zfill(2) + ':' + \
-                     str(_dt.second).zfill(2)
-            amo = int(self.v_edit_amo.get())
-            name = self.v_edit_name.get()
-            det = self.v_add_details.get()
+            if msg.askquestion('Itory: Saving Confirmation',
+                               'Confirm the Saving?') == u'yes':
+                _dt = datetime.now()
+                dt_str = self.ed_year.get().zfill(4) + '-' + \
+                         self.vd_month.get().zfill(2) + \
+                         '-' + self.ed_day.get().zfill(2) + '|' + \
+                         str(_dt.hour).zfill(2) + \
+                         ':' + str(_dt.minute).zfill(2) + ':' + \
+                         str(_dt.second).zfill(2)
+                amo = int(self.v_edit_amo.get())
+                name = self.v_edit_name.get()
+                det = self.v_add_details.get()
 
-            _k, _name_k = 'exp_date', 'responsible'  # catering for expenses
-            if self.caller == 'Drawings':
-                _k = 'draw_date'
-            elif self.caller == 'Income':
-                _k, _name_k = 'income_date', 'from'
-            elif self.caller == 'Sales Returns':
-                _k, _name_k = 'retin_date', 'customer'
-            elif self.caller == 'Purchases Returns':
-                _k, _name_k = 'retout_date', 'supplier'
-            elif self.caller == 'Fixed Assets':
-                _k, _name_k = 'fixed_assets_date', 'name'
-            elif self.caller == 'Creditors':
-                _k, _name_k = 'cred_date', 'creditor'
-            elif self.caller == 'Accruals':
-                _k, _name_k = 'accr_date', 'accruer'
+                _k, _name_k = 'exp_date', 'responsible'  # catering for expenses
+                if self.caller == 'Drawings':
+                    _k = 'draw_date'
+                elif self.caller == 'Purchases':
+                    details = det.split(',')
+                    del det
+                    det =[]
+                    for _dtl in details:
+                        det.append(_dtl.strip())
+                    _k, _name_k = 'purchase_date', 'supplier'
+                elif self.caller == 'Income':
+                    details = det.split(',')
+                    del det
+                    det =[]
+                    for _dtl in details:
+                        det.append(_dtl.strip())
+                    _k, _name_k = 'income_date', 'from'
+                elif self.caller == 'Sales Returns':
+                    _k, _name_k = 'retin_date', 'customer'
+                elif self.caller == 'Purchases Returns':
+                    _k, _name_k = 'retout_date', 'supplier'
+                elif self.caller == 'Fixed Assets':
+                    _k, _name_k = 'fixed_assets_date', 'name'
+                elif self.caller == 'Creditors':
+                    _k, _name_k = 'cred_date', 'creditor'
+                elif self.caller == 'Accruals':
+                    _k, _name_k = 'accr_date', 'accruer'
 
-            row = {_k: dt_str,
-                   _name_k: name, 'details': det, 'amount': amo}
+                row = {_k: dt_str, _name_k: name, 'details': det,
+                       'amount': amo}
 
-            self._inst.work.add(row)
+                self._inst.work.add(row)
+
             self.all_fill()
             _cancel()
 

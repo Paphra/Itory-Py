@@ -1,8 +1,8 @@
 from tkinter import ttk
 
-from src.data.works.search import Search
-from src.ui.structures.date import Date
-from src.ui.structures.lists import ScrollListBox
+from data.works.search import Search
+from ui.structures.date import Date
+from ui.structures.lists import ScrollListBox
 from .checkout import Checkout
 from .item_details import ItemDetails
 from .items_list import ItemList

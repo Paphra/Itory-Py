@@ -4,11 +4,11 @@ from .graph_list import GraphList
 from .graph_top_options import GraphTopOptions
 from .graph_bottom_options import GraphBottomOptions
 from .graph import Graph
-from src.data.works import sort
+from data.works import sort
 from datetime import datetime
 import numpy as np
-from src.data.works import convert
-from src.ui.routine.date_works import split_date
+from data.works import convert
+from ui.routine.date_works import split_date
 
 
 class GraphMain(GraphTopOptions, GraphBottomOptions, GraphList,
