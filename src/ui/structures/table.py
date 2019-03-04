@@ -2,9 +2,9 @@
 The table is entirely scrollable and allows selection of a row
 and visibly seeing the selected row using the highlight of grey
 color, but the color can be changed easily.
-Deleting of a row is supported by this table usin the appropriate
+Deleting of a row is supported by this table using the appropriate
 functions and methods and once a row is deleted, another is
-automatically seleted in the place of the deleted row
+automatically selected in the place of the deleted row
 Scrolling can be done by the mouse wheel or the Scrollbar for both
 the vertical and the horizontal
 
@@ -17,7 +17,6 @@ constant keys for these dictionaries must be used
 Imports:
 --------
 :tk - The main tkinter module
-:Thread - For running the table loading in the background
 :messagebox - For the confirmation of the deletion of a row
 :ttk - The themed tkinter
 
@@ -51,7 +50,6 @@ method 'get_selected()'
 """
 
 import tkinter as tk
-from threading import Thread
 from tkinter import messagebox as msg, ttk
 
 
