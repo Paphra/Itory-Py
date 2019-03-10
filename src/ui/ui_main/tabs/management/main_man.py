@@ -12,13 +12,16 @@ from .contacts import Contacts
 
 class MainMan(LogInAs, Employees, NetWorth, Promotions, Suppliers, Contacts):
 
-    def __init__(self, container, _sb, man_inst):
+    def __init__(self, container, _sb, insts, main_inst):
+
         self.host = container
         self.sb = _sb
-        self.inst = man_inst
+        self.insts = insts
+        self.tabs_inst = main_inst
         self.note_book = ttk.Notebook(self.host)
 
         self.main_works()
+        self.user = 'worker'
 
         LogInAs.__init__(self)
         Employees.__init__(self)

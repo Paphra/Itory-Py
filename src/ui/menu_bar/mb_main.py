@@ -18,7 +18,7 @@ class MBmain:
         self.m_file = Mfile(self.rt, self.menu_bar)
         self.m_view = Mview(self.menu_bar, self.uim, self.sb, self.rt)
         self.m_tools = Mtools(self.menu_bar)
-        self.m_security = Msecurity(self.menu_bar)
+        self.m_security = Msecurity(self.menu_bar, self.uim)
         self.m_help = Mhelp(self.menu_bar)
 
         self.mb_w()

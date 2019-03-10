@@ -42,6 +42,7 @@ class NtBook:
         self.t_accounts = TAccounts(self.ntb, self.sb, self.insts)
         self.t_graphs = TGraphs(self.ntb, self.sb, self.insts)
         self.tabs_inst = {
+            'main': self.ntb,
             'home': self.t_home,
             'items': self.t_items,
             'sales': self.t_sales,

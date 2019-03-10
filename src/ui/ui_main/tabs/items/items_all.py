@@ -23,7 +23,7 @@ class ItemsAll:
         self._pady = 2
 
         self.row_keys = ['name', 'type', 'qty', 'sell_unit']
-        self.table = Table(master=self.f_items_list, titles=self.titles_list,
+        self.table = Table(self.f_items_list, titles=self.titles_list,
                            width=500, height=390, _keys_=self.row_keys)
 
         self.all_items_works()

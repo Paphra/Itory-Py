@@ -17,6 +17,7 @@ constant keys for these dictionaries must be used
 Imports:
 --------
 :tk - The main tkinter module
+:Thread - For loading and working in background
 :messagebox - For the confirmation of the deletion of a row
 :ttk - The themed tkinter
 
@@ -50,6 +51,7 @@ method 'get_selected()'
 """
 
 import tkinter as tk
+from threading import Thread
 from tkinter import messagebox as msg, ttk
 
 
@@ -316,6 +318,7 @@ class Table:
                 for _ww in _llb.winfo_children():
                     _ww.bind('<ButtonRelease-1>', self._click, True)
                     self._mouse_wheel([_ww])
+                self.selected_w = None
 
         Thread(target=works(), daemon=True).start()
 
@@ -357,7 +360,7 @@ class Table:
         :param event: event of button clicking
         :return: None
         """
-        parent_name = event.widget.winfo_parent()
+        parent_name = event.widget.winfo_parent().split('.')
 
         self.sel_ind = None
         self.selected_row = None
@@ -374,7 +377,7 @@ class Table:
 
         for win_ in _children:
             w_name = win_.winfo_name()
-            if str(w_name) in str(parent_name):
+            if parent_name[len(parent_name)-1] == w_name:
                 self._select(win_)
                 self.sel_ind = counts
 

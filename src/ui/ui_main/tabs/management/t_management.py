@@ -7,10 +7,9 @@ class TManagement:
     def __init__(self, nt_book, s_bar, insts, tabs):
         self.ntb = nt_book
         self.sb = s_bar
-        self.tabs_inst = tabs
         self.t_management = ttk.Frame(self.ntb)
         self.f_t = ttk.Frame(self.t_management)
-        self.man_main = MainMan(self.f_t, self.sb, insts)
+        self.man_main = MainMan(self.f_t, self.sb, insts, tabs)
         self.t_work()
 
     def t_work(self):
